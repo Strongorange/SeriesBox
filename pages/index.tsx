@@ -43,21 +43,28 @@ export default function Home() {
   };
 
   return (
-    <div className="w-full bg-amber-200 h-screen flex justify-center items-center">
+    <div className="w-full  bg-amber-200 h-screen flex justify-center items-center">
       <form
-        className="w-full flex flex-col items-center scale-150"
+        className="w-full gap-3 flex flex-col items-center"
         onSubmit={handleLogin}
       >
         <label htmlFor="email">아이디 입력</label>
-        <input type="email" name="email" id="email" onChange={handleInput} />
+        <input
+          type="email"
+          name="email"
+          id="email"
+          onChange={handleInput}
+          className="w-[50%] h-10"
+        />
         <label htmlFor="password">비밀번호 입력</label>
         <input
           type="password"
           name="password"
           id="password"
           onChange={handleInput}
+          className="w-[50%] h-10"
         />
-        <button type="submit" className="w-4 bg-purple-300">
+        <button type="submit" className="w-[50%] h-10 bg-purple-300">
           로그인
         </button>
       </form>
