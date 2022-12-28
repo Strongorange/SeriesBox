@@ -13,7 +13,15 @@ const Home = () => {
       router.push("/");
     }
   }, [user]);
-  return <div>home</div>;
+
+  return (
+    <div className="flex flex-col w-full p-PageLR ">
+      <div className="flex flex-col">
+        <h2>최근 사용한 시리즈</h2>
+      </div>
+      <div className="titleBase">시리즈 목록</div>
+    </div>
+  );
 };
 
 export default Home;

@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { useUserStore } from "../stores/userStore";
 import { auth } from "../firebase";
 import { signOut } from "firebase/auth";
@@ -20,13 +20,15 @@ const Header = () => {
     }
   };
 
-  if (window.location.pathname === "/") return null;
+  if (router.pathname === "/") return null;
 
   return (
-    <div className="w-full justify-between h-[7vh] flex items-center bg-green-200 p-5">
+    <div className="topHeader">
       <div>프로필</div>
       <div>Series</div>
-      <div onClick={handleSignInOut}>{user ? "로그아웃" : "로그인"}</div>
+      <div onClick={handleSignInOut}>
+        {user ? "로그아웃 아이콘" : "로그인 아이콘"}
+      </div>
     </div>
   );
 };

@@ -6,6 +6,7 @@ import { useUserStore } from "../stores/userStore";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "../firebase";
 import Header from "../components/Header";
+import BottomNav from "../components/BottomNav";
 
 export default function App({ Component, pageProps }: AppProps) {
   const [appLoading, setAppLoading] = useState<boolean>(true);
@@ -42,6 +43,7 @@ export default function App({ Component, pageProps }: AppProps) {
     <>
       <Header />
       <Component {...pageProps} />
+      <BottomNav />
     </>
   );
 }

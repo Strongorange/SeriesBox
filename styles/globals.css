@@ -1,7 +1,47 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.6/dist/web/variable/pretendardvariable.css");
 
 html {
   font-size: 62.5%;
+  font-family: "Pretendard Variable", Pretendard, -apple-system,
+    BlinkMacSystemFont, system-ui, Roboto, "Helvetica Neue", "Segoe UI",
+    "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", "Apple Color Emoji",
+    "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
+}
+
+h1 {
+  @apply text-title-xl font-bold;
+}
+
+h2 {
+  @apply text-title-lg font-bold;
+}
+h3 {
+  @apply text-title-base font-bold;
+}
+
+@layer components {
+  .topHeader {
+    @apply w-full justify-between h-[7vh] flex items-center bg-Ru p-Header;
+  }
+
+  .bottomNav {
+    @apply w-full h-[7vh] p-Nav flex items-center justify-between fixed bottom-0 bg-[#ffffee];
+  }
+
+  .titleSm {
+    @apply text-title-sm font-bold;
+  }
+
+  .titleBase {
+    @apply text-title-base font-bold;
+  }
+  .titleLg {
+    @apply text-title-lg font-bold;
+  }
+  .titleXl {
+    @apply text-title-xl font-bold;
+  }
 }
