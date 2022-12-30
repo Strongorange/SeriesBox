@@ -1,4 +1,4 @@
-import { ChangeEvent, FormEvent, useState } from "react";
+import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import "../firebase";
 import {
   browserLocalPersistence,
@@ -6,12 +6,22 @@ import {
   signInWithEmailAndPassword,
 } from "firebase/auth";
 import { auth } from "../firebase";
+import { useRouter } from "next/router";
+import { useUserStore } from "../stores/userStore";
 
 export default function Home() {
   const [inputVal, setInputVal] = useState({
     email: "",
     password: "",
   });
+  const router = useRouter();
+  const { user } = useUserStore();
+
+  useEffect(() => {
+    if (user) {
+      router.push("/home");
+    }
+  }, [user]);
 
   const handleInput = (e: ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
@@ -28,7 +38,7 @@ export default function Home() {
       setPersistence(auth, browserLocalPersistence);
       signInWithEmailAndPassword(auth, inputVal.email, inputVal.password)
         .then((userCredential) => {
-          //
+          router.push("/home");
         })
         .catch((error) => {
           const errorCode = error.code;

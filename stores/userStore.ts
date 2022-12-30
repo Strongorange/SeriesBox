@@ -3,7 +3,7 @@ import { User as FirebaseUser } from "firebase/auth";
 
 interface IStore {
   user: FirebaseUser | null;
-  setUser: (user: FirebaseUser) => void;
+  setUser: (user: FirebaseUser | null) => void;
 }
 
 export const useUserStore = create<IStore>((set) => ({

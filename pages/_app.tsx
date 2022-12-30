@@ -16,23 +16,15 @@ export default function App({ Component, pageProps }: AppProps) {
     onAuthStateChanged(auth, (user) => {
       if (user) {
         try {
-          //TODO: zustand 에 유저 저장 후 로그인 검증 후 로그인 페이지 표시
           setUser(user);
           setAppLoading(false);
         } catch (e) {
           alert(e);
           console.log(e);
-        } finally {
-          if (appLoading) {
-            console.log("로딩중...");
-          } else {
-            console.log("loggedInUser in Zustand");
-            console.log(loggedInUser);
-            router.push("/home");
-          }
         }
       } else {
         //TODO: zustand 에서 유저 삭제
+        setUser(null);
         console.log("로그아웃 됨");
         router.push("/");
       }

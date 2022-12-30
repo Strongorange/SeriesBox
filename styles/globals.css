@@ -44,4 +44,8 @@ h3 {
   .titleXl {
     @apply text-title-xl font-bold;
   }
+
+  .flexCenter {
+    @apply flex justify-center items-center;
+  }
 }
