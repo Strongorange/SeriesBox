@@ -46,7 +46,6 @@ const Home = () => {
   }, [user]);
 
   useEffect(() => {
-    console.log(temp);
     console.log("store Series");
     console.log(storeSeries);
   }, [temp, storeSeries]);

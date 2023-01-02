@@ -31,6 +31,10 @@ export default function App({ Component, pageProps }: AppProps) {
     });
   }, [loggedInUser, setUser, appLoading]);
 
+  useEffect(() => {
+    if (loggedInUser) console.log(loggedInUser);
+  }, [loggedInUser]);
+
   return (
     <>
       <Header />

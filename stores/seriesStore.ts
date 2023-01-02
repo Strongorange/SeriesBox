@@ -1,4 +1,5 @@
 import create from "zustand";
+import { devtools } from "zustand/middleware";
 
 export interface SeriesItem {
   fileUrl: string;
@@ -18,7 +19,7 @@ interface SeriesStore {
   setSeries: (series: SeriesDocument) => void;
 }
 
-export const useSeriesStore = create<SeriesStore>((set) => ({
+export const useSeriesStore = create<SeriesStore>()((set) => ({
   series: [],
   setSeries: (series) => {
     set((state) => ({ ...state, series: [...state.series, series] }));
