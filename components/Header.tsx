@@ -21,7 +21,7 @@ const Header = () => {
   };
 
   const goBack = () => {
-    if (router.pathname === "") {
+    if (router.pathname === "/home") {
       return null;
     } else {
       router.back();

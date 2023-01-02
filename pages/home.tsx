@@ -6,6 +6,8 @@ import { collection, doc, onSnapshot, query } from "firebase/firestore";
 import { db } from "../firebase";
 import { SeriesDocument } from "../stores/seriesStore";
 import SeriesIem from "../components/SeriesIem";
+import AddSeriesModal from "../components/modals/AddSeriesModal";
+import { useStateStore } from "../stores/stateStore";
 
 const Home = () => {
   const router = useRouter();
@@ -14,6 +16,7 @@ const Home = () => {
 
   const { user } = useUserStore();
   const { setSeries, series: storeSeries } = useSeriesStore();
+  const { showAddPhoto, setState } = useStateStore();
 
   useEffect(() => {
     if (user) {
@@ -56,22 +59,28 @@ const Home = () => {
     );
 
   return (
-    <div className="flex flex-col w-full p-PageLR ">
-      <h2>최근 사용한 시리즈</h2>
-      <div className="flex flex-col"></div>
-      <h2>시리즈 목록</h2>
-      <div className="grid grid-cols-4 w-full">
-        {temp &&
-          temp.map((item: any, index: number) => (
-            <SeriesIem
-              onClick={() => router.push(`/serieses/${item.docId}`)}
-              key={index}
-              docId={item.docId}
-              docPhotoUrl={item.docPhotoUrl}
-            />
-          ))}
+    <>
+      <div className="flex flex-col w-full p-PageLR ">
+        <h2>최근 사용한 시리즈</h2>
+        <div className="flex flex-col"></div>
+        <h2>시리즈 목록</h2>
+        <div className="grid grid-cols-4 w-full">
+          {temp &&
+            temp.map((item: any, index: number) => (
+              <SeriesIem
+                onClick={() => router.push(`/serieses/${item.docId}`)}
+                key={index}
+                docId={item.docId}
+                docPhotoUrl={item.docPhotoUrl}
+              />
+            ))}
+        </div>
       </div>
-    </div>
+      <AddSeriesModal
+        isShow={showAddPhoto}
+        toggleShow={() => setState("showAddPhoto", false)}
+      />
+    </>
   );
 };
 

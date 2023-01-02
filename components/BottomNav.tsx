@@ -1,9 +1,16 @@
 import React from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import { useStateStore } from "../stores/stateStore";
 
 const BottomNav = () => {
   const router = useRouter();
+  const { setState, showAddPhoto } = useStateStore();
+
+  const showAddSeries = () => {
+    setState("showAddPhoto", true);
+    console.log(showAddPhoto);
+  };
 
   if (router.pathname === "/") return null;
 
@@ -15,8 +22,8 @@ const BottomNav = () => {
       <div className="flexCenter">
         <Link href="/search">Search</Link>
       </div>
-      <div className="flexCenter">
-        <Link href="/photos/add">사진추가</Link>
+      <div className="flexCenter" onClick={showAddSeries}>
+        사진추가
       </div>
       <div className="flexCenter">
         <Link href="/photos/favorites">Favorites</Link>

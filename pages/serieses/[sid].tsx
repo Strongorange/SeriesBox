@@ -40,8 +40,9 @@ const SeriesDetail = () => {
     <div className="grid grid-cols-3 w-full p-PageLR">
       {data &&
         data.map((item: SeriesItem, index: number) => (
-          <div key={index}>
+          <div key={index} className="flexCenter flex-col w-full ">
             <Image alt="" src={item.fileUrl} width={100} height={100} />
+            <span>{item.fileName}</span>
           </div>
         ))}
     </div>
