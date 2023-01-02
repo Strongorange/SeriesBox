@@ -20,11 +20,19 @@ const Header = () => {
     }
   };
 
+  const goBack = () => {
+    if (router.pathname === "") {
+      return null;
+    } else {
+      router.back();
+    }
+  };
+
   if (router.pathname === "/") return null;
 
   return (
     <div className="topHeader">
-      <div>프로필</div>
+      <div onClick={goBack}>프로필</div>
       <div>Series</div>
       <div onClick={handleSignInOut}>
         {user ? "로그아웃 아이콘" : "로그인 아이콘"}

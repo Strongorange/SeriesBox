@@ -1,20 +1,26 @@
 import create from "zustand";
 
-interface SeriesItem {
+export interface SeriesItem {
   fileUrl: string;
   fileName: string;
   owenrUid: string;
-  createdAt: Date;
+  createdAt: string;
 }
 
-interface Series {
-  series: [{ docId: string; data: [SeriesItem] }] | null;
-  setSeries: (series: any) => void;
+export interface SeriesDocument {
+  docId: string;
+  data: SeriesItem[];
+  docPhotoUrl: string;
 }
 
-export const useSeriesStore = create<Series>((set) => ({
-  series: null,
+interface SeriesStore {
+  series: SeriesDocument[];
+  setSeries: (series: SeriesDocument) => void;
+}
+
+export const useSeriesStore = create<SeriesStore>((set) => ({
+  series: [],
   setSeries: (series) => {
-    set((state) => ({ ...state, series }));
+    set((state) => ({ ...state, series: [...state.series, series] }));
   },
 }));
