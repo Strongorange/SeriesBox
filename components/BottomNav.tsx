@@ -1,15 +1,22 @@
-import React from "react";
+import React, { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useStateStore } from "../stores/stateStore";
 
 const BottomNav = () => {
   const router = useRouter();
-  const { setState, showAddPhoto } = useStateStore();
+  const { setState, showPushPhotoToSeries } = useStateStore();
 
   const showAddSeries = () => {
-    setState("showAddPhoto", true);
-    console.log(showAddPhoto);
+    if (router.pathname === "/home") {
+      setState("showAddPhoto", true);
+    }
+
+    if (router.query.sid) {
+      //TODO: 현재 시즈ㅣ data Array 에 사진 추가하는 모달 띄우기
+      setState("showPushPhotoToSeries", true);
+      console.log(showPushPhotoToSeries);
+    }
   };
 
   if (router.pathname === "/") return null;

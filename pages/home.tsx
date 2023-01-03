@@ -46,8 +46,8 @@ const Home = () => {
   }, [user]);
 
   useEffect(() => {
-    console.log("store Series");
-    console.log(storeSeries);
+    // console.log("store Series");
+    // console.log(storeSeries);
   }, [temp, storeSeries]);
 
   if (pageLoading)

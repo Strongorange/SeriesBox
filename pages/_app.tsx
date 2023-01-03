@@ -7,10 +7,13 @@ import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "../firebase";
 import Header from "../components/Header";
 import BottomNav from "../components/BottomNav";
+import PushToArrayModal from "../components/modals/PushToSeriesModal";
+import { useStateStore } from "../stores/stateStore";
 
 export default function App({ Component, pageProps }: AppProps) {
   const [appLoading, setAppLoading] = useState<boolean>(true);
   const router = useRouter();
+  const { showPushPhotoToSeries, setState } = useStateStore();
   const { user: loggedInUser, setUser } = useUserStore();
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
@@ -40,6 +43,10 @@ export default function App({ Component, pageProps }: AppProps) {
       <Header />
       <Component {...pageProps} />
       <BottomNav />
+      <PushToArrayModal
+        isShow={showPushPhotoToSeries}
+        toggleShow={() => setState("showPushPhotoToSeries", false)}
+      />
     </>
   );
 }
