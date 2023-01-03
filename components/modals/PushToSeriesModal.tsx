@@ -112,6 +112,7 @@ const PushToArrayModal = (props: AddSeriesModalProps) => {
           }
         }
         setProcessing(false);
+        closeModal();
       } catch (error) {
         alert("오류 발생");
         console.log(error);

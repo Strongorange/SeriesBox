@@ -9,12 +9,14 @@ import Header from "../components/Header";
 import BottomNav from "../components/BottomNav";
 import PushToArrayModal from "../components/modals/PushToSeriesModal";
 import { useStateStore } from "../stores/stateStore";
+import { useSeriesStore } from "../stores/seriesStore";
 
 export default function App({ Component, pageProps }: AppProps) {
   const [appLoading, setAppLoading] = useState<boolean>(true);
   const router = useRouter();
   const { showPushPhotoToSeries, setState } = useStateStore();
   const { user: loggedInUser, setUser } = useUserStore();
+  const { setSeries, series: storeSeries } = useSeriesStore();
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
       if (user) {
@@ -32,7 +34,12 @@ export default function App({ Component, pageProps }: AppProps) {
         router.push("/");
       }
     });
-  }, [loggedInUser, setUser, appLoading]);
+
+    if (storeSeries) {
+      console.log("storeSeries: ");
+      console.log(storeSeries);
+    }
+  }, [loggedInUser, setUser, appLoading, storeSeries]);
 
   useEffect(() => {
     if (loggedInUser) console.log(loggedInUser);

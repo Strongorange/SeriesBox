@@ -14,25 +14,16 @@ const SeriesDetail = () => {
   const [data, setData] = useState<SeriesItem[]>();
 
   useEffect(() => {
+    console.log("어ㅂ데이트");
     if (series) {
-      const temp = series.filter(
-        (item: SeriesDocument, index: number) => item.docId === sid
-      );
-      const noDupli = temp.filter(
-        (item: any, index: any) => temp.indexOf(item) === index
-      );
-      console.log("중복제거");
-      console.log(noDupli);
-      setData(noDupli[0].data);
+      const temp = series.filter((item: SeriesDocument) => item.docId === sid);
+      console.log("업데이트된 temp");
+      console.log(temp);
+      setData(temp[temp.length - 1].data);
     } else {
       null;
     }
-  }, []);
-
-  useEffect(() => {
-    console.log("진짜 쓸 데이터");
-    console.log(data);
-  }, [data]);
+  }, [series, sid]);
 
   if (!data) return <div>로딩중</div>;
 
@@ -40,9 +31,11 @@ const SeriesDetail = () => {
     <div className="grid grid-cols-3 w-full p-PageLR">
       {data &&
         data.map((item: SeriesItem, index: number) => (
-          <div key={index} className="flexCenter flex-col w-full ">
-            <Image alt="" src={item.fileUrl} width={100} height={100} />
-            <span>{item.fileName}</span>
+          <div key={index} className="flexCenter flex-col w-full relative ">
+            <div className="w-full h-[33vw] relative">
+              <Image alt="" src={item.fileUrl} fill />
+            </div>
+            {/* <span>{item.fileName}</span> */}
           </div>
         ))}
     </div>

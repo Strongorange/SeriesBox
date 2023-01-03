@@ -10,7 +10,7 @@ interface SeriesItemProps {
 }
 
 const SeriesIem = (props: SeriesItemProps) => {
-  const { docId, docPhotoUrl, data, onClick } = props;
+  const { docId, docPhotoUrl, onClick } = props;
   return (
     <div className="flexCenter flex-col" onClick={onClick}>
       {docPhotoUrl && (
