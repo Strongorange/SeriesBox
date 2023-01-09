@@ -17,11 +17,15 @@ export interface SeriesDocument {
 interface SeriesStore {
   series: SeriesDocument[];
   setSeries: (series: SeriesDocument) => void;
+  clearSeries: () => void;
 }
 
 export const useSeriesStore = create<SeriesStore>()((set) => ({
   series: [],
   setSeries: (series) => {
     set((state) => ({ ...state, series: [...state.series, series] }));
+  },
+  clearSeries: () => {
+    set((state) => ({ ...state, series: [] }));
   },
 }));

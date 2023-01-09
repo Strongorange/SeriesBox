@@ -12,23 +12,26 @@ import { useStateStore } from "../stores/stateStore";
 const Home = () => {
   const router = useRouter();
   const [pageLoading, setPageLoading] = useState(true);
-
   const { user } = useUserStore();
-  const { setSeries, series: storeSeries } = useSeriesStore();
+  const { setSeries, series: storeSeries, clearSeries } = useSeriesStore();
   const { showAddPhoto, setState } = useStateStore();
 
   useEffect(() => {
     if (user) {
+      clearSeries();
+
       onSnapshot(collection(db, "series"), (querySnapshot) => {
-        querySnapshot.docs.forEach((queryDocumentSnapshot) => {
+        querySnapshot.docs.forEach((queryDocumentSnapshot, index) => {
           const tempData: SeriesDocument = {
             docId: queryDocumentSnapshot.id,
             data: queryDocumentSnapshot.data().data,
             docPhotoUrl: queryDocumentSnapshot.data().docPhotoUrl,
           };
+
           //TODO: 어레이에 있는지 검증해서 어레이에 docid 가 없는 경우에만 넣기
           setSeries(tempData);
         });
+
         if (storeSeries) {
           setPageLoading(false);
         }
@@ -37,7 +40,7 @@ const Home = () => {
       console.log("home 에서 유저 없음");
       router.push("/");
     }
-  }, [user]);
+  }, []);
 
   if (pageLoading)
     return (
@@ -52,7 +55,7 @@ const Home = () => {
         <h2>최근 사용한 시리즈</h2>
         <div className="flex flex-col"></div>
         <h2>시리즈 목록</h2>
-        <div className="grid grid-cols-4 w-full">
+        <div className="grid grid-cols-3 w-full">
           {storeSeries &&
             storeSeries.map((item: SeriesDocument, index: number) => (
               <SeriesIem

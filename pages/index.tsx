@@ -53,7 +53,7 @@ export default function Home() {
   };
 
   return (
-    <div className="w-full  bg-amber-200 h-screen flex justify-center items-center">
+    <div className="w-full   h-screen flex justify-center items-center">
       <form
         className="w-full gap-3 flex flex-col items-center"
         onSubmit={handleLogin}
