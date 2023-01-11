@@ -164,7 +164,7 @@ const AddSeriesModal = (props: AddSeriesModalProps) => {
               ],
               docPhotoUrl: tempObj.thumbUrl,
             }).then(() => setProcessing(false));
-          }, 3000);
+          }, 4000);
 
           //TODO: 위에서 스토리지에 올라간 데이터 DB에 연동
         }

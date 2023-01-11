@@ -2,6 +2,10 @@ import React, { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useStateStore } from "../stores/stateStore";
+import HomeIcon from "./svgs/HomeIcon";
+import SearchIcon from "./svgs/SearchIcon";
+import FavoritesIcon from "./svgs/FavoritesIcon";
+import SettingsIcon from "./svgs/SettingsIcon";
 
 const BottomNav = () => {
   const router = useRouter();
@@ -23,20 +27,28 @@ const BottomNav = () => {
 
   return (
     <div className="bottomNav">
-      <div className="flexCenter">
-        <Link href="/home">Home</Link>
+      <div className="flexCenter ">
+        <Link href="/home">
+          <HomeIcon />
+        </Link>
       </div>
-      <div className="flexCenter">
-        <Link href="/search">Search</Link>
+      <div className="flexCenter ">
+        <Link href="/search">
+          <SearchIcon />
+        </Link>
       </div>
       <div className="flexCenter" onClick={showAddSeries}>
         사진추가
       </div>
       <div className="flexCenter">
-        <Link href="/photos/favorites">Favorites</Link>
+        <Link href="/photos/favorites">
+          <FavoritesIcon />
+        </Link>
       </div>
       <div className="flexCenter">
-        <Link href="/settings">Setting</Link>
+        <Link href="/settings">
+          <SettingsIcon />
+        </Link>
       </div>
     </div>
   );

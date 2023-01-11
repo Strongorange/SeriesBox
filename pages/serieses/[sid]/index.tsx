@@ -28,8 +28,12 @@ const SeriesDetail = () => {
       const temp = series.filter((item: SeriesDocument) => item.docId === sid);
       console.log("업데이트된 temp");
       console.log(temp);
-      if (temp[0]) {
-        setData(temp[0].data);
+      if (temp.length > 0) {
+        setData(temp[temp.length - 1].data);
+        localStorage.setItem(
+          "series",
+          JSON.stringify(temp[temp.length - 1].data)
+        );
       }
     }
   }, [series, sid]);

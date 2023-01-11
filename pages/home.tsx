@@ -16,6 +16,11 @@ const Home = () => {
   const { setSeries, series: storeSeries, clearSeries } = useSeriesStore();
   const { showAddPhoto, setState } = useStateStore();
 
+  const moveAndSetSeries = (docId: string) => {
+    router.push(`/serieses/${docId}`);
+    localStorage.setItem("recentSeries", docId);
+  };
+
   useEffect(() => {
     if (user) {
       clearSeries();
@@ -53,13 +58,18 @@ const Home = () => {
     <>
       <div className="flex flex-col w-full p-PageLR ">
         <h2>최근 사용한 시리즈</h2>
+        {localStorage.getItem("recentSeries") && (
+          <div className="w-full flex overflow-auto gap-[3vw]">
+            <h4>{localStorage.getItem("recentSeries")}</h4>
+          </div>
+        )}
         <div className="flex flex-col"></div>
         <h2>시리즈 목록</h2>
         <div className="grid grid-cols-3 w-full">
           {storeSeries &&
             storeSeries.map((item: SeriesDocument, index: number) => (
               <SeriesIem
-                onClick={() => router.push(`/serieses/${item.docId}`)}
+                onClick={() => moveAndSetSeries(item.docId)}
                 key={index}
                 docId={item.docId}
                 docPhotoUrl={item.docPhotoUrl}
