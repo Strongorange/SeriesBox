@@ -1,8 +1,13 @@
 import Image from "next/image";
 import { useRouter } from "next/router";
-import React, { useState } from "react";
+import React, { use, useEffect, useState } from "react";
 import FavoritesIcon from "../../../components/svgs/FavoritesIcon";
 import MessageIcon from "../../../components/svgs/MessageIcon";
+
+interface LocalStorageFavoriteItem {
+  fileName: string;
+  fileUrl: string;
+}
 
 const PhotoDetail = () => {
   const router = useRouter();
@@ -14,12 +19,61 @@ const PhotoDetail = () => {
     setIsClicked(!isClicked);
   };
 
+  const handleShare = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    e.stopPropagation();
+    //FIXME: 공유기능 구현하기
+    if (navigator.share) {
+      navigator.share({
+        title: "사진 공유",
+        text: "사진 공유",
+        url: String(url),
+      });
+    }
+  };
+
   const toggleIsFavorite = (
     e: React.MouseEvent<HTMLDivElement, MouseEvent>
   ) => {
     e.stopPropagation();
     setIsFavorite(!isFavorite);
   };
+
+  useEffect(() => {
+    const favorite = localStorage.getItem("favorite");
+    if (favorite) {
+      const data = JSON.parse(favorite);
+      const isFavorite = data.find(
+        (item: LocalStorageFavoriteItem) => item.fileName === name
+      );
+      if (isFavorite) {
+        setIsFavorite(true);
+      }
+    }
+  }, []);
+
+  useEffect(() => {
+    if (isFavorite) {
+      const favorite = localStorage.getItem("favorite");
+      if (!favorite) {
+        localStorage.setItem(
+          "favorite",
+          JSON.stringify([{ fileName: name, fileUrl: url }])
+        );
+      } else {
+        const localStorageFavorite = localStorage.getItem("favorite");
+        const data = JSON.parse(localStorageFavorite!);
+        const newData = [...data, { fileName: name, fileUrl: url }];
+        localStorage.setItem("favorite", JSON.stringify(newData));
+      }
+    } else {
+      const localStorageFavorite = localStorage.getItem("favorite");
+      const data = JSON.parse(localStorageFavorite!);
+      const newData = data.filter(
+        (item: LocalStorageFavoriteItem) => item.fileName !== name
+      );
+      localStorage.setItem("favorite", JSON.stringify(newData));
+    }
+  }, [isFavorite]);
 
   return (
     <div className="w-full flex h-[93vh] flex-col bg-black">
@@ -39,7 +93,9 @@ const PhotoDetail = () => {
                 fill={isFavorite ? "#ff5c00" : "#aaaaaa"}
               />
             </div>
-            <MessageIcon fill="#ffffff" width={30} height={30} />
+            <div onClick={(e) => handleShare(e)}>
+              <MessageIcon fill="#ffffff" width={30} height={30} />
+            </div>
           </div>
         )}
       </div>

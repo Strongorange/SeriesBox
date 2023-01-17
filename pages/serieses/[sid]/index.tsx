@@ -50,7 +50,7 @@ const SeriesDetail = () => {
   if (!data) return <div>로딩중</div>;
 
   return (
-    <div className="grid grid-cols-3 w-full p-PageLR ">
+    <div className="grid grid-cols-3 w-full gap-1 p-PageLR ">
       {data &&
         data.map((item: SeriesItem, index: number) => (
           <div

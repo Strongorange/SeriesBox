@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useUserStore } from "../stores/userStore";
 import { useSeriesStore } from "../stores/seriesStore";
 import { useRouter } from "next/router";
-import { collection, doc, onSnapshot, query } from "firebase/firestore";
+import { collection, onSnapshot } from "firebase/firestore";
 import { db } from "../firebase";
 import { SeriesDocument } from "../stores/seriesStore";
 import SeriesIem from "../components/SeriesIem";
@@ -65,7 +65,7 @@ const Home = () => {
         )}
         <div className="flex flex-col"></div>
         <h2>시리즈 목록</h2>
-        <div className="grid grid-cols-3 w-full">
+        <div className="grid grid-cols-3 gap-1 w-full">
           {storeSeries &&
             storeSeries.map((item: SeriesDocument, index: number) => (
               <SeriesIem

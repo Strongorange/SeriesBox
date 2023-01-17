@@ -3,6 +3,9 @@ import { useUserStore } from "../stores/userStore";
 import { auth } from "../firebase";
 import { signOut } from "firebase/auth";
 import { useRouter } from "next/router";
+import LogoutIcon from "./svgs/LogoutIcon";
+import ProfileIcon from "./svgs/ProfileIcon";
+import LeftIcon from "./svgs/LeftIcon";
 
 const Header = () => {
   const { user } = useUserStore();
@@ -43,10 +46,10 @@ const Header = () => {
 
   return (
     <div className="topHeader">
-      <div onClick={goBack}>{isHome ? "프로필" : "뒤로가기"}</div>
+      <div onClick={goBack}>{isHome ? <ProfileIcon /> : <LeftIcon />}</div>
       <div>Series</div>
       <div onClick={handleSignInOut}>
-        {user ? "로그아웃 아이콘" : "로그인 아이콘"}
+        {user ? <LogoutIcon /> : "로그인 아이콘"}
       </div>
     </div>
   );
