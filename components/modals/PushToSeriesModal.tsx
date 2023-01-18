@@ -61,7 +61,7 @@ const PushToArrayModal = (props: AddSeriesModalProps) => {
     try {
       if (e.target.files) {
         //FIXME: 파일 한개 불러오던걸 여러개 불러오기
-        console.log(e.target.files);
+        // console.log(e.target.files);
         const blobArray = e.target.files;
         const path = URL.createObjectURL(e.target.files[0]);
         setInputState({
@@ -91,15 +91,15 @@ const PushToArrayModal = (props: AddSeriesModalProps) => {
 
         for (let i = 0; i < inputState.uploadFileBlob.length; i++) {
           const file = inputState.uploadFileBlob[i];
-          console.log("파일");
-          console.log(file);
+          // console.log("파일");
+          // console.log(file);
           const fileRef = ref(storage, `${router.query.sid}/${file.name}`);
           await uploadBytes(fileRef, file);
           const downloadURL = await getDownloadURL(fileRef);
           const seriesDoc = await getDoc(seriesDocRef);
           const seriesData = seriesDoc.data();
           if (seriesData) {
-            console.log(seriesData);
+            // console.log(seriesData);
             const seriesItem: SeriesItem = {
               createdAt: String(new Date()),
               fileName: file.name,
@@ -115,7 +115,7 @@ const PushToArrayModal = (props: AddSeriesModalProps) => {
         closeModal();
       } catch (error) {
         alert("오류 발생");
-        console.log(error);
+        // console.log(error);
       }
     }
   };
@@ -129,15 +129,16 @@ const PushToArrayModal = (props: AddSeriesModalProps) => {
         <div className="flex items-center justify-end" onClick={closeModal}>
           닫기
         </div>
-        <div className="flex flex-col w-full">
+        <div className="flex flex-col w-full gap-10">
           <form
             encType="multipart/form-data"
             onSubmit={uploadSeries}
             id="addSeriesForm"
+            className="flex flex-col w-full gap-5"
           >
             <h3>{router.query.sid} 시리즈에 추가</h3>
 
-            <div>
+            <div className="flex flex-col gap-5">
               <label htmlFor="seriesPhoto">
                 <h3>사진 선택 (선택)</h3>
               </label>

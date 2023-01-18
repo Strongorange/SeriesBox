@@ -50,10 +50,10 @@ const AddSeriesModal = (props: AddSeriesModalProps) => {
     e.preventDefault();
     try {
       if (e.target.files) {
-        console.log(e.target.files[0]);
+        // console.log(e.target.files[0]);
         const blob = e.target.files[0];
         const path = URL.createObjectURL(e.target.files[0]);
-        console.log(path);
+        // console.log(path);
         if (type === "upload") {
           setInputState({
             ...inputState,
@@ -74,7 +74,6 @@ const AddSeriesModal = (props: AddSeriesModalProps) => {
   };
 
   const makeNewSeries = async (e: FormEvent<HTMLFormElement>) => {
-    console.log("제출");
     e.preventDefault();
 
     if (inputState.seriesName === "") {
@@ -99,7 +98,7 @@ const AddSeriesModal = (props: AddSeriesModalProps) => {
         };
 
         if (docExists) {
-          console.log("도큐먼트 존재!!!");
+          // console.log("도큐먼트 존재!!!");
           alert(
             "이미 존재하는 시리즈입니다. 시리즈에서 사진을 추가해주세요 :)"
           );
@@ -120,8 +119,8 @@ const AddSeriesModal = (props: AddSeriesModalProps) => {
             );
             uploadBytes(imageRef, inputState.uploadFileBlob).then(
               (snapshot) => {
-                console.log("업로드 완료");
-                console.log(snapshot.metadata);
+                // console.log("업로드 완료");
+                // console.log(snapshot.metadata);
                 getDownloadURL(imageRef).then((url) => {
                   tempObj.fileName = String(fileName);
                   tempObj.fileUrl = url;
@@ -140,8 +139,8 @@ const AddSeriesModal = (props: AddSeriesModalProps) => {
             );
             uploadBytes(imageRef, inputState.thumbUploadFileBlob).then(
               (snapshot) => {
-                console.log("업로드 완료");
-                console.log(snapshot.metadata);
+                // console.log("업로드 완료");
+                // console.log(snapshot.metadata);
                 getDownloadURL(imageRef).then((url) => {
                   tempObj.thumbName = fileName;
                   tempObj.thumbUrl = url;
@@ -151,8 +150,8 @@ const AddSeriesModal = (props: AddSeriesModalProps) => {
           }
 
           setTimeout(() => {
-            console.log("템프 오브젝");
-            console.log(tempObj);
+            // console.log("템프 오브젝");
+            // console.log(tempObj);
             setDoc(doc(db, "series", inputState.seriesName), {
               data: [
                 {
@@ -170,7 +169,7 @@ const AddSeriesModal = (props: AddSeriesModalProps) => {
         }
       } catch (error) {
         alert("오류 발생");
-        console.log(error);
+        // console.log(error);
       }
     }
   };
@@ -180,17 +179,18 @@ const AddSeriesModal = (props: AddSeriesModalProps) => {
   return (
     <div className="flex w-full justify-center items-center fixed top-0 h-screen z-50 box-border">
       <div className="fixed w-full h-full bg-[rgba(0,0,0,0.5)]" />
-      <div className="flex flex-col w-[90%] bg-white absolute p-8  ">
+      <div className="flex flex-col w-[90%] bg-white absolute p-8">
         <div className="flex items-center justify-end" onClick={toggleShow}>
           닫기
         </div>
-        <div className="flex flex-col w-full">
+        <div className="flex flex-col w-full gap-10">
           <form
             encType="multipart/form-data"
             onSubmit={makeNewSeries}
             id="addSeriesForm"
+            className="flex flex-col w-full gap-5"
           >
-            <div>
+            <div className="flex flex-col gap-5">
               <label htmlFor="seriesName">
                 <h3>시리즈 이름</h3>
               </label>
@@ -204,7 +204,7 @@ const AddSeriesModal = (props: AddSeriesModalProps) => {
               />
             </div>
 
-            <div>
+            <div className="flex flex-col gap-5">
               <label htmlFor="seriesThumbPhoto">
                 <h3>시리즈 썸네일 선택 (선택)</h3>
               </label>
@@ -225,7 +225,7 @@ const AddSeriesModal = (props: AddSeriesModalProps) => {
                 onChange={(e) => loadLocalFile(e, "thumb")}
               />
             </div>
-            <div>
+            <div className="flex flex-col gap-5">
               <label htmlFor="seriesPhoto">
                 <h3>사진 선택 (선택)</h3>
               </label>

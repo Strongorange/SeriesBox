@@ -6,6 +6,7 @@ import HomeIcon from "./svgs/HomeIcon";
 import SearchIcon from "./svgs/SearchIcon";
 import FavoritesIcon from "./svgs/FavoritesIcon";
 import SettingsIcon from "./svgs/SettingsIcon";
+import PlusIcon from "./svgs/PlustIcon";
 
 const BottomNav = () => {
   const router = useRouter();
@@ -19,35 +20,36 @@ const BottomNav = () => {
     if (router.query.sid) {
       //TODO: 현재 시즈ㅣ data Array 에 사진 추가하는 모달 띄우기
       setState("showPushPhotoToSeries", true);
-      console.log(showPushPhotoToSeries);
+      // console.log(showPushPhotoToSeries);
     }
   };
 
   if (router.pathname === "/") return null;
+  if (router.pathname.includes("/auth")) return null;
 
   return (
     <div className="bottomNav">
       <div className="flexCenter ">
         <Link href="/home">
-          <HomeIcon />
+          <HomeIcon filled={router.pathname === "/home"} />
         </Link>
       </div>
       <div className="flexCenter ">
         <Link href="/search">
-          <SearchIcon />
+          <SearchIcon filled={router.pathname.includes("/search")} />
         </Link>
       </div>
       <div className="flexCenter" onClick={showAddSeries}>
-        사진추가
+        <PlusIcon />
       </div>
       <div className="flexCenter">
         <Link href="/photos/favorites">
-          <FavoritesIcon />
+          <FavoritesIcon filled={router.pathname.includes("/favorites")} />
         </Link>
       </div>
       <div className="flexCenter">
         <Link href="/settings">
-          <SettingsIcon />
+          <SettingsIcon filled={router.pathname.includes("/settings")} />
         </Link>
       </div>
     </div>

@@ -15,10 +15,10 @@ const SeriesIem = (props: SeriesItemProps) => {
     <div className="flexCenter flex-col w-full" onClick={onClick}>
       {docPhotoUrl && (
         <div className="w-full aspect-square relative">
-          <Image src={docPhotoUrl} alt="docPhotoUrl" quality={100} fill />
+          <Image src={docPhotoUrl} alt="docPhotoUrl" quality={60} fill />
         </div>
       )}
-      {docId && <p>{docId}</p>}
+      {docId && <p className="text-[1.4rem] font-medium">{docId}</p>}
     </div>
   );
 };

@@ -30,14 +30,14 @@ export default function App({ Component, pageProps }: AppProps) {
       } else {
         //TODO: zustand 에서 유저 삭제
         setUser(null);
-        console.log("로그아웃 됨");
+        // console.log("로그아웃 됨");
         router.push("/");
       }
     });
 
     if (storeSeries) {
-      console.log("storeSeries: ");
-      console.log(storeSeries);
+      // console.log("storeSeries: ");
+      // console.log(storeSeries);
     }
   }, [loggedInUser, setUser, appLoading, storeSeries]);
 

@@ -26,8 +26,8 @@ const SeriesDetail = () => {
   useEffect(() => {
     if (series) {
       const temp = series.filter((item: SeriesDocument) => item.docId === sid);
-      console.log("업데이트된 temp");
-      console.log(temp);
+      // console.log("업데이트된 temp");
+      // console.log(temp);
       if (temp.length > 0) {
         setData(temp[temp.length - 1].data);
         localStorage.setItem(
@@ -50,7 +50,7 @@ const SeriesDetail = () => {
   if (!data) return <div>로딩중</div>;
 
   return (
-    <div className="grid grid-cols-3 w-full gap-1 p-PageLR ">
+    <div className="grid grid-cols-3 w-full gap-1 p-PageLR animate-fade-in">
       {data &&
         data.map((item: SeriesItem, index: number) => (
           <div

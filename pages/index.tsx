@@ -53,7 +53,7 @@ export default function Home() {
   };
 
   return (
-    <div className="w-full   h-screen flex justify-center items-center">
+    <div className="w-full flex-col  gap-3 h-screen flex justify-center items-center bg-amber-100">
       <form
         className="w-full gap-3 flex flex-col items-center"
         onSubmit={handleLogin}
@@ -78,6 +78,12 @@ export default function Home() {
           로그인
         </button>
       </form>
+      {/* <div
+        className="w-[50%] flexCenter h-10 bg-purple-300"
+        onClick={() => router.push("/auth/signup")}
+      >
+        회원가입
+      </div> */}
     </div>
   );
 }

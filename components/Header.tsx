@@ -6,11 +6,13 @@ import { useRouter } from "next/router";
 import LogoutIcon from "./svgs/LogoutIcon";
 import ProfileIcon from "./svgs/ProfileIcon";
 import LeftIcon from "./svgs/LeftIcon";
+import Link from "next/link";
 
 const Header = () => {
   const { user } = useUserStore();
   const router = useRouter();
   const [isHome, setIsHome] = useState<boolean>(true);
+  const [headerCenter, setHeaderCenter] = useState("");
 
   useEffect(() => {
     if (router) {
@@ -18,6 +20,12 @@ const Header = () => {
         setIsHome(true);
       } else {
         setIsHome(false);
+      }
+
+      if (router.query.sid) {
+        setHeaderCenter(router.query.sid.toString());
+      } else {
+        setHeaderCenter("");
       }
     }
   }, [router.pathname]);
@@ -43,13 +51,22 @@ const Header = () => {
   };
 
   if (router.pathname === "/") return null;
+  if (router.pathname.includes("/auth")) return null;
 
   return (
     <div className="topHeader">
-      <div onClick={goBack}>{isHome ? <ProfileIcon /> : <LeftIcon />}</div>
-      <div>Series</div>
+      <div onClick={goBack}>
+        {isHome ? (
+          <Link href={`/profile/321`}>
+            <ProfileIcon />
+          </Link>
+        ) : (
+          <LeftIcon />
+        )}
+      </div>
+      <div>{!isHome && headerCenter ? <h4> {headerCenter} </h4> : ""}</div>
       <div onClick={handleSignInOut}>
-        {user ? <LogoutIcon /> : "로그인 아이콘"}
+        {isHome && user ? <LogoutIcon /> : null}
       </div>
     </div>
   );
