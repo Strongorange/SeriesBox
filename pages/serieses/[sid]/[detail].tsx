@@ -15,6 +15,8 @@ const PhotoDetail = () => {
   const { name, url, sid } = router.query;
   const [isClicked, setIsClicked] = useState(true);
   const [isFavorite, setIsFavorite] = useState(false);
+  const [fileUrl, setFileUrl] = useState(String(url));
+  const [loading, setLoading] = useState(true);
 
   const toggleIsClicked = () => {
     setIsClicked(!isClicked);
@@ -38,6 +40,13 @@ const PhotoDetail = () => {
     e.stopPropagation();
     setIsFavorite(!isFavorite);
   };
+
+  useEffect(() => {
+    if (router.isReady) {
+      setFileUrl(router.query.url as string);
+      setLoading(false);
+    }
+  }, [router.isReady]);
 
   useEffect(() => {
     const favorite = localStorage.getItem("favorite");
@@ -84,30 +93,32 @@ const PhotoDetail = () => {
 
   return (
     <div className="w-full flex h-[93vh] flex-col bg-black animate-fade-in">
-      <div className="w-full h-[100%] relative" onClick={toggleIsClicked}>
-        <Image
-          alt="사진"
-          src={String(url)}
-          fill
-          style={{ objectFit: "contain" }}
-        />
-        <div
-          className={`flex absolute top-0 justify w-full items-center justify-end gap-6 p-PageLR text-white ${
-            isClicked ? "animate-fade-in" : "animate-fade-out"
-          } `}
-        >
-          <div onClick={(e) => toggleIsFavorite(e)}>
-            <FavoritesIcon
-              width={30}
-              height={30}
-              fill={isFavorite ? "#ff5c00" : "#aaaaaa"}
-            />
-          </div>
-          <div onClick={(e) => handleShare(e)}>
-            <MessageIcon fill="#ffffff" width={30} height={30} />
+      {!loading && (
+        <div className="w-full h-[100%] relative" onClick={toggleIsClicked}>
+          <Image
+            alt="사진"
+            src={fileUrl}
+            fill
+            style={{ objectFit: "contain" }}
+          />
+          <div
+            className={`flex absolute top-0 justify w-full items-center justify-end gap-6 p-PageLR text-white ${
+              isClicked ? "animate-fade-in" : "animate-fade-out"
+            } `}
+          >
+            <div onClick={(e) => toggleIsFavorite(e)}>
+              <FavoritesIcon
+                width={30}
+                height={30}
+                fill={isFavorite ? "#ff5c00" : "#aaaaaa"}
+              />
+            </div>
+            <div onClick={(e) => handleShare(e)}>
+              <MessageIcon fill="#ffffff" width={30} height={30} />
+            </div>
           </div>
         </div>
-      </div>
+      )}
     </div>
   );
 };

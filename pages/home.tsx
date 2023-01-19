@@ -47,36 +47,34 @@ const Home = () => {
     }
   }, []);
 
-  if (pageLoading)
-    return (
-      <div>
-        <h1>Loading...</h1>
-      </div>
-    );
+  if (pageLoading) return <div></div>;
 
   return (
     <>
-      <div className="flex flex-col w-full p-PageLR animate-fade-in ">
-        <h2>최근 사용한 시리즈</h2>
-        {localStorage.getItem("recentSeries") && (
-          <div className="w-full flex overflow-auto gap-[3vw]">
-            <div className="w-[20vw] h-[5vh] flexCenter bg-amber-100 rounded-3xl">
-              <h4>{localStorage.getItem("recentSeries")}</h4>
+      <div className="flex flex-col w-full p-PageLR animate-fade-in gap-10 ">
+        <div className="w-full flex flex-col gap-5">
+          <h2>최근 사용한 시리즈</h2>
+          {localStorage.getItem("recentSeries") && (
+            <div className="w-full flex overflow-auto gap-[3vw]">
+              <div className="w-[20vw] h-[5vh] flexCenter bg-amber-100 rounded-3xl">
+                <h4>{localStorage.getItem("recentSeries")}</h4>
+              </div>
             </div>
+          )}
+        </div>
+        <div className="w-full flex flex-col gap-5">
+          <h2>시리즈 목록</h2>
+          <div className="grid grid-cols-3 gap-1 w-full">
+            {storeSeries &&
+              storeSeries.map((item: SeriesDocument, index: number) => (
+                <SeriesIem
+                  onClick={() => moveAndSetSeries(item.docId)}
+                  key={index}
+                  docId={item.docId}
+                  docPhotoUrl={item.docPhotoUrl}
+                />
+              ))}
           </div>
-        )}
-        <div className="flex flex-col"></div>
-        <h2>시리즈 목록</h2>
-        <div className="grid grid-cols-3 gap-1 w-full">
-          {storeSeries &&
-            storeSeries.map((item: SeriesDocument, index: number) => (
-              <SeriesIem
-                onClick={() => moveAndSetSeries(item.docId)}
-                key={index}
-                docId={item.docId}
-                docPhotoUrl={item.docPhotoUrl}
-              />
-            ))}
         </div>
       </div>
       <AddSeriesModal

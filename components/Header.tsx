@@ -24,8 +24,10 @@ const Header = () => {
 
       if (router.query.sid) {
         setHeaderCenter(router.query.sid.toString());
+        localStorage.setItem("currentSid", String(router.query.sid));
       } else {
-        setHeaderCenter("");
+        const currentSid = localStorage.getItem("currentSid");
+        setHeaderCenter(currentSid!);
       }
     }
   }, [router.pathname]);
