@@ -7,6 +7,8 @@ import { SeriesItem } from "../../stores/seriesStore";
 import { useUserStore } from "../../stores/userStore";
 import { useRouter } from "next/router";
 
+//TODO: 비디오 업로드도 Firestore 에는 올라감, 비디오 올렸을때 썸네일도 올라가게 하기
+
 interface AddSeriesModalProps {
   isShow: boolean;
   toggleShow: () => void;
@@ -77,7 +79,6 @@ const PushToArrayModal = (props: AddSeriesModalProps) => {
 
   const uploadSeries = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
     if (!inputState.uploadFileBlob) {
       alert("업로드 할 사진을 추가해주세요!");
       return;
@@ -155,7 +156,7 @@ const PushToArrayModal = (props: AddSeriesModalProps) => {
               <input
                 id="seriesPhoto"
                 type="file"
-                accept="image/*"
+                accept="image/*, video/*"
                 multiple
                 onChange={(e) => loadLocalFile(e)}
               />

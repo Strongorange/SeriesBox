@@ -17,7 +17,7 @@ interface IServerSideProps {
 }
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-  const { sid, url, name } = context.query;
+  const { url } = context.query;
   const file = await fetch(String(url));
   // @ts-ignore
   const fileType = await fileTypeFromStream(file.body!);
@@ -113,14 +113,22 @@ const PhotoDetail: NextPage<IServerSideProps> = ({ fileType }) => {
 
   return (
     <div className="w-full flex h-[93vh] flex-col bg-black animate-fade-in">
-      {!loading && fileType.includes("image") && (
+      {!loading && (
         <div className="w-full h-[100%] relative" onClick={toggleIsClicked}>
-          <Image
-            alt="사진"
-            src={fileUrl}
-            fill
-            style={{ objectFit: "contain" }}
-          />
+          {fileType.includes("image") && (
+            <Image
+              alt="사진"
+              src={fileUrl}
+              fill
+              style={{ objectFit: "contain" }}
+            />
+          )}
+          {fileType.includes("video") && (
+            <div className="w-full h-full flexCenter">
+              <video src={fileUrl} controls autoPlay />
+            </div>
+          )}
+
           <div
             className={`flex absolute top-0 justify w-full items-center justify-end gap-6 p-PageLR text-white ${
               isClicked ? "animate-fade-in" : "animate-fade-out"
