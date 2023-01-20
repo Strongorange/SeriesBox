@@ -6,6 +6,14 @@ module.exports = {
   ],
   theme: {
     extend: {
+      zIndex: {
+        header: "100",
+        "bottom-nav": "100",
+        modal: "100",
+        "modal-backdrop": "90",
+        "modal-content": "100",
+        "initial-video": "200",
+      },
       colors: {
         Ru: "#ffe5d6",
         Mu: "#f65306",
@@ -25,12 +33,12 @@ module.exports = {
       },
       keyframes: {
         "fade-in": {
-          "0%": { opacity: 0, display: "hidden" },
+          "0%": { opacity: 0, display: "none" },
           "100%": { opacity: 1, display: "flex" },
         },
         "fade-out": {
           "0%": { opacity: 1, display: "flex" },
-          "100%": { opacity: 0, display: "hidden" },
+          "100%": { opacity: 0, display: "none" },
         },
       },
       animation: {

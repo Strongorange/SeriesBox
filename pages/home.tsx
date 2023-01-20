@@ -8,6 +8,7 @@ import { SeriesDocument } from "../stores/seriesStore";
 import SeriesIem from "../components/SeriesIem";
 import AddSeriesModal from "../components/modals/AddSeriesModal";
 import { useStateStore } from "../stores/stateStore";
+import InitialVideo from "../components/InitialVideo";
 
 const Home = () => {
   const router = useRouter();

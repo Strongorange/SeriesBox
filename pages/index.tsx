@@ -8,6 +8,7 @@ import {
 import { auth } from "../firebase";
 import { useRouter } from "next/router";
 import { useUserStore } from "../stores/userStore";
+import InitialVideo from "../components/InitialVideo";
 
 export default function Home() {
   const [inputVal, setInputVal] = useState({
@@ -53,37 +54,40 @@ export default function Home() {
   };
 
   return (
-    <div className="w-full flex-col  gap-3 h-screen flex justify-center items-center bg-amber-100">
-      <form
-        className="w-full gap-3 flex flex-col items-center"
-        onSubmit={handleLogin}
-      >
-        <label htmlFor="email">아이디 입력</label>
-        <input
-          type="email"
-          name="email"
-          id="email"
-          onChange={handleInput}
-          className="w-[50%] h-10"
-        />
-        <label htmlFor="password">비밀번호 입력</label>
-        <input
-          type="password"
-          name="password"
-          id="password"
-          onChange={handleInput}
-          className="w-[50%] h-10"
-        />
-        <button type="submit" className="w-[50%] h-10 bg-purple-300">
-          로그인
-        </button>
-      </form>
-      {/* <div
+    <>
+      <InitialVideo />
+      <div className="w-full flex-col  gap-3 h-screen flex justify-center items-center bg-amber-100">
+        <form
+          className="w-full gap-3 flex flex-col items-center"
+          onSubmit={handleLogin}
+        >
+          <label htmlFor="email">아이디 입력</label>
+          <input
+            type="email"
+            name="email"
+            id="email"
+            onChange={handleInput}
+            className="w-[50%] h-10"
+          />
+          <label htmlFor="password">비밀번호 입력</label>
+          <input
+            type="password"
+            name="password"
+            id="password"
+            onChange={handleInput}
+            className="w-[50%] h-10"
+          />
+          <button type="submit" className="w-[50%] h-10 bg-purple-300">
+            로그인
+          </button>
+        </form>
+        {/* <div
         className="w-[50%] flexCenter h-10 bg-purple-300"
         onClick={() => router.push("/auth/signup")}
       >
         회원가입
       </div> */}
-    </div>
+      </div>
+    </>
   );
 }
