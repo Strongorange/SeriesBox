@@ -3,6 +3,8 @@ import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import FavoritesIcon from "../../../components/svgs/FavoritesIcon";
 import MessageIcon from "../../../components/svgs/MessageIcon";
+import { GetServerSideProps, NextPage } from "next";
+import { fileTypeFromStream } from "file-type";
 
 export interface LocalStorageFavoriteItem {
   fileName: string;
@@ -10,7 +12,23 @@ export interface LocalStorageFavoriteItem {
   series: string;
 }
 
-const PhotoDetail = () => {
+interface IServerSideProps {
+  fileType: string;
+}
+
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  const { sid, url, name } = context.query;
+  const file = await fetch(String(url));
+  // @ts-ignore
+  const fileType = await fileTypeFromStream(file.body!);
+  console.log(fileType);
+
+  return {
+    props: { fileType: fileType?.mime },
+  };
+};
+
+const PhotoDetail: NextPage<IServerSideProps> = ({ fileType }) => {
   const router = useRouter();
   const { name, url, sid } = router.query;
   const [isClicked, setIsClicked] = useState(true);
@@ -42,8 +60,10 @@ const PhotoDetail = () => {
   };
 
   useEffect(() => {
+    console.log(fileType);
     if (router.isReady) {
       setFileUrl(router.query.url as string);
+
       setLoading(false);
     }
   }, [router.isReady]);
@@ -93,7 +113,7 @@ const PhotoDetail = () => {
 
   return (
     <div className="w-full flex h-[93vh] flex-col bg-black animate-fade-in">
-      {!loading && (
+      {!loading && fileType.includes("image") && (
         <div className="w-full h-[100%] relative" onClick={toggleIsClicked}>
           <Image
             alt="사진"
