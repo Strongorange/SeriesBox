@@ -12,7 +12,6 @@ const SeriesDetail = () => {
   const sid = router.query.sid;
   const { series } = useSeriesStore();
   const [data, setData] = useState<SeriesItem[]>();
-  const [loading, setLoading] = useState<boolean>(true);
 
   const moveToDetail = (item: SeriesItem) => {
     //TODO: 사진 클릭하면 크게보기, 디테일 화면으로 넘어가기
@@ -58,10 +57,13 @@ const SeriesDetail = () => {
             className="flexCenter flex-col w-full relative aspect-square"
             onClick={() => moveToDetail(item)}
           >
-            <div className="w-full h-full relative">
-              <Image alt="" src={item.fileUrl} fill />
-            </div>
-            {/* <span>{item.fileName}</span> */}
+            {item.fileName.includes("mp4") ? (
+              <video src={item.fileUrl} className="w-full h-full object-fill" />
+            ) : (
+              <div className="w-full h-full relative">
+                <Image alt="" src={item.fileUrl} fill />
+              </div>
+            )}
           </div>
         ))}
     </div>
