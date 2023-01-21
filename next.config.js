@@ -21,6 +21,8 @@ const nextConfig = {
         hostname: "firebasestorage.googleapis.com",
       },
     ],
+    formats: ["image/avif", "image/webp"],
+    minimumCacheTTL: 3600,
   },
 };
 

@@ -15,7 +15,13 @@ const SeriesIem = (props: SeriesItemProps) => {
     <div className="flexCenter flex-col w-full" onClick={onClick}>
       {docPhotoUrl && (
         <div className="w-full aspect-square relative">
-          <Image src={docPhotoUrl} alt="docPhotoUrl" quality={60} fill />
+          <Image
+            src={docPhotoUrl}
+            alt="docPhotoUrl"
+            quality={30}
+            fill
+            sizes="(max-width: 640px) 100vw, 640px"
+          />
         </div>
       )}
       {docId && <p className="text-[1.4rem] font-medium">{docId}</p>}

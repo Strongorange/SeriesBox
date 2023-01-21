@@ -37,7 +37,12 @@ const Favorites = () => {
                 className="w-full aspect-square relative"
                 onClick={() => gotoDetail(item)}
               >
-                <Image src={item.fileUrl} alt="" fill />{" "}
+                <Image
+                  src={item.fileUrl}
+                  alt=""
+                  fill
+                  sizes="(max-width: 640px) 100vw, 640px"
+                />{" "}
               </div>
             )
           )

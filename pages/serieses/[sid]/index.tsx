@@ -58,10 +58,25 @@ const SeriesDetail = () => {
             onClick={() => moveToDetail(item)}
           >
             {item.fileName.includes("mp4") ? (
-              <video src={item.fileUrl} className="w-full h-full object-fill" />
+              <video
+                src={item.fileUrl}
+                className="w-full h-full object-fill"
+                autoPlay
+                muted
+                loop
+              />
             ) : (
               <div className="w-full h-full relative">
-                <Image alt="" src={item.fileUrl} fill />
+                <Image
+                  alt=""
+                  src={item.fileUrl}
+                  fill
+                  loading="lazy"
+                  placeholder="blur"
+                  quality={10}
+                  sizes="(max-width: 640px) 100vw, 640px"
+                  blurDataURL="https://images.unsplash.com/photo-1496268280706-ec91c5e133c7?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1974&q=10"
+                />
               </div>
             )}
           </div>
