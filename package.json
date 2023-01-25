@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@next/font": "13.1.1",
+    "@plaiceholder/next": "^2.5.0",
     "@svgr/webpack": "^6.5.1",
     "@types/node": "18.11.17",
     "@types/react": "18.0.26",
@@ -20,6 +21,7 @@
     "file-type": "^18.2.0",
     "firebase": "^9.15.0",
     "next": "13.1.1",
+    "plaiceholder": "^2.5.0",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-transition-group": "^4.4.5",

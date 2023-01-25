@@ -22,6 +22,8 @@ const SeriesIem = (props: SeriesItemProps) => {
             priority={true}
             loading="eager"
             sizes="33vw"
+            placeholder="blur"
+            blurDataURL="data:image/gif;base64,R0lGODlhAQABAIAAAMLCwgAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw=="
           />
         </div>
       )}

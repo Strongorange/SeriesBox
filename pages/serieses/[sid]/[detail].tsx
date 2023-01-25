@@ -124,6 +124,8 @@ const PhotoDetail: NextPage<IServerSideProps> = ({ fileType }) => {
               priority={true}
               sizes="33vw"
               loading="eager"
+              placeholder="blur"
+              blurDataURL="data:image/gif;base64,R0lGODlhAQABAIAAAMLCwgAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw=="
             />
           )}
           {fileType.includes("video") && (
