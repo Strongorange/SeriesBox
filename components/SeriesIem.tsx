@@ -18,9 +18,10 @@ const SeriesIem = (props: SeriesItemProps) => {
           <Image
             src={docPhotoUrl}
             alt="docPhotoUrl"
-            quality={30}
             fill
-            sizes="(max-width: 640px) 100vw, 640px"
+            priority={true}
+            loading="eager"
+            sizes="33vw"
           />
         </div>
       )}

@@ -121,6 +121,9 @@ const PhotoDetail: NextPage<IServerSideProps> = ({ fileType }) => {
               src={fileUrl}
               fill
               style={{ objectFit: "contain" }}
+              priority={true}
+              sizes="33vw"
+              loading="eager"
             />
           )}
           {fileType.includes("video") && (

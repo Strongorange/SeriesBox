@@ -49,7 +49,7 @@ const SeriesDetail = () => {
   if (!data) return <div>로딩중</div>;
 
   return (
-    <div className="grid grid-cols-3 w-full gap-1 p-PageLR animate-fade-in">
+    <div className="grid grid-cols-3 w-full gap-1 p-PageLR animate-fade-in pb-[9vh]">
       {data &&
         data.map((item: SeriesItem, index: number) => (
           <div
@@ -71,11 +71,8 @@ const SeriesDetail = () => {
                   alt=""
                   src={item.fileUrl}
                   fill
-                  loading="lazy"
-                  placeholder="blur"
-                  quality={10}
-                  sizes="(max-width: 640px) 100vw, 640px"
-                  blurDataURL="https://images.unsplash.com/photo-1496268280706-ec91c5e133c7?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1974&q=10"
+                  priority={true}
+                  sizes="33vw"
                 />
               </div>
             )}
