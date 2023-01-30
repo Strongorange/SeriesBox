@@ -20,8 +20,10 @@ interface InputStateI {
   seriesName: string;
   localFilePath: string;
   uploadFileBlob: Blob | null;
+  uploadFileObj?: object;
   thumbLocalFilePath: string;
   thumbUploadFileBlob: Blob | null;
+  thumbFileObj?: object;
 }
 
 const AddSeriesModal = (props: AddSeriesModalProps) => {
@@ -30,11 +32,25 @@ const AddSeriesModal = (props: AddSeriesModalProps) => {
     seriesName: "",
     localFilePath: "",
     uploadFileBlob: null,
+    uploadFileObj: {},
     thumbLocalFilePath: "",
     thumbUploadFileBlob: null,
+    thumbFileObj: {},
   });
   const [processing, setProcessing] = useState(false);
   const { user } = useUserStore();
+
+  const resetInputState = () => {
+    setInputState({
+      seriesName: "",
+      localFilePath: "",
+      uploadFileBlob: null,
+      uploadFileObj: {},
+      thumbLocalFilePath: "",
+      thumbUploadFileBlob: null,
+      thumbFileObj: {},
+    });
+  };
 
   const onChangeInput = (e: ChangeEvent<HTMLInputElement>) => {
     setInputState({
@@ -51,6 +67,7 @@ const AddSeriesModal = (props: AddSeriesModalProps) => {
     try {
       if (e.target.files) {
         // console.log(e.target.files[0]);
+        // console.log(e.target.files);
         const blob = e.target.files[0];
         const path = URL.createObjectURL(e.target.files[0]);
         // console.log(path);
@@ -59,12 +76,14 @@ const AddSeriesModal = (props: AddSeriesModalProps) => {
             ...inputState,
             localFilePath: path,
             uploadFileBlob: blob,
+            uploadFileObj: e.target.files[0],
           });
         } else if (type === "thumb") {
           setInputState({
             ...inputState,
             thumbLocalFilePath: path,
             thumbUploadFileBlob: blob,
+            thumbFileObj: e.target.files[0],
           });
         }
       }
@@ -88,7 +107,16 @@ const AddSeriesModal = (props: AddSeriesModalProps) => {
         const docRef = doc(db, "series", String(inputState.seriesName));
         const docSnap = await getDoc(docRef);
         const docExists = docSnap.exists();
-        let tempObj: TempObj = {
+        let thumbTempObj: TempObj = {
+          fileUrl: "",
+          fileName: "",
+          owenrUid: "",
+          createdAt: "",
+          thumbUrl: "",
+          thumbName: "",
+        };
+
+        let photoTempObj: TempObj = {
           fileUrl: "",
           fileName: "",
           owenrUid: "",
@@ -105,67 +133,57 @@ const AddSeriesModal = (props: AddSeriesModalProps) => {
         } else {
           //TODO: 문서 생성하고 데이터 추가, Firebase Cloud Storage 에 사진 업로드 후 Url, Name 받아서 업데이트, CreatedAt도 현재 날짜로
           if (!inputState.uploadFileBlob && !inputState.thumbUploadFileBlob) {
-            await setDoc(doc(db, "series", inputState.seriesName), {
-              data: [],
-            });
+            alert("썸네일, 사진을 선택했는지 확인해주세요 :)");
             setProcessing(false);
+            return;
           }
 
-          if (inputState.uploadFileBlob) {
-            const fileName = Math.random() * 100;
-            const imageRef = ref(
-              storage,
-              `${inputState.seriesName}/${fileName}.jpg`
-            );
-            uploadBytes(imageRef, inputState.uploadFileBlob).then(
-              (snapshot) => {
-                // console.log("업로드 완료");
-                // console.log(snapshot.metadata);
-                getDownloadURL(imageRef).then((url) => {
-                  tempObj.fileName = String(fileName);
-                  tempObj.fileUrl = url;
-                  tempObj.createdAt = snapshot.metadata.timeCreated;
-                  tempObj.owenrUid = user?.uid;
-                });
-              }
-            );
-          }
+          //FIXME: 썸네일 파일과 사진 업로드 하나로 통합
+          const thumbFileName = inputState.thumbUploadFileBlob?.name;
+          const uploadFileName = inputState.uploadFileBlob?.name;
+          const thumbFileRef = ref(
+            storage,
+            `${inputState.seriesName}/${thumbFileName}`
+          );
+          const uploadFileRef = ref(
+            storage,
+            `${inputState.seriesName}/${uploadFileName}`
+          );
+          const thumbUploadData = await uploadBytes(
+            thumbFileRef,
+            inputState.thumbUploadFileBlob!
+          );
+          const thumbDownloadUrl = await getDownloadURL(thumbFileRef);
 
-          if (inputState.thumbUploadFileBlob) {
-            const fileName = "Thumb";
-            const imageRef = ref(
-              storage,
-              `${inputState.seriesName}/${fileName}.jpg`
-            );
-            uploadBytes(imageRef, inputState.thumbUploadFileBlob).then(
-              (snapshot) => {
-                // console.log("업로드 완료");
-                // console.log(snapshot.metadata);
-                getDownloadURL(imageRef).then((url) => {
-                  tempObj.thumbName = fileName;
-                  tempObj.thumbUrl = url;
-                });
-              }
-            );
-          }
+          const photoUploadData = await uploadBytes(
+            uploadFileRef,
+            inputState.uploadFileBlob!
+          );
+          const photoDownloadUrl = await getDownloadURL(uploadFileRef);
+          thumbTempObj.fileName = String(thumbFileName);
+          thumbTempObj.fileUrl = thumbDownloadUrl;
+          thumbTempObj.createdAt = thumbUploadData.metadata.timeCreated;
+          thumbTempObj.owenrUid = user?.uid;
 
-          setTimeout(() => {
-            // console.log("템프 오브젝");
-            // console.log(tempObj);
-            setDoc(doc(db, "series", inputState.seriesName), {
-              data: [
-                {
-                  createdAt: tempObj.createdAt,
-                  fileName: tempObj.fileName,
-                  fileUrl: tempObj.fileUrl,
-                  ownerUid: tempObj.owenrUid,
-                },
-              ],
-              docPhotoUrl: tempObj.thumbUrl,
-            }).then(() => setProcessing(false));
-          }, 4000);
+          photoTempObj.fileName = String(uploadFileName);
+          photoTempObj.fileUrl = photoDownloadUrl;
+          photoTempObj.createdAt = photoUploadData.metadata.timeCreated;
+          photoTempObj.owenrUid = user?.uid;
 
-          //TODO: 위에서 스토리지에 올라간 데이터 DB에 연동
+          await setDoc(doc(db, "series", inputState.seriesName), {
+            data: [
+              {
+                createdAt: photoTempObj.createdAt,
+                fileName: photoTempObj.fileName,
+                fileUrl: photoTempObj.fileUrl,
+                ownerUid: photoTempObj.owenrUid,
+              },
+            ],
+            docPhotoUrl: thumbTempObj.fileUrl,
+          });
+          setProcessing(false);
+          resetInputState();
+          alert("업로드 완료!");
         }
       } catch (error) {
         alert("오류 발생");
@@ -174,13 +192,24 @@ const AddSeriesModal = (props: AddSeriesModalProps) => {
     }
   };
 
+  useEffect(() => {
+    console.log(inputState);
+  }, [inputState]);
+
   if (!isShow) return null;
 
   return (
     <div className="flex w-full justify-center items-center fixed top-0 h-screen z-50 box-border">
       <div className="fixed w-full h-full bg-[rgba(0,0,0,0.5)]" />
       <div className="flex flex-col w-[90%] bg-white absolute p-8">
-        <div className="flex items-center justify-end" onClick={toggleShow}>
+        <div
+          className="flex items-center justify-end"
+          onClick={() => {
+            toggleShow();
+            resetInputState();
+            setProcessing(false);
+          }}
+        >
           닫기
         </div>
         <div className="flex flex-col w-full gap-10">
