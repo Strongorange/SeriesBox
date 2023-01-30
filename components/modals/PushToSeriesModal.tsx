@@ -124,7 +124,7 @@ const PushToArrayModal = (props: AddSeriesModalProps) => {
   if (!isShow) return null;
 
   return (
-    <div className="flex w-full justify-center items-center fixed top-0 h-screen z-50 box-border">
+    <div className="flex w-full justify-center items-center fixed top-0 h-screen z-50 box-border overflow-auto">
       <div className="fixed w-full h-full bg-[rgba(0,0,0,0.5)]" />
       <div className="flex flex-col w-[90%] bg-white absolute p-8  ">
         <div className="flex items-center justify-end" onClick={closeModal}>
