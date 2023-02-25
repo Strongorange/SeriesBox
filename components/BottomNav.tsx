@@ -34,11 +34,11 @@ const BottomNav = () => {
           <HomeIcon filled={router.pathname === "/home"} />
         </Link>
       </div>
-      <div className="flexCenter ">
+      {/* <div className="flexCenter ">
         <Link href="/search">
           <SearchIcon filled={router.pathname.includes("/search")} />
         </Link>
-      </div>
+      </div> */}
       <div className="flexCenter" onClick={showAddSeries}>
         <PlusIcon />
       </div>
@@ -47,11 +47,11 @@ const BottomNav = () => {
           <FavoritesIcon filled={router.pathname.includes("/favorites")} />
         </Link>
       </div>
-      <div className="flexCenter">
+      {/* <div className="flexCenter">
         <Link href="/settings">
           <SettingsIcon filled={router.pathname.includes("/settings")} />
         </Link>
-      </div>
+      </div> */}
     </div>
   );
 };

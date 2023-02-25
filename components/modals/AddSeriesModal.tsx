@@ -201,7 +201,7 @@ const AddSeriesModal = (props: AddSeriesModalProps) => {
   return (
     <div className="flex w-full justify-center items-center fixed top-0 h-screen z-50 box-border overflow-auto">
       <div className="fixed w-full h-full bg-[rgba(0,0,0,0.5)]" />
-      <div className="flex flex-col w-[90%] bg-white absolute p-8">
+      <div className="flex flex-col w-[90%] bg-white absolute p-8 rounded-3xl max-h-screen">
         <div
           className="flex items-center justify-end"
           onClick={() => {
@@ -242,8 +242,8 @@ const AddSeriesModal = (props: AddSeriesModalProps) => {
                   <Image
                     alt="업로드할 사진"
                     src={inputState.thumbLocalFilePath}
-                    width={200}
-                    height={200}
+                    width={100}
+                    height={100}
                   />
                 </div>
               )}
@@ -263,8 +263,8 @@ const AddSeriesModal = (props: AddSeriesModalProps) => {
                   <Image
                     alt="업로드할 사진"
                     src={inputState.localFilePath}
-                    width={200}
-                    height={200}
+                    width={100}
+                    height={100}
                   />
                 </div>
               )}

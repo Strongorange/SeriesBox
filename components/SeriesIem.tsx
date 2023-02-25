@@ -7,12 +7,18 @@ interface SeriesItemProps {
   data?: SeriesDocument[];
   docPhotoUrl?: string;
   onClick: () => void;
+  isShow?: boolean;
 }
 
 const SeriesIem = (props: SeriesItemProps) => {
-  const { docId, docPhotoUrl, onClick } = props;
+  const { docId, docPhotoUrl, onClick, isShow } = props;
   return (
-    <div className="flexCenter flex-col w-full" onClick={onClick}>
+    <div
+      className={`flexCenter flex-col w-full ${
+        isShow ? "animate-fade-in" : "hidden"
+      }`}
+      onClick={onClick}
+    >
       {docPhotoUrl && (
         <div className="w-full aspect-square relative">
           <Image
