@@ -51,12 +51,13 @@ const Home = () => {
 
   return (
     <>
-      <div className="flex flex-col w-full p-PageLR animate-fade-in gap-10 ">
+      <div className="flex flex-col w-full p-PageLR animate-fade-in gap-10 pb-BottomPadding">
         <div className="w-full flex flex-col gap-5">
           <h2>최근 사용한 시리즈</h2>
           {localStorage.getItem("recentSeries") && (
             <div className="w-full flex overflow-auto gap-[3vw]">
-              <div className="w-[20vw] h-[5vh] flexCenter bg-amber-100 rounded-3xl">
+              {/** 최근 사용한 시리즈 */}
+              <div className=" min-w-[20vw] min-h-[5vh] flexCenter bg-amber-100 rounded-3xl p-5">
                 <h4>{localStorage.getItem("recentSeries")}</h4>
               </div>
             </div>
