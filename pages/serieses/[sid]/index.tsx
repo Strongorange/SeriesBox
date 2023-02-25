@@ -14,6 +14,7 @@ const SeriesDetail = () => {
   const { series } = useSeriesStore();
   const [data, setData] = useState<SeriesItem[]>();
   const [showLoader, setShowLoader] = useState(false);
+  const [animationIndex, setAnimationIndex] = useState(0);
 
   const moveToDetail = (item: SeriesItem) => {
     //TODO: 사진 클릭하면 크게보기, 디테일 화면으로 넘어가기
@@ -52,13 +53,30 @@ const SeriesDetail = () => {
     }
   }, [data]);
 
+  useEffect(() => {
+    let intervalId: ReturnType<typeof setInterval>;
+    if (data) {
+      if (data.length > 0) {
+        intervalId = setInterval(() => {
+          if (animationIndex === data.length - 1) {
+            clearInterval(intervalId);
+          } else {
+            setAnimationIndex((index) => (index + 1) % data.length);
+            console.log(animationIndex);
+          }
+        }, 60);
+      }
+    }
+    return () => clearInterval(intervalId);
+  }, [data, animationIndex]);
+
   if (!data) return <div>로딩중</div>;
 
   return (
     <>
       {showLoader && (
         <div className="w-full fixed top-0 flexCenter h-screen bg-gray-600 opacity-70 z-[200]">
-          <div className="animate-spin">
+          <div className="animate-spin rotate-180">
             <LoadingIcon height={40} width={40} stroke="#ffe5d6" />
           </div>
         </div>
@@ -68,7 +86,9 @@ const SeriesDetail = () => {
           data.map((item: SeriesItem, index: number) => (
             <div
               key={index}
-              className="flexCenter flex-col w-full relative aspect-square"
+              className={`flexCenter flex-col w-full relative aspect-square ${
+                index <= animationIndex ? "animate-fade-in" : "hidden"
+              }`}
               onClick={() => moveToDetail(item)}
             >
               {item.fileName.includes("mp4") ? (
