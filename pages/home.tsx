@@ -12,6 +12,7 @@ import { useStateStore } from "../stores/stateStore";
 const Home = () => {
   const router = useRouter();
   const [pageLoading, setPageLoading] = useState(true);
+  const [animationIndex, setAnimationIndex] = useState(0);
   const { user } = useUserStore();
   const { setSeries, series: storeSeries, clearSeries } = useSeriesStore();
   const { showAddPhoto, setState } = useStateStore();
@@ -47,6 +48,30 @@ const Home = () => {
     }
   }, []);
 
+  useEffect(() => {
+    let intervalId: ReturnType<typeof setInterval>;
+    if (storeSeries.length > 0) {
+      intervalId = setInterval(() => {
+        if (animationIndex === storeSeries.length - 1) {
+          clearInterval(intervalId);
+        } else {
+          setAnimationIndex((index) => (index + 1) % storeSeries.length);
+        }
+      }, 60);
+    }
+
+    return () => clearInterval(intervalId);
+  }, [storeSeries, animationIndex]);
+
+  useEffect(() => {
+    // 모달 스크롤 방지를 위한 코드
+    if (showAddPhoto) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "unset";
+    }
+  }, [showAddPhoto]);
+
   if (pageLoading) return <div></div>;
 
   return (
@@ -73,6 +98,7 @@ const Home = () => {
                   key={index}
                   docId={item.docId}
                   docPhotoUrl={item.docPhotoUrl}
+                  isShow={index <= animationIndex}
                 />
               ))}
           </div>
