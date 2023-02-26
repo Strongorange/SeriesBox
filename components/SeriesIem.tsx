@@ -15,6 +15,7 @@ interface SeriesItemProps {
   onClick: () => void;
   isShow?: boolean;
 
+
   isEditting: boolean;
 }
 
@@ -100,6 +101,7 @@ const SeriesIem = (props: SeriesItemProps) => {
         deleteFromFB={deleteFromFB}
       />
     </>
+
 
   );
 };

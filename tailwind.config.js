@@ -52,6 +52,7 @@ module.exports = {
         "fade-out": "fade-out 0.5s ease-in-out forwards",
         // 사진 순서대로 보여주기
 
+
         "fade-in-photo": "fade-in-photo 1s ease-in-out",
 
         "fade-out-photo": "fade-out 0.5s ease-in-out forwards",
