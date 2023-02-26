@@ -37,6 +37,10 @@ module.exports = {
           "0%": { opacity: 0, display: "none" },
           "100%": { opacity: 1, display: "flex" },
         },
+        "fade-in-photo": {
+          "0%": { opacity: 0, scale: "0.5", display: "none" },
+          "100%": { opacity: 1, scale: "1", display: "flex" },
+        },
         "fade-out": {
           "0%": { opacity: 1, display: "flex" },
           "100%": { opacity: 0, display: "none" },
@@ -47,7 +51,9 @@ module.exports = {
         "fade-in": "fade-in 0.5s ease-in-out ",
         "fade-out": "fade-out 0.5s ease-in-out forwards",
         // 사진 순서대로 보여주기
-        "fade-in-photo": "fade-in 0.4s ease-in-out",
+
+        "fade-in-photo": "fade-in-photo 1s ease-in-out",
+
         "fade-out-photo": "fade-out 0.5s ease-in-out forwards",
       },
     },

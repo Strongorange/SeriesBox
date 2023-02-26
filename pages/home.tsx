@@ -8,18 +8,31 @@ import { SeriesDocument } from "../stores/seriesStore";
 import SeriesIem from "../components/SeriesIem";
 import AddSeriesModal from "../components/modals/AddSeriesModal";
 import { useStateStore } from "../stores/stateStore";
+import PenIcon from "../components/svgs/Pen";
+import CheckIcon from "../components/svgs/CheckIcon";
 
 const Home = () => {
   const router = useRouter();
   const [pageLoading, setPageLoading] = useState(true);
   const [animationIndex, setAnimationIndex] = useState(0);
+
+  const [isEditting, setIsEditting] = useState(false);
+
   const { user } = useUserStore();
   const { setSeries, series: storeSeries, clearSeries } = useSeriesStore();
   const { showAddPhoto, setState } = useStateStore();
 
   const moveAndSetSeries = (docId: string) => {
-    router.push(`/serieses/${docId}`);
-    localStorage.setItem("recentSeries", docId);
+    if (!isEditting) {
+      router.push(`/serieses/${docId}`);
+      localStorage.setItem("recentSeries", docId);
+    } else {
+      return;
+    }
+  };
+
+  const toggleIsEditting = () => {
+    setIsEditting((prev) => !prev);
   };
 
   useEffect(() => {
@@ -27,6 +40,8 @@ const Home = () => {
       clearSeries();
 
       onSnapshot(collection(db, "series"), (querySnapshot) => {
+        clearSeries();
+        console.log(`querysnapshot.docs 길이 = ${querySnapshot.docs.length}`);
         querySnapshot.docs.forEach((queryDocumentSnapshot, index) => {
           const tempData: SeriesDocument = {
             docId: queryDocumentSnapshot.id,
@@ -72,6 +87,10 @@ const Home = () => {
     }
   }, [showAddPhoto]);
 
+  useEffect(() => {
+    console.log(storeSeries);
+  }, [storeSeries]);
+
   if (pageLoading) return <div></div>;
 
   return (
@@ -89,8 +108,14 @@ const Home = () => {
           )}
         </div>
         <div className="w-full flex flex-col gap-5">
-          <h2>시리즈 목록</h2>
-          <div className="grid grid-cols-3 gap-1 w-full">
+          <div className="w-full flex justify-between items-center">
+            <h2>시리즈 목록</h2>
+            <div className="cursor-pointer" onClick={toggleIsEditting}>
+              {isEditting ? <CheckIcon /> : <PenIcon />}
+            </div>
+          </div>
+
+          <div className="grid grid-cols-3 md:grid-cols-5 gap-1 w-full">
             {storeSeries &&
               storeSeries.map((item: SeriesDocument, index: number) => (
                 <SeriesIem
@@ -99,6 +124,9 @@ const Home = () => {
                   docId={item.docId}
                   docPhotoUrl={item.docPhotoUrl}
                   isShow={index <= animationIndex}
+
+                  isEditting={isEditting}
+
                 />
               ))}
           </div>
