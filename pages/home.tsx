@@ -15,7 +15,9 @@ const Home = () => {
   const router = useRouter();
   const [pageLoading, setPageLoading] = useState(true);
   const [animationIndex, setAnimationIndex] = useState(0);
+
   const [isEditting, setIsEditting] = useState(false);
+
   const { user } = useUserStore();
   const { setSeries, series: storeSeries, clearSeries } = useSeriesStore();
   const { showAddPhoto, setState } = useStateStore();
@@ -122,7 +124,9 @@ const Home = () => {
                   docId={item.docId}
                   docPhotoUrl={item.docPhotoUrl}
                   isShow={index <= animationIndex}
+
                   isEditting={isEditting}
+
                 />
               ))}
           </div>
