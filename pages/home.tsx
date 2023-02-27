@@ -49,7 +49,6 @@ const Home = () => {
             docPhotoUrl: queryDocumentSnapshot.data().docPhotoUrl,
           };
 
-          //TODO: 어레이에 있는지 검증해서 어레이에 docid 가 없는 경우에만 넣기
           setSeries(tempData);
         });
 

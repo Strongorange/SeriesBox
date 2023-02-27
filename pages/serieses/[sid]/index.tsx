@@ -13,7 +13,6 @@ import { db, storage } from "../../../firebase";
 import { doc, getDoc, updateDoc } from "firebase/firestore";
 import { deleteObject, ref } from "firebase/storage";
 import SelectingBottomNav from "../../../components/SelectingBottomNav";
-import TrashIcon from "../../../components/svgs/TrashIcon";
 import YesNoDialogItem from "../../../components/modals/YesNoDialogItem";
 
 const SeriesDetail = () => {
@@ -46,7 +45,6 @@ const SeriesDetail = () => {
   };
 
   const deleteMedia = async () => {
-    //TODO: 로컬이 아니라 Firebase 에서 삭제해야지!!
     const seriesRef = doc(db, `series/${sid}`);
     // 지우기 전 현재 "data" Arr 을 가져옴
     const docSnap = await getDoc(seriesRef);
@@ -203,12 +201,14 @@ const SeriesDetail = () => {
         </div>
 
         <SelectingBottomNav
-          isShow={selectedItems.length > 0}
+          isShow={selectedItems.length > 0 && isEditting}
+          isEditting={isEditting}
           toggleShowDialog={toggleShowDialog}
         />
 
         <YesNoDialogItem
           isShow={showDialog}
+          isEditting={isEditting}
           toggleIsShow={toggleShowDialog}
           deleteFunc={deleteMedia}
         />

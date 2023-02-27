@@ -3,19 +3,22 @@ import DangerIcon from "../svgs/DangerIcon";
 
 interface YesNoDialogItemI {
   isShow: boolean;
+  isEditting: boolean;
   toggleIsShow: () => void;
   deleteFunc: () => void;
 }
 
 const YesNoDialogItem = (props: YesNoDialogItemI) => {
-  const { isShow, toggleIsShow, deleteFunc } = props;
-
-  if (!isShow) return null;
+  const { isShow, isEditting, toggleIsShow, deleteFunc } = props;
 
   //TODO: 모달창 애니메이션
 
   return (
-    <div className="flex w-full justify-center items-center fixed top-0 left-0 h-screen z-modal box-border overflow-auto">
+    <div
+      className={`flex w-full justify-center items-center fixed top-0 left-0 h-screen z-modal box-border overflow-auto ${
+        !isEditting && "invisible"
+      } ${isShow ? "animate-fade-in" : "animate-fade-out"}`}
+    >
       <div className="fixed w-full h-full bg-[rgba(0,0,0,0.5)]" />
       <div className="flex flex-col bg-white absolute w-[90%] rounded-3xl">
         <div className="w-full flex flex-col items-center justify-center gap-5 rounded-3xl overflow-auto pt-6 ">
