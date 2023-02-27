@@ -7,6 +7,7 @@ import LogoutIcon from "./svgs/LogoutIcon";
 import ProfileIcon from "./svgs/ProfileIcon";
 import LeftIcon from "./svgs/LeftIcon";
 import Link from "next/link";
+import PenIcon from "./svgs/Pen";
 
 const Header = () => {
   const { user } = useUserStore();
@@ -67,8 +68,12 @@ const Header = () => {
         )}
       </div>
       <div>{!isHome && headerCenter ? <h4> {headerCenter} </h4> : ""}</div>
-      <div onClick={handleSignInOut}>
-        {isHome && user ? <LogoutIcon /> : null}
+      <div>
+        {isHome && user ? (
+          <div onClick={handleSignInOut}>
+            <LogoutIcon />
+          </div>
+        ) : null}
       </div>
     </div>
   );

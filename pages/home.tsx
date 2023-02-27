@@ -16,7 +16,6 @@ const Home = () => {
   const [pageLoading, setPageLoading] = useState(true);
   const [animationIndex, setAnimationIndex] = useState(0);
 
-
   const [isEditting, setIsEditting] = useState(false);
 
   const { user } = useUserStore();
@@ -88,6 +87,9 @@ const Home = () => {
     }
   }, [showAddPhoto]);
 
+  useEffect(() => {
+    console.log(storeSeries);
+  }, [storeSeries]);
 
   useEffect(() => {
     console.log(storeSeries);
@@ -126,10 +128,7 @@ const Home = () => {
                   docId={item.docId}
                   docPhotoUrl={item.docPhotoUrl}
                   isShow={index <= animationIndex}
-
-
                   isEditting={isEditting}
-
                 />
               ))}
           </div>
