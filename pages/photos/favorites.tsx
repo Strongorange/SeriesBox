@@ -8,9 +8,7 @@ const Favorites = () => {
   const [localFavorites, setLocalFavorites] = useState([]);
 
   const gotoDetail = (item: LocalStorageFavoriteItem) => {
-    //TODO: 디테일 페이지로
-    // pathname: `/serieses/${sid}/${item.fileName}`,
-    // query: { name: item.fileName, url: item.fileUrl },
+    //디테일 페이지로
     router.push({
       pathname: `/serieses/${item.series}/${item.fileName}`,
       query: { name: item.fileName, url: item.fileUrl },

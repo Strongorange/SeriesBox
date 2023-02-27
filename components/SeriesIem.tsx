@@ -94,6 +94,7 @@ const SeriesIem = (props: SeriesItemProps) => {
       </div>
       <YesNoDialog
         isShow={showYesNoDialog}
+        isEditting={isEditting}
         toggleIsShow={toggleIsShow}
         documentId={docId}
         deleteFromFB={deleteFromFB}

@@ -3,18 +3,21 @@ import TrashIcon from "./svgs/TrashIcon";
 
 interface SelectingBottomNavI {
   isShow: boolean;
+  isEditting: boolean;
   toggleShowDialog: () => void;
 }
 
 const SelectingBottomNav = (props: SelectingBottomNavI) => {
-  const { isShow, toggleShowDialog } = props;
+  const { isShow, toggleShowDialog, isEditting } = props;
 
   return (
     <div
       className={`bottomNav z-selecting-bottom-nav ${
-        isShow
+        isEditting && isShow
           ? "animate-selecting-bottom-nav"
-          : "animate-selecting-bottom-nav-reverse"
+          : isEditting && !isShow
+          ? "animate-selecting-bottom-nav-reverse"
+          : "hidden"
       } `}
     >
       <div

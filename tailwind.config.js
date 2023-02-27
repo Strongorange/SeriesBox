@@ -35,16 +35,20 @@ module.exports = {
       },
       keyframes: {
         "fade-in": {
-          "0%": { opacity: 0, display: "none" },
-          "100%": { opacity: 1, display: "flex" },
+          "0%": { opacity: 0, visibility: "hidden" },
+          "100%": { opacity: 1, visibility: "visible" },
         },
         "fade-in-photo": {
           "0%": { opacity: 0, scale: "0.5", display: "none" },
           "100%": { opacity: 1, scale: "1", display: "flex" },
         },
         "fade-out": {
-          "0%": { opacity: 1, display: "flex" },
-          "100%": { opacity: 0, display: "none" },
+          "0%": { opacity: 1 },
+          "100%": {
+            opacity: 0,
+            visibility: "hidden",
+            "pointer-events": "none",
+          },
         },
         "selecting-bottom-nav": {
           "0%": {
@@ -70,8 +74,9 @@ module.exports = {
       },
       animation: {
         // 페이지 페이드 인 아웃
-        "fade-in": "fade-in 0.5s ease-in-out ",
+        "fade-in": "fade-in 0.5s ease-in-out forwards",
         "fade-out": "fade-out 0.5s ease-in-out forwards",
+
         // 사진 순서대로 보여주기
         "fade-in-photo": "fade-in-photo 1s ease-in-out",
 

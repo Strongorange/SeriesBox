@@ -1,4 +1,4 @@
-import React, { use, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import LeftIcon from "../../components/svgs/LeftIcon";
 import { useRouter } from "next/router";
 
@@ -21,7 +21,7 @@ const SignUp = () => {
   };
 
   const handleSignUp = (e: React.FormEvent<HTMLFormElement>) => {
-    //TODO: 회원가입 로직
+    // 회원가입 로직
     e.preventDefault();
     if (isValid) {
     } else {
