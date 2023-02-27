@@ -7,6 +7,14 @@ import {
 import Image from "next/image";
 import { useRouter } from "next/router";
 import LoadingIcon from "../../../components/svgs/Loading";
+import PenIcon from "../../../components/svgs/Pen";
+import CheckIcon from "../../../components/svgs/CheckIcon";
+import { db, storage } from "../../../firebase";
+import { doc, getDoc, updateDoc } from "firebase/firestore";
+import { deleteObject, ref } from "firebase/storage";
+import SelectingBottomNav from "../../../components/SelectingBottomNav";
+import TrashIcon from "../../../components/svgs/TrashIcon";
+import YesNoDialogItem from "../../../components/modals/YesNoDialogItem";
 
 const SeriesDetail = () => {
   const router = useRouter();
@@ -15,14 +23,71 @@ const SeriesDetail = () => {
   const [data, setData] = useState<SeriesItem[]>();
   const [showLoader, setShowLoader] = useState(false);
   const [animationIndex, setAnimationIndex] = useState(0);
+  const [isEditting, setIsEditting] = useState(false);
+  const [selectedItems, setSelectedItems] = useState<number[]>([]);
+  const [showDialog, setShowDialog] = useState(false);
 
-  const moveToDetail = (item: SeriesItem) => {
-    //TODO: 사진 클릭하면 크게보기, 디테일 화면으로 넘어가기
-    setShowLoader(true);
-    router.push({
-      pathname: `/serieses/${sid}/${item.fileName}`,
-      query: { name: item.fileName, url: item.fileUrl },
-    });
+  const toggleShowDialog = () => {
+    setShowDialog((prev) => !prev);
+  };
+
+  const toggleSelected = (
+    index: number,
+    e?: React.MouseEvent<HTMLDivElement, MouseEvent>
+  ) => {
+    if (e) {
+      e.stopPropagation();
+    }
+    if (selectedItems.includes(index)) {
+      setSelectedItems(selectedItems.filter((item) => item !== index));
+    } else {
+      setSelectedItems((prev) => [...prev, index]);
+    }
+  };
+
+  const deleteMedia = async () => {
+    //TODO: 로컬이 아니라 Firebase 에서 삭제해야지!!
+    const seriesRef = doc(db, `series/${sid}`);
+    // 지우기 전 현재 "data" Arr 을 가져옴
+    const docSnap = await getDoc(seriesRef);
+    const dataOfSnap = docSnap.data()!.data!;
+    // 업데이트 할 데이터
+    const newData = dataOfSnap!.filter(
+      (_: SeriesItem, index: number) => !selectedItems.includes(index)
+    );
+
+    // selectedItems 에 존재하는 인덱스에서 fileName 을 가져와 스토리지에서 삭제
+    for (let i of selectedItems) {
+      console.log(i);
+      const fileRef = ref(storage, `${sid}/${dataOfSnap[i].fileName}`);
+      console.log("fileRef");
+      console.log(fileRef);
+      await deleteObject(fileRef);
+    }
+    // firestore 업데이트
+    await updateDoc(seriesRef, { data: newData });
+    // 삭제 후 초기화 작업
+    setData(newData);
+    setShowDialog(false);
+    toggleIsEditting();
+    setSelectedItems([]);
+  };
+
+  const moveToDetailOrSelect = (item: SeriesItem, index: number) => {
+    if (!isEditting) {
+      setShowLoader(true);
+      router.push({
+        pathname: `/serieses/${sid}/${item.fileName}`,
+        query: { name: item.fileName, url: item.fileUrl },
+      });
+    } else {
+      toggleSelected(index);
+    }
+  };
+
+  const toggleIsEditting = () => {
+    setIsEditting((prev) => !prev);
+    setSelectedItems([]);
   };
 
   useEffect(() => {
@@ -62,13 +127,18 @@ const SeriesDetail = () => {
             clearInterval(intervalId);
           } else {
             setAnimationIndex((index) => (index + 1) % data.length);
-            console.log(animationIndex);
           }
         }, 60);
       }
     }
     return () => clearInterval(intervalId);
   }, [data, animationIndex]);
+
+  // SelectedItems 추적
+  useEffect(() => {
+    console.log("SelectedItems");
+    console.log(selectedItems);
+  }, [selectedItems]);
 
   if (!data) return <div>로딩중</div>;
 
@@ -81,39 +151,67 @@ const SeriesDetail = () => {
           </div>
         </div>
       )}
-      <div className="grid grid-cols-3 w-full gap-1 p-PageLR animate-fade-in pb-[9vh]">
-        {data &&
-          data.map((item: SeriesItem, index: number) => (
-            <div
-              key={index}
-              className={`flexCenter flex-col w-full relative aspect-square ${
-                index <= animationIndex ? "animate-fade-in" : "hidden"
-              }`}
-              onClick={() => moveToDetail(item)}
-            >
-              {item.fileName.includes("mp4") ? (
-                <video
-                  src={item.fileUrl}
-                  className="w-full h-full object-fill"
-                  autoPlay
-                  muted
-                  loop
-                />
-              ) : (
-                <div className="w-full h-full relative">
-                  <Image
-                    alt=""
+      <div className="w-full flex flex-col">
+        <div className="flex w-full justify-between items-center p-PageLR ">
+          <h4>{data.length} 개의 미디어</h4>
+          <div onClick={toggleIsEditting}>
+            {isEditting ? <CheckIcon /> : <PenIcon />}
+          </div>
+        </div>
+        <div className="grid grid-cols-3 w-full gap-1 p-PageLR animate-fade-in pb-[9vh]">
+          {data &&
+            data.map((item: SeriesItem, index: number) => (
+              <div
+                key={index}
+                className={`flexCenter flex-col w-full relative aspect-square ${
+                  index <= animationIndex ? "animate-fade-in" : "hidden"
+                }`}
+                onClick={() => moveToDetailOrSelect(item, index)}
+              >
+                {item.fileName.includes("mp4") ? (
+                  <video
                     src={item.fileUrl}
-                    fill
-                    priority={true}
-                    sizes="33vw"
-                    placeholder="blur"
-                    blurDataURL="data:image/gif;base64,R0lGODlhAQABAIAAAMLCwgAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw=="
+                    className="w-full h-full object-fill"
+                    autoPlay
+                    muted
+                    loop
                   />
-                </div>
-              )}
-            </div>
-          ))}
+                ) : (
+                  <div className="w-full h-full relative">
+                    <Image
+                      alt=""
+                      src={item.fileUrl}
+                      fill
+                      priority={true}
+                      sizes="33vw"
+                      placeholder="blur"
+                      blurDataURL="data:image/gif;base64,R0lGODlhAQABAIAAAMLCwgAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw=="
+                    />
+                  </div>
+                )}
+                {/**FIXME: 체크했을때 좀 이쁘게 */}
+                {isEditting && (
+                  <div
+                    className={`absolute w-[15%] h-[15%] top-2 right-2 rounded-full animate-pulse border-2 border-white ${
+                      selectedItems.includes(index) ? "bg-red-600" : null
+                    }`}
+                    onClick={(e) => toggleSelected(index, e)}
+                  />
+                )}
+              </div>
+            ))}
+        </div>
+
+        <SelectingBottomNav
+          isShow={selectedItems.length > 0}
+          toggleShowDialog={toggleShowDialog}
+        />
+
+        <YesNoDialogItem
+          isShow={showDialog}
+          toggleIsShow={toggleShowDialog}
+          deleteFunc={deleteMedia}
+        />
       </div>
     </>
   );

@@ -17,6 +17,7 @@ const Home = () => {
   const [animationIndex, setAnimationIndex] = useState(0);
 
 
+
   const [isEditting, setIsEditting] = useState(false);
 
   const { user } = useUserStore();
@@ -126,8 +127,6 @@ const Home = () => {
                   docId={item.docId}
                   docPhotoUrl={item.docPhotoUrl}
                   isShow={index <= animationIndex}
-
-
                   isEditting={isEditting}
 
                 />

@@ -15,7 +15,6 @@ interface SeriesItemProps {
   onClick: () => void;
   isShow?: boolean;
 
-
   isEditting: boolean;
 }
 
@@ -26,12 +25,11 @@ const SeriesIem = (props: SeriesItemProps) => {
   const deleteFromFB = async (willDeleteDocId: string) => {
     try {
       if (willDeleteDocId) {
-        //TODO: Firestore 도큐먼트 삭제
+        // Firestore 도큐먼트 삭제
         await deleteDoc(doc(db, "series", willDeleteDocId));
-        //TODO: 스토리지에서 폴더 삭제
-        //
+        // 스토리지에서 폴더 삭제
         const path = `${willDeleteDocId}/`;
-        console.log(path);
+
         const directoryRef = ref(storage, path);
         // 디렉토리 안의 모든 아이템 지우기
         const result = await listAll(directoryRef);
@@ -101,8 +99,6 @@ const SeriesIem = (props: SeriesItemProps) => {
         deleteFromFB={deleteFromFB}
       />
     </>
-
-
   );
 };
 
