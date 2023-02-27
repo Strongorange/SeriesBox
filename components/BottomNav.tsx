@@ -18,7 +18,7 @@ const BottomNav = () => {
     }
 
     if (router.query.sid) {
-      //TODO: 현재 시리즈 data Array 에 사진 추가하는 모달 띄우기
+      // 현재 시리즈 data Array 에 사진 추가하는 모달 띄우기
       setState("showPushPhotoToSeries", true);
     }
   };

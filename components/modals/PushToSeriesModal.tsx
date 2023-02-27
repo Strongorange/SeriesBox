@@ -7,8 +7,6 @@ import { SeriesItem } from "../../stores/seriesStore";
 import { useUserStore } from "../../stores/userStore";
 import { useRouter } from "next/router";
 
-//TODO: 비디오 업로드도 Firestore 에는 올라감, 비디오 올렸을때 썸네일도 올라가게 하기
-
 interface AddSeriesModalProps {
   isShow: boolean;
   toggleShow: () => void;
@@ -33,19 +31,8 @@ const PushToArrayModal = (props: AddSeriesModalProps) => {
     thumbUploadFileBlob: null,
   });
   const [processing, setProcessing] = useState(false);
+  const [showComponent, setShowComponent] = useState(false);
   const { user } = useUserStore();
-
-  useEffect(() => {
-    return () => {
-      setInputState({
-        seriesName: "",
-        localFilePath: "",
-        uploadFileBlob: null,
-        thumbLocalFilePath: "",
-        thumbUploadFileBlob: null,
-      });
-    };
-  }, []);
 
   const closeModal = () => {
     toggleShow();
@@ -121,12 +108,39 @@ const PushToArrayModal = (props: AddSeriesModalProps) => {
     }
   };
 
-  if (!isShow) return null;
+  useEffect(() => {
+    return () => {
+      setInputState({
+        seriesName: "",
+        localFilePath: "",
+        uploadFileBlob: null,
+        thumbLocalFilePath: "",
+        thumbUploadFileBlob: null,
+      });
+    };
+  }, []);
+
+  useEffect(() => {
+    let timderId: NodeJS.Timeout;
+    if (!isShow) {
+      timderId = setTimeout(() => {
+        setShowComponent(false);
+      }, 500);
+    } else {
+      setShowComponent(isShow);
+    }
+  }, [isShow, showComponent]);
+
+  if (!showComponent) return null;
 
   return (
-    <div className="flex w-full justify-center items-center fixed top-0 h-screen z-50 box-border overflow-auto">
+    <div
+      className={`flex w-full justify-center items-center fixed top-0 h-screen z-50 box-border overflow-auto animate-fade-in ${
+        !isShow && "animate-fade-out"
+      }`}
+    >
       <div className="fixed w-full h-full bg-[rgba(0,0,0,0.5)]" />
-      <div className="flex flex-col w-[90%] bg-white absolute p-8  ">
+      <div className="flex flex-col w-[90%] bg-white absolute p-8 rounded-3xl ">
         <div className="flex items-center justify-end" onClick={closeModal}>
           닫기
         </div>

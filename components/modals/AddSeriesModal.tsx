@@ -28,6 +28,7 @@ interface InputStateI {
 
 const AddSeriesModal = (props: AddSeriesModalProps) => {
   const { isShow, toggleShow } = props;
+  const [showComponent, setShowComponent] = useState(false);
   const [inputState, setInputState] = useState<InputStateI>({
     seriesName: "",
     localFilePath: "",
@@ -101,9 +102,9 @@ const AddSeriesModal = (props: AddSeriesModalProps) => {
 
     if (user) {
       try {
-        //TODO: Firebase 에 도큐먼트 만들고 데이터 추가하기
+        //Firebase 에 도큐먼트 만들고 데이터 추가하기
         setProcessing(true);
-        //TODO: 입력한 시리즈가 중복되는지 검증
+        // 입력한 시리즈가 중복되는지 검증
         const docRef = doc(db, "series", String(inputState.seriesName));
         const docSnap = await getDoc(docRef);
         const docExists = docSnap.exists();
@@ -131,7 +132,7 @@ const AddSeriesModal = (props: AddSeriesModalProps) => {
             "이미 존재하는 시리즈입니다. 시리즈에서 사진을 추가해주세요 :)"
           );
         } else {
-          //TODO: 문서 생성하고 데이터 추가, Firebase Cloud Storage 에 사진 업로드 후 Url, Name 받아서 업데이트, CreatedAt도 현재 날짜로
+          // 문서 생성하고 데이터 추가, Firebase Cloud Storage 에 사진 업로드 후 Url, Name 받아서 업데이트, CreatedAt도 현재 날짜로
           if (!inputState.uploadFileBlob && !inputState.thumbUploadFileBlob) {
             alert("썸네일, 사진을 선택했는지 확인해주세요 :)");
             setProcessing(false);
@@ -196,10 +197,27 @@ const AddSeriesModal = (props: AddSeriesModalProps) => {
     console.log(inputState);
   }, [inputState]);
 
-  if (!isShow) return null;
+  // 언마운트 애니메이션을 위해 애니메이션 길이만큼 showComponent 상태 딜레이
+  // div 에서는 showComponent 가 아닌 즉시 바뀌는 isShow 조건으로 애니메이션을 실행하고 딜레이 후 바뀐 showComponent 조건으로 컴포넌트 언마운트
+  useEffect(() => {
+    let timerId: NodeJS.Timeout;
+    if (!isShow) {
+      timerId = setTimeout(() => {
+        setShowComponent(false);
+      }, 500);
+    } else {
+      setShowComponent(isShow);
+    }
+  }, [isShow, showComponent]);
+
+  if (!showComponent) return null;
 
   return (
-    <div className="flex w-full justify-center items-center fixed top-0 h-screen z-50 box-border overflow-auto">
+    <div
+      className={`flex w-full justify-center items-center fixed top-0 animate-fade-in h-screen z-50 box-border overflow-auto ${
+        !isShow && "animate-fade-out"
+      }`}
+    >
       <div className="fixed w-full h-full bg-[rgba(0,0,0,0.5)]" />
       <div className="flex flex-col w-[90%] bg-white absolute p-8 rounded-3xl max-h-screen">
         <div
