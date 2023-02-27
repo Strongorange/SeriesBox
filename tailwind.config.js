@@ -9,7 +9,8 @@ module.exports = {
       zIndex: {
         header: "100",
         "bottom-nav": "100",
-        modal: "100",
+        "selecting-bottom-nav": "110",
+        modal: "120",
         "modal-backdrop": "90",
         "modal-content": "100",
         "initial-video": "200",
@@ -45,16 +46,39 @@ module.exports = {
           "0%": { opacity: 1, display: "flex" },
           "100%": { opacity: 0, display: "none" },
         },
+        "selecting-bottom-nav": {
+          "0%": {
+            opacity: 0,
+            transform: "translateY(20%)",
+          },
+          "100%": {
+            opacity: 1,
+            transform: "translateY(0)",
+          },
+        },
+        "selecting-bottom-nav-reverse": {
+          "0%": {
+            opacity: 1,
+            transform: "translateY(0)",
+          },
+          "100%": {
+            opacity: 0,
+            transform: "translateY(100%)",
+            display: "none",
+          },
+        },
       },
       animation: {
         // 페이지 페이드 인 아웃
         "fade-in": "fade-in 0.5s ease-in-out ",
         "fade-out": "fade-out 0.5s ease-in-out forwards",
         // 사진 순서대로 보여주기
-
         "fade-in-photo": "fade-in-photo 1s ease-in-out",
-
         "fade-out-photo": "fade-out 0.5s ease-in-out forwards",
+        "selecting-bottom-nav":
+          "selecting-bottom-nav 0.5s ease-in-out forwards",
+        "selecting-bottom-nav-reverse":
+          "selecting-bottom-nav-reverse 0.5s ease-in-out forwards",
       },
     },
   },

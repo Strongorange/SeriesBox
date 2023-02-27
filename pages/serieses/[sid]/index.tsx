@@ -12,6 +12,9 @@ import CheckIcon from "../../../components/svgs/CheckIcon";
 import { db, storage } from "../../../firebase";
 import { doc, getDoc, updateDoc } from "firebase/firestore";
 import { deleteObject, ref } from "firebase/storage";
+import SelectingBottomNav from "../../../components/SelectingBottomNav";
+import TrashIcon from "../../../components/svgs/TrashIcon";
+import YesNoDialogItem from "../../../components/modals/YesNoDialogItem";
 
 const SeriesDetail = () => {
   const router = useRouter();
@@ -22,6 +25,11 @@ const SeriesDetail = () => {
   const [animationIndex, setAnimationIndex] = useState(0);
   const [isEditting, setIsEditting] = useState(false);
   const [selectedItems, setSelectedItems] = useState<number[]>([]);
+  const [showDialog, setShowDialog] = useState(false);
+
+  const toggleShowDialog = () => {
+    setShowDialog((prev) => !prev);
+  };
 
   const toggleSelected = (
     index: number,
@@ -60,6 +68,7 @@ const SeriesDetail = () => {
     await updateDoc(seriesRef, { data: newData });
     // 삭제 후 초기화 작업
     setData(newData);
+    setShowDialog(false);
     toggleIsEditting();
     setSelectedItems([]);
   };
@@ -131,10 +140,6 @@ const SeriesDetail = () => {
     console.log(selectedItems);
   }, [selectedItems]);
 
-  useEffect(() => {
-    if (data) console.log(data);
-  }, [data]);
-
   if (!data) return <div>로딩중</div>;
 
   return (
@@ -148,7 +153,7 @@ const SeriesDetail = () => {
       )}
       <div className="w-full flex flex-col">
         <div className="flex w-full justify-between items-center p-PageLR ">
-          <h4>xx 개의 미디어</h4>
+          <h4>{data.length} 개의 미디어</h4>
           <div onClick={toggleIsEditting}>
             {isEditting ? <CheckIcon /> : <PenIcon />}
           </div>
@@ -184,6 +189,7 @@ const SeriesDetail = () => {
                     />
                   </div>
                 )}
+                {/**FIXME: 체크했을때 좀 이쁘게 */}
                 {isEditting && (
                   <div
                     className={`absolute w-[15%] h-[15%] top-2 right-2 rounded-full animate-pulse border-2 border-white ${
@@ -195,9 +201,17 @@ const SeriesDetail = () => {
               </div>
             ))}
         </div>
-        <div className="bg-red-500" onClick={deleteMedia}>
-          <h1>삭제</h1>
-        </div>
+
+        <SelectingBottomNav
+          isShow={selectedItems.length > 0}
+          toggleShowDialog={toggleShowDialog}
+        />
+
+        <YesNoDialogItem
+          isShow={showDialog}
+          toggleIsShow={toggleShowDialog}
+          deleteFunc={deleteMedia}
+        />
       </div>
     </>
   );
