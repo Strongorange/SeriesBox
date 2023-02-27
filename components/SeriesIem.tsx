@@ -29,6 +29,7 @@ const SeriesIem = (props: SeriesItemProps) => {
         await deleteDoc(doc(db, "series", willDeleteDocId));
         // 스토리지에서 폴더 삭제
         const path = `${willDeleteDocId}/`;
+
         const directoryRef = ref(storage, path);
         // 디렉토리 안의 모든 아이템 지우기
         const result = await listAll(directoryRef);
