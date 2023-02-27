@@ -124,9 +124,7 @@ const Home = () => {
                   docId={item.docId}
                   docPhotoUrl={item.docPhotoUrl}
                   isShow={index <= animationIndex}
-
                   isEditting={isEditting}
-
                 />
               ))}
           </div>
