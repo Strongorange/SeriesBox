@@ -91,10 +91,6 @@ const Home = () => {
     console.log(storeSeries);
   }, [storeSeries]);
 
-  useEffect(() => {
-    console.log(storeSeries);
-  }, [storeSeries]);
-
   if (pageLoading) return <div></div>;
 
   return (
