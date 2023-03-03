@@ -17,9 +17,9 @@ module.exports = {
       },
       colors: {
         Ru: "#ffe5d6",
-        Mu: "#f65306",
-        Sky: "#b8fee3",
-        Purple: "#e3b8fe",
+        Primary: "#ccaa4b",
+        Secondary: "#fbf9f5",
+        Accent: "#bb4935",
       },
       fontSize: {
         "title-sm": "2.2rem",

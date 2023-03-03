@@ -143,13 +143,13 @@ const SeriesDetail = () => {
   return (
     <>
       {showLoader && (
-        <div className="w-full fixed top-0 flexCenter h-screen bg-gray-600 opacity-70 z-[200]">
+        <div className="w-full fixed top-0 flexCenter h-screen bg-gray-600 opacity-70 z-[200] ">
           <div className="animate-spin rotate-180">
             <LoadingIcon height={40} width={40} stroke="#ffe5d6" />
           </div>
         </div>
       )}
-      <div className="w-full flex flex-col">
+      <div className="w-full flex flex-col bg-Secondary ">
         <div className="flex w-full justify-between items-center p-PageLR ">
           <h4>{data.length} 개의 미디어</h4>
           <div onClick={toggleIsEditting}>
@@ -161,7 +161,7 @@ const SeriesDetail = () => {
             data.map((item: SeriesItem, index: number) => (
               <div
                 key={index}
-                className={`flexCenter flex-col w-full relative aspect-square ${
+                className={`flexCenter flex-col w-full relative aspect-square rounded-3xl overflow-auto ${
                   index <= animationIndex ? "animate-fade-in" : "hidden"
                 }`}
                 onClick={() => moveToDetailOrSelect(item, index)}

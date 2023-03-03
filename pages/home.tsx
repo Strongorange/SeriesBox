@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { use, useEffect, useState } from "react";
 import { useUserStore } from "../stores/userStore";
-import { useSeriesStore } from "../stores/seriesStore";
+import { SeriesItem, useSeriesStore } from "../stores/seriesStore";
 import { useRouter } from "next/router";
 import { collection, onSnapshot } from "firebase/firestore";
 import { db } from "../firebase";
@@ -10,11 +10,15 @@ import AddSeriesModal from "../components/modals/AddSeriesModal";
 import { useStateStore } from "../stores/stateStore";
 import PenIcon from "../components/svgs/Pen";
 import CheckIcon from "../components/svgs/CheckIcon";
+import ImageIcon from "../components/svgs/ImageIcon";
 
 const Home = () => {
   const router = useRouter();
   const [pageLoading, setPageLoading] = useState(true);
   const [animationIndex, setAnimationIndex] = useState(0);
+  const [recentSeries, setRecentSeries] = useState<SeriesDocument | undefined>(
+    undefined
+  );
 
   const [isEditting, setIsEditting] = useState(false);
 
@@ -22,10 +26,10 @@ const Home = () => {
   const { setSeries, series: storeSeries, clearSeries } = useSeriesStore();
   const { showAddPhoto, setState } = useStateStore();
 
-  const moveAndSetSeries = (docId: string) => {
+  const moveAndSetSeries = (docId: string, item?: SeriesDocument) => {
     if (!isEditting) {
       router.push(`/serieses/${docId}`);
-      localStorage.setItem("recentSeries", docId);
+      localStorage.setItem("recentSeries", JSON.stringify(item));
     } else {
       return;
     }
@@ -86,6 +90,13 @@ const Home = () => {
     }
   }, [showAddPhoto]);
 
+  // 최근 시리즈 추적
+  useEffect(() => {
+    if (localStorage.getItem("recentSeries")) {
+      setRecentSeries(JSON.parse(String(localStorage.getItem("recentSeries"))));
+    }
+  }, []);
+
   useEffect(() => {
     console.log(storeSeries);
   }, [storeSeries]);
@@ -94,14 +105,38 @@ const Home = () => {
 
   return (
     <>
-      <div className="flex flex-col w-full p-PageLR animate-fade-in gap-10 pb-BottomPadding">
+      <div className="flex flex-col w-full p-PageLR animate-fade-in gap-10 pb-BottomPadding bg-Secondary text-Primary">
         <div className="w-full flex flex-col gap-5">
           <h2>최근 사용한 시리즈</h2>
           {localStorage.getItem("recentSeries") && (
             <div className="w-full flex overflow-auto gap-[3vw]">
               {/** 최근 사용한 시리즈 */}
-              <div className=" min-w-[20vw] min-h-[5vh] flexCenter bg-amber-100 rounded-3xl p-5">
-                <h4>{localStorage.getItem("recentSeries")}</h4>
+              <div className="w-full rounded-3xl  flex bg-green p-5 box-border gap-10 bg-Primary text-white">
+                <div className="w-[30%]">
+                  <SeriesIem
+                    isShow={true}
+                    docId=""
+                    docPhotoUrl={recentSeries?.docPhotoUrl}
+                    onClick={() =>
+                      moveAndSetSeries(
+                        String(recentSeries?.docId),
+                        recentSeries
+                      )
+                    }
+                    isEditting={false}
+                  />
+                </div>
+                <div className="flex flex-col gap-3">
+                  <h3>{recentSeries?.docId}</h3>
+                  <div className="flex items-center gap-3">
+                    <ImageIcon fill="#ffffff" />
+                    <span className="text-xl">
+                      {recentSeries?.data.length} 개의 미디어
+                    </span>
+                  </div>
+
+                  <span className="text-lg">시리즈 보러가기 {`>>`}</span>
+                </div>
               </div>
             </div>
           )}
@@ -110,7 +145,11 @@ const Home = () => {
           <div className="w-full flex justify-between items-center">
             <h2>시리즈 목록</h2>
             <div className="cursor-pointer" onClick={toggleIsEditting}>
-              {isEditting ? <CheckIcon /> : <PenIcon />}
+              {isEditting ? (
+                <CheckIcon stroke="#ccaa4b" />
+              ) : (
+                <PenIcon fill="#ccaa4b" />
+              )}
             </div>
           </div>
 
@@ -118,7 +157,7 @@ const Home = () => {
             {storeSeries &&
               storeSeries.map((item: SeriesDocument, index: number) => (
                 <SeriesIem
-                  onClick={() => moveAndSetSeries(item.docId)}
+                  onClick={() => moveAndSetSeries(item.docId, item)}
                   key={index}
                   docId={item.docId}
                   docPhotoUrl={item.docPhotoUrl}

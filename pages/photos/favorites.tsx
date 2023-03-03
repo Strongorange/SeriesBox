@@ -23,7 +23,7 @@ const Favorites = () => {
   }, []);
 
   return (
-    <div className="flex flex-col w-full p-PageLR">
+    <div className="flex flex-col w-full p-PageLR bg-Secondary">
       <h2>즐겨찾는 사진들</h2>
 
       <div className="grid grid-cols-3 gap-1 w-full">

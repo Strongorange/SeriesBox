@@ -14,7 +14,6 @@ interface SeriesItemProps {
   docPhotoUrl?: string;
   onClick: () => void;
   isShow?: boolean;
-
   isEditting: boolean;
 }
 
@@ -63,13 +62,13 @@ const SeriesIem = (props: SeriesItemProps) => {
   return (
     <>
       <div
-        className={`flexCenter flex-col w-full relative ${
+        className={`flexCenter flex-col w-full relative gap-2  ${
           isShow ? "animate-fade-in-photo" : "hidden"
         }`}
         onClick={onClick}
       >
         {docPhotoUrl && (
-          <div className="w-full aspect-square relative">
+          <div className="w-full aspect-square relative rounded-3xl overflow-auto">
             <Image
               src={docPhotoUrl}
               alt="docPhotoUrl"
@@ -85,7 +84,7 @@ const SeriesIem = (props: SeriesItemProps) => {
         {docId && <p className="text-[1.4rem] font-medium">{docId}</p>}
         {isEditting && (
           <div
-            className="absolute top-0 right-1 bg-red-400 p-2 rounded-2xl animate-pulse"
+            className="absolute top-0 right-1 bg-Accent p-2 rounded-2xl animate-pulse"
             onClick={toggleIsShow}
           >
             <TrashIcon stroke="#ffffff" />
