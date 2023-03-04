@@ -1,5 +1,5 @@
 import React from "react";
-import CheckSVG from "../../public/icons/Check.svg";
+import ImageSVG from "../../public/icons/Image.svg";
 
 type SVGIconProps = {
   width?: string | number;
@@ -8,11 +8,11 @@ type SVGIconProps = {
   stroke?: string;
 };
 
-const CheckIcon = (props: SVGIconProps) => {
+const ImageIcon = (props: SVGIconProps) => {
   const { width, height, fill, stroke } = props;
 
   return (
-    <CheckSVG
+    <ImageSVG
       width={width ? width : 24}
       height={height ? height : 24}
       fill={fill ? fill : "none"}
@@ -21,4 +21,4 @@ const CheckIcon = (props: SVGIconProps) => {
   );
 };
 
-export default CheckIcon;
+export default ImageIcon;

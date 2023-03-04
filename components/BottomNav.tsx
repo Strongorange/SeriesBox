@@ -41,6 +41,7 @@ const BottomNav = () => {
       <div className="flexCenter" onClick={showAddSeries}>
         <PlusIcon />
       </div>
+
       <div className="flexCenter">
         <Link href="/photos/favorites">
           <FavoritesIcon filled={router.pathname.includes("/favorites")} />
