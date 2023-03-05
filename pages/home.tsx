@@ -105,13 +105,19 @@ const Home = () => {
 
   return (
     <>
-      <div className="flex flex-col w-full p-PageLR animate-fade-in gap-10 pb-BottomPadding bg-Secondary text-Primary">
+      <div className="flex flex-col w-full p-PageLR animate-fade-in gap-10 pb-BottomPadding bg-Secondary text-Primary pt-[7vh]">
         <div className="w-full flex flex-col gap-5">
           <h2>최근 사용한 시리즈</h2>
           {localStorage.getItem("recentSeries") && (
             <div className="w-full flex overflow-auto gap-[3vw]">
               {/** 최근 사용한 시리즈 */}
-              <div className="w-full rounded-3xl  flex bg-green p-5 box-border gap-10 bg-Primary text-white">
+              <div
+                className="w-full rounded-3xl  flex bg-green p-5 box-border gap-10 bg-Primary text-white"
+                onClick={() =>
+                  recentSeries &&
+                  moveAndSetSeries(String(recentSeries?.docId), recentSeries)
+                }
+              >
                 <div className="w-[30%]">
                   <SeriesIem
                     isShow={true}
