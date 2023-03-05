@@ -149,7 +149,7 @@ const SeriesDetail = () => {
           </div>
         </div>
       )}
-      <div className="w-full flex flex-col bg-Secondary ">
+      <div className="w-full flex flex-col bg-Secondary pt-[7vh] ">
         <div className="flex w-full justify-between items-center p-PageLR ">
           <h4>{data.length} 개의 미디어</h4>
           <div onClick={toggleIsEditting}>
