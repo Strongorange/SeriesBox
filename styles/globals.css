@@ -34,11 +34,11 @@ span {
 
 @layer components {
   .topHeader {
-    @apply w-full justify-between h-[7vh] fixed z-header flex items-center bg-Secondary border-b-[1px] p-Header;
+    @apply w-full justify-between h-[7vh] fixed z-header flex items-center bg-Secondary border-b-[1px] p-Header md:h-[5vh] md:p-HeaderPc  box-border;
   }
 
   .bottomNav {
-    @apply w-full h-[7vh] p-Nav flex items-center justify-between fixed bottom-0 bg-Secondary border-t-[1px];
+    @apply w-full h-[7vh] p-Nav flex items-center justify-between fixed bottom-0 bg-Secondary border-t-[1px] md:px-PageLR md:py-3;
   }
 
   .textBase {

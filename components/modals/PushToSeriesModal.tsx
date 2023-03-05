@@ -140,7 +140,7 @@ const PushToArrayModal = (props: AddSeriesModalProps) => {
       }`}
     >
       <div className="fixed w-full h-full bg-[rgba(0,0,0,0.5)]" />
-      <div className="flex flex-col w-[90%] bg-white absolute p-8 rounded-3xl ">
+      <div className="flex flex-col w-[90%] bg-white absolute p-8 rounded-3xl md:w-[50%]">
         <div className="flex items-center justify-end" onClick={closeModal}>
           닫기
         </div>

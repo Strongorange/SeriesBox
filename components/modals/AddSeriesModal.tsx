@@ -219,7 +219,7 @@ const AddSeriesModal = (props: AddSeriesModalProps) => {
       }`}
     >
       <div className="fixed w-full h-full bg-[rgba(0,0,0,0.5)]" />
-      <div className="flex flex-col w-[90%] bg-white absolute p-8 rounded-3xl max-h-screen">
+      <div className="flex flex-col w-[90%] bg-white absolute p-8 rounded-3xl max-h-screen md:w-[50%]">
         <div
           className="flex items-center justify-end"
           onClick={() => {

@@ -156,7 +156,7 @@ const SeriesDetail = () => {
             {isEditting ? <CheckIcon /> : <PenIcon />}
           </div>
         </div>
-        <div className="grid grid-cols-3 w-full gap-1 p-PageLR animate-fade-in pb-[9vh]">
+        <div className="grid grid-cols-3 md:grid-cols-5 w-full gap-1 md:gap-3 lg:gap-5 p-PageLR animate-fade-in pb-[9vh]">
           {data &&
             data.map((item: SeriesItem, index: number) => (
               <div

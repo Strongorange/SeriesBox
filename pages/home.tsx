@@ -112,13 +112,13 @@ const Home = () => {
             <div className="w-full flex overflow-auto gap-[3vw]">
               {/** 최근 사용한 시리즈 */}
               <div
-                className="w-full rounded-3xl  flex bg-green p-5 box-border gap-10 bg-Primary text-white"
+                className="w-full rounded-3xl flex bg-green p-5 md:p-4 box-border gap-10 bg-Primary text-white"
                 onClick={() =>
                   recentSeries &&
                   moveAndSetSeries(String(recentSeries?.docId), recentSeries)
                 }
               >
-                <div className="w-[30%]">
+                <div className="w-[30%] md:w-[15%]">
                   <SeriesIem
                     isShow={true}
                     docId=""
@@ -159,7 +159,7 @@ const Home = () => {
             </div>
           </div>
 
-          <div className="grid grid-cols-3 md:grid-cols-5 gap-1 w-full">
+          <div className="grid grid-cols-3 md:grid-cols-5 lg:grid-cols-7 gap-1 md:gap-3 lg:gap-5 w-full">
             {storeSeries &&
               storeSeries.map((item: SeriesDocument, index: number) => (
                 <SeriesIem
