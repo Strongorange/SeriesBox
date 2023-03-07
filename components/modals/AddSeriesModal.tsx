@@ -39,7 +39,7 @@ const AddSeriesModal = (props: AddSeriesModalProps) => {
     thumbFileObj: {},
   });
   const [processing, setProcessing] = useState(false);
-  const { user } = useUserStore();
+  const { user, isGuest } = useUserStore();
 
   const resetInputState = () => {
     setInputState({
@@ -105,7 +105,12 @@ const AddSeriesModal = (props: AddSeriesModalProps) => {
         //Firebase 에 도큐먼트 만들고 데이터 추가하기
         setProcessing(true);
         // 입력한 시리즈가 중복되는지 검증
-        const docRef = doc(db, "series", String(inputState.seriesName));
+        // isGuest 에 따라 다른 컬렉션 설정
+        const docRef = doc(
+          db,
+          !isGuest ? "series" : "seriesGuest",
+          String(inputState.seriesName)
+        );
         const docSnap = await getDoc(docRef);
         const docExists = docSnap.exists();
         let thumbTempObj: TempObj = {
@@ -171,17 +176,20 @@ const AddSeriesModal = (props: AddSeriesModalProps) => {
           photoTempObj.createdAt = photoUploadData.metadata.timeCreated;
           photoTempObj.owenrUid = user?.uid;
 
-          await setDoc(doc(db, "series", inputState.seriesName), {
-            data: [
-              {
-                createdAt: photoTempObj.createdAt,
-                fileName: photoTempObj.fileName,
-                fileUrl: photoTempObj.fileUrl,
-                ownerUid: photoTempObj.owenrUid,
-              },
-            ],
-            docPhotoUrl: thumbTempObj.fileUrl,
-          });
+          await setDoc(
+            doc(db, !isGuest ? "series" : "seriesGuest", inputState.seriesName),
+            {
+              data: [
+                {
+                  createdAt: photoTempObj.createdAt,
+                  fileName: photoTempObj.fileName,
+                  fileUrl: photoTempObj.fileUrl,
+                  ownerUid: photoTempObj.owenrUid,
+                },
+              ],
+              docPhotoUrl: thumbTempObj.fileUrl,
+            }
+          );
           setProcessing(false);
           resetInputState();
           alert("업로드 완료!");
@@ -219,7 +227,7 @@ const AddSeriesModal = (props: AddSeriesModalProps) => {
       }`}
     >
       <div className="fixed h-full w-full bg-[rgba(0,0,0,0.5)]" />
-      <div className="absolute flex max-h-screen w-[90%] flex-col rounded-3xl bg-white p-8 md:w-[50%]">
+      <div className="absolute flex max-h-screen w-[90%] flex-col rounded-3xl bg-Secondary p-8 text-Primary md:w-[50%]">
         <div
           className="flex items-center justify-end"
           onClick={() => {
@@ -244,7 +252,7 @@ const AddSeriesModal = (props: AddSeriesModalProps) => {
               <input
                 id="seriesName"
                 type="text"
-                className="h-[4vh] w-full border-2 p-2"
+                className="h-[4vh] w-full rounded-3xl border-2 p-2"
                 placeholder="시리즈 이름"
                 name="seriesName"
                 onChange={onChangeInput}
@@ -296,8 +304,8 @@ const AddSeriesModal = (props: AddSeriesModalProps) => {
           </form>
           <button
             type="submit"
-            className={` box-border p-5 ${
-              processing ? "bg-gray-50 text-zinc-200" : "bg-amber-200"
+            className={` box-border rounded-3xl p-5 text-lg text-Secondary ${
+              processing ? "bg-gray-50 text-zinc-200" : "bg-Primary"
             }`}
             form="addSeriesForm"
             disabled={processing}

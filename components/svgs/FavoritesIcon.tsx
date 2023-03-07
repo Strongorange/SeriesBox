@@ -7,17 +7,19 @@ type SVGIconProps = {
   height?: string | number;
   fill?: string;
   filled?: boolean;
+  stroke?: string;
 };
 
 const FavoritesIcon = (props: SVGIconProps) => {
-  const { width, height, fill, filled } = props;
+  const { width, height, fill, filled, stroke } = props;
 
   if (filled) {
     return (
       <FavoritesFilled
         width={width ? width : 24}
         height={height ? height : 24}
-        fill={fill ? fill : "none"}
+        fill="#ff5c00"
+        stroke="none"
       />
     );
   }
@@ -27,6 +29,7 @@ const FavoritesIcon = (props: SVGIconProps) => {
       width={width ? width : 24}
       height={height ? height : 24}
       fill={fill ? fill : "none"}
+      stroke={stroke ? stroke : "#2B3F6C"}
     />
   );
 };

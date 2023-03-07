@@ -14,11 +14,13 @@ import { doc, getDoc, updateDoc } from "firebase/firestore";
 import { deleteObject, ref } from "firebase/storage";
 import SelectingBottomNav from "../../../components/SelectingBottomNav";
 import YesNoDialogItem from "../../../components/modals/YesNoDialogItem";
+import { useUserStore } from "../../../stores/userStore";
 
 const SeriesDetail = () => {
   const router = useRouter();
   const sid = router.query.sid;
   const { series } = useSeriesStore();
+  const { isGuest } = useUserStore();
   const [data, setData] = useState<SeriesItem[]>();
   const [showLoader, setShowLoader] = useState(false);
   const [animationIndex, setAnimationIndex] = useState(0);
@@ -45,7 +47,10 @@ const SeriesDetail = () => {
   };
 
   const deleteMedia = async () => {
-    const seriesRef = doc(db, `series/${sid}`);
+    const seriesRef = doc(
+      db,
+      !isGuest ? `series/${sid}` : `seriesGuest/${sid}`
+    );
     // 지우기 전 현재 "data" Arr 을 가져옴
     const docSnap = await getDoc(seriesRef);
     const dataOfSnap = docSnap.data()!.data!;
@@ -91,8 +96,6 @@ const SeriesDetail = () => {
   useEffect(() => {
     if (series) {
       const temp = series.filter((item: SeriesDocument) => item.docId === sid);
-      // console.log("업데이트된 temp");
-      // console.log(temp);
       if (temp.length > 0) {
         setData(temp[temp.length - 1].data);
         localStorage.setItem(
@@ -116,6 +119,7 @@ const SeriesDetail = () => {
     }
   }, [data]);
 
+  // 한개씩 나타나는 애니메이션
   useEffect(() => {
     let intervalId: ReturnType<typeof setInterval>;
     if (data) {
@@ -132,7 +136,7 @@ const SeriesDetail = () => {
     return () => clearInterval(intervalId);
   }, [data, animationIndex]);
 
-  // SelectedItems 추적
+  // SelectedItems 추적, 삭제기능
   useEffect(() => {
     console.log("SelectedItems");
     console.log(selectedItems);
@@ -149,11 +153,15 @@ const SeriesDetail = () => {
           </div>
         </div>
       )}
-      <div className="flex w-full flex-col bg-Secondary pt-[7vh] ">
+      <div className="flex w-full flex-col bg-Secondary pt-[7vh] text-Primary ">
         <div className="flex w-full items-center justify-between p-PageLR ">
           <h4>{data.length} 개의 미디어</h4>
           <div onClick={toggleIsEditting}>
-            {isEditting ? <CheckIcon /> : <PenIcon />}
+            {isEditting ? (
+              <CheckIcon stroke="#ccaa4b" />
+            ) : (
+              <PenIcon fill="#ccaa4b" />
+            )}
           </div>
         </div>
         <div className="grid w-full animate-fade-in grid-cols-3 gap-1 p-PageLR pb-[9vh] md:grid-cols-5 md:gap-3 lg:gap-5">

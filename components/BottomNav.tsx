@@ -38,8 +38,10 @@ const BottomNav = () => {
           <SearchIcon filled={router.pathname.includes("/search")} />
         </Link>
       </div> */}
-      <div className="flexCenter" onClick={showAddSeries}>
-        <PlusIcon />
+      <div className="flexCenter relative" onClick={showAddSeries}>
+        <div className="fixed  bottom-[3.5vh] flex aspect-square h-[7vh] items-center justify-center rounded-full bg-Primary">
+          <PlusIcon stroke="#ffffff" />
+        </div>
       </div>
 
       <div className="flexCenter">

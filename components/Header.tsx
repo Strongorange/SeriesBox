@@ -57,21 +57,21 @@ const Header = () => {
   if (router.pathname.includes("/auth")) return null;
 
   return (
-    <div className="topHeader">
+    <div className="topHeader text-Primary">
       <div onClick={goBack}>
         {isHome ? (
           <Link href={`/profile/321`}>
-            <ProfileIcon />
+            <ProfileIcon stroke="#ccaa4b" fill="none" />
           </Link>
         ) : (
-          <LeftIcon />
+          <LeftIcon stroke="#ccaa4b" />
         )}
       </div>
       <div>{!isHome && headerCenter ? <h4> {headerCenter} </h4> : ""}</div>
       <div>
         {isHome && user ? (
           <div onClick={handleSignInOut}>
-            <LogoutIcon />
+            <LogoutIcon fill="none" stroke="#ccaa4b" />
           </div>
         ) : null}
       </div>
