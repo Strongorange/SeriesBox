@@ -7,12 +7,12 @@ module.exports = {
   theme: {
     extend: {
       zIndex: {
-        header: "100",
-        "bottom-nav": "100",
+        header: "10",
+        "bottom-nav": "10",
         "selecting-bottom-nav": "110",
         modal: "120",
-        "modal-backdrop": "90",
-        "modal-content": "100",
+        "modal-backdrop": "120",
+        "modal-content": "130",
         "initial-video": "200",
       },
       colors: {

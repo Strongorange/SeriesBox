@@ -135,7 +135,7 @@ const PhotoDetail: NextPage<IServerSideProps> = ({ fileType }) => {
           )}
 
           <div
-            className={`justify absolute top-0 flex w-full items-center justify-end gap-6 p-PageLR text-white ${
+            className={`justify absolute top-[7vh] flex w-full items-center justify-end gap-6 p-PageLR text-white ${
               isClicked ? "animate-fade-in" : "animate-fade-out"
             } `}
           >
