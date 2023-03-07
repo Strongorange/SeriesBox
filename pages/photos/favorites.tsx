@@ -23,16 +23,16 @@ const Favorites = () => {
   }, []);
 
   return (
-    <div className="flex flex-col w-full p-PageLR bg-Secondary">
+    <div className="flex w-full flex-col bg-Secondary p-PageLR">
       <h2>즐겨찾는 사진들</h2>
 
-      <div className="grid grid-cols-3 gap-1 w-full">
+      <div className="grid w-full grid-cols-3 gap-1">
         {localFavorites ? (
           localFavorites.map(
             (item: LocalStorageFavoriteItem, index: number) => (
               <div
                 key={index}
-                className="w-full aspect-square relative"
+                className="relative aspect-square w-full"
                 onClick={() => gotoDetail(item)}
               >
                 <Image src={item.fileUrl} alt="" fill />{" "}
