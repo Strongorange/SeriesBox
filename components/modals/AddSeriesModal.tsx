@@ -214,12 +214,12 @@ const AddSeriesModal = (props: AddSeriesModalProps) => {
 
   return (
     <div
-      className={`flex w-full justify-center items-center fixed top-0 animate-fade-in h-screen z-50 box-border overflow-auto ${
+      className={`fixed top-0 z-50 box-border flex h-screen w-full animate-fade-in items-center justify-center overflow-auto ${
         !isShow && "animate-fade-out"
       }`}
     >
-      <div className="fixed w-full h-full bg-[rgba(0,0,0,0.5)]" />
-      <div className="flex flex-col w-[90%] bg-white absolute p-8 rounded-3xl max-h-screen md:w-[50%]">
+      <div className="fixed h-full w-full bg-[rgba(0,0,0,0.5)]" />
+      <div className="absolute flex max-h-screen w-[90%] flex-col rounded-3xl bg-white p-8 md:w-[50%]">
         <div
           className="flex items-center justify-end"
           onClick={() => {
@@ -230,12 +230,12 @@ const AddSeriesModal = (props: AddSeriesModalProps) => {
         >
           닫기
         </div>
-        <div className="flex flex-col w-full gap-10">
+        <div className="flex w-full flex-col gap-10">
           <form
             encType="multipart/form-data"
             onSubmit={makeNewSeries}
             id="addSeriesForm"
-            className="flex flex-col w-full gap-5"
+            className="flex w-full flex-col gap-5"
           >
             <div className="flex flex-col gap-5">
               <label htmlFor="seriesName">
@@ -244,7 +244,7 @@ const AddSeriesModal = (props: AddSeriesModalProps) => {
               <input
                 id="seriesName"
                 type="text"
-                className="w-full border-2 h-[4vh] p-2"
+                className="h-[4vh] w-full border-2 p-2"
                 placeholder="시리즈 이름"
                 name="seriesName"
                 onChange={onChangeInput}

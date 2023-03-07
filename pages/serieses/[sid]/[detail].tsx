@@ -112,9 +112,9 @@ const PhotoDetail: NextPage<IServerSideProps> = ({ fileType }) => {
   }, [isFavorite]);
 
   return (
-    <div className="w-full flex h-[93vh] flex-col bg-black animate-fade-in">
+    <div className="flex h-[93vh] w-full animate-fade-in flex-col bg-black">
       {!loading && (
-        <div className="w-full h-[100%] relative" onClick={toggleIsClicked}>
+        <div className="relative h-[100%] w-full" onClick={toggleIsClicked}>
           {fileType.includes("image") && (
             <Image
               alt="사진"
@@ -129,13 +129,13 @@ const PhotoDetail: NextPage<IServerSideProps> = ({ fileType }) => {
             />
           )}
           {fileType.includes("video") && (
-            <div className="w-full h-full flexCenter">
+            <div className="flexCenter h-full w-full">
               <video src={fileUrl} controls autoPlay />
             </div>
           )}
 
           <div
-            className={`flex absolute top-0 justify w-full items-center justify-end gap-6 p-PageLR text-white ${
+            className={`justify absolute top-0 flex w-full items-center justify-end gap-6 p-PageLR text-white ${
               isClicked ? "animate-fade-in" : "animate-fade-out"
             } `}
           >

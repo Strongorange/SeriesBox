@@ -143,25 +143,25 @@ const SeriesDetail = () => {
   return (
     <>
       {showLoader && (
-        <div className="w-full fixed top-0 flexCenter h-screen bg-gray-600 opacity-70 z-[200] ">
-          <div className="animate-spin rotate-180">
+        <div className="flexCenter fixed top-0 z-[200] h-screen w-full bg-gray-600 opacity-70 ">
+          <div className="rotate-180 animate-spin">
             <LoadingIcon height={40} width={40} stroke="#ffe5d6" />
           </div>
         </div>
       )}
-      <div className="w-full flex flex-col bg-Secondary pt-[7vh] ">
-        <div className="flex w-full justify-between items-center p-PageLR ">
+      <div className="flex w-full flex-col bg-Secondary pt-[7vh] ">
+        <div className="flex w-full items-center justify-between p-PageLR ">
           <h4>{data.length} 개의 미디어</h4>
           <div onClick={toggleIsEditting}>
             {isEditting ? <CheckIcon /> : <PenIcon />}
           </div>
         </div>
-        <div className="grid grid-cols-3 md:grid-cols-5 w-full gap-1 md:gap-3 lg:gap-5 p-PageLR animate-fade-in pb-[9vh]">
+        <div className="grid w-full animate-fade-in grid-cols-3 gap-1 p-PageLR pb-[9vh] md:grid-cols-5 md:gap-3 lg:gap-5">
           {data &&
             data.map((item: SeriesItem, index: number) => (
               <div
                 key={index}
-                className={`flexCenter flex-col w-full relative aspect-square rounded-3xl overflow-auto ${
+                className={`flexCenter relative aspect-square w-full flex-col overflow-auto rounded-3xl ${
                   index <= animationIndex ? "animate-fade-in" : "hidden"
                 }`}
                 onClick={() => moveToDetailOrSelect(item, index)}
@@ -169,13 +169,13 @@ const SeriesDetail = () => {
                 {item.fileName.includes("mp4") ? (
                   <video
                     src={item.fileUrl}
-                    className="w-full h-full object-fill"
+                    className="h-full w-full object-fill"
                     autoPlay
                     muted
                     loop
                   />
                 ) : (
-                  <div className="w-full h-full relative">
+                  <div className="relative h-full w-full">
                     <Image
                       alt=""
                       src={item.fileUrl}
@@ -190,7 +190,7 @@ const SeriesDetail = () => {
                 {/**FIXME: 체크했을때 좀 이쁘게 */}
                 {isEditting && (
                   <div
-                    className={`absolute w-[15%] h-[15%] top-2 right-2 rounded-full animate-pulse border-2 border-white ${
+                    className={`absolute top-2 right-2 h-[15%] w-[15%] animate-pulse rounded-full border-2 border-white ${
                       selectedItems.includes(index) ? "bg-red-600" : null
                     }`}
                     onClick={(e) => toggleSelected(index, e)}
