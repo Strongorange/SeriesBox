@@ -29,20 +29,20 @@ h4 {
 }
 
 span {
-  @apply font-normal text-base;
+  @apply text-base font-normal;
 }
 
 @layer components {
   .topHeader {
-    @apply w-full justify-between h-[7vh] fixed z-header flex items-center bg-Secondary border-b-[1px] p-Header;
+    @apply fixed z-header box-border flex h-[7vh] w-full items-center justify-between border-b-[1px] bg-Secondary p-Header md:h-[5vh]  md:p-HeaderPc;
   }
 
   .bottomNav {
-    @apply w-full h-[7vh] p-Nav flex items-center justify-between fixed bottom-0 bg-Secondary border-t-[1px];
+    @apply fixed bottom-0 flex h-[7vh] w-full items-center justify-between border-t-[1px] bg-Secondary p-Nav md:px-PageLR md:py-3;
   }
 
   .textBase {
-    @apply font-normal text-base;
+    @apply text-base font-normal;
   }
 
   .titleSm {
@@ -60,6 +60,6 @@ span {
   }
 
   .flexCenter {
-    @apply flex justify-center items-center;
+    @apply flex items-center justify-center;
   }
 }

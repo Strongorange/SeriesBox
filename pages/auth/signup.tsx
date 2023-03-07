@@ -42,15 +42,15 @@ const SignUp = () => {
   }, [inputVal]);
 
   return (
-    <div className="flex flex-col bg-amber-100 w-full h-screen p-PageLR">
-      <div className="flex items-center h-[7vh]">
+    <div className="flex h-screen w-full flex-col bg-amber-100 p-PageLR">
+      <div className="flex h-[7vh] items-center">
         <div onClick={() => router.push("/")}>
           <LeftIcon />
         </div>
       </div>
 
       <form
-        className="w-full gap-3 flex flex-col h-[80%] justify-center items-center"
+        className="flex h-[80%] w-full flex-col items-center justify-center gap-3"
         onSubmit={(e) => handleSignUp(e)}
       >
         <label htmlFor="email">이메일 입력</label>
@@ -60,7 +60,7 @@ const SignUp = () => {
           id="email"
           pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
           onChange={(e) => handleInput(e)}
-          className="w-[50%] h-10"
+          className="h-10 w-[50%]"
         />
         <label htmlFor="password">비밀번호 입력</label>
         <input
@@ -69,7 +69,7 @@ const SignUp = () => {
           id="password"
           minLength={6}
           onChange={(e) => handleInput(e)}
-          className="w-[50%] h-10"
+          className="h-10 w-[50%]"
         />
         <label htmlFor="password">비밀번호 확인</label>
         <input
@@ -78,9 +78,9 @@ const SignUp = () => {
           id="confirmPassword"
           minLength={6}
           onChange={(e) => handleInput(e)}
-          className="w-[50%] h-10"
+          className="h-10 w-[50%]"
         />
-        <button type="submit" className="w-[50%] h-10 bg-purple-300">
+        <button type="submit" className="h-10 w-[50%] bg-purple-300">
           회원가입
         </button>
       </form>

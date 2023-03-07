@@ -105,20 +105,20 @@ const Home = () => {
 
   return (
     <>
-      <div className="flex flex-col w-full p-PageLR animate-fade-in gap-10 pb-BottomPadding bg-Secondary text-Primary pt-[7vh]">
-        <div className="w-full flex flex-col gap-5">
+      <div className="flex w-full animate-fade-in flex-col gap-10 bg-Secondary p-PageLR pb-BottomPadding pt-[7vh] text-Primary">
+        <div className="flex w-full flex-col gap-5">
           <h2>최근 사용한 시리즈</h2>
           {localStorage.getItem("recentSeries") && (
-            <div className="w-full flex overflow-auto gap-[3vw]">
+            <div className="flex w-full gap-[3vw] overflow-auto">
               {/** 최근 사용한 시리즈 */}
               <div
-                className="w-full rounded-3xl  flex bg-green p-5 box-border gap-10 bg-Primary text-white"
+                className="bg-green box-border flex w-full gap-10 rounded-3xl bg-Primary p-5 text-white md:p-4"
                 onClick={() =>
                   recentSeries &&
                   moveAndSetSeries(String(recentSeries?.docId), recentSeries)
                 }
               >
-                <div className="w-[30%]">
+                <div className="w-[30%] md:w-[15%]">
                   <SeriesIem
                     isShow={true}
                     docId=""
@@ -147,8 +147,8 @@ const Home = () => {
             </div>
           )}
         </div>
-        <div className="w-full flex flex-col gap-5">
-          <div className="w-full flex justify-between items-center">
+        <div className="flex w-full flex-col gap-5">
+          <div className="flex w-full items-center justify-between">
             <h2>시리즈 목록</h2>
             <div className="cursor-pointer" onClick={toggleIsEditting}>
               {isEditting ? (
@@ -159,7 +159,7 @@ const Home = () => {
             </div>
           </div>
 
-          <div className="grid grid-cols-3 md:grid-cols-5 gap-1 w-full">
+          <div className="grid w-full grid-cols-3 gap-1 md:grid-cols-5 md:gap-3 lg:grid-cols-7 lg:gap-5">
             {storeSeries &&
               storeSeries.map((item: SeriesDocument, index: number) => (
                 <SeriesIem

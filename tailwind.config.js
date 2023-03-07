@@ -29,6 +29,7 @@ module.exports = {
       },
       padding: {
         Header: "5vw",
+        HeaderPc: "2vh 5vw",
         Nav: "5vw",
         BottomPadding: "9vh",
         PageLR: "2vh 5vw",

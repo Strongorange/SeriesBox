@@ -135,21 +135,21 @@ const PushToArrayModal = (props: AddSeriesModalProps) => {
 
   return (
     <div
-      className={`flex w-full justify-center items-center fixed top-0 h-screen z-50 box-border overflow-auto animate-fade-in ${
+      className={`fixed top-0 z-50 box-border flex h-screen w-full animate-fade-in items-center justify-center overflow-auto ${
         !isShow && "animate-fade-out"
       }`}
     >
-      <div className="fixed w-full h-full bg-[rgba(0,0,0,0.5)]" />
-      <div className="flex flex-col w-[90%] bg-white absolute p-8 rounded-3xl ">
+      <div className="fixed h-full w-full bg-[rgba(0,0,0,0.5)]" />
+      <div className="absolute flex w-[90%] flex-col rounded-3xl bg-white p-8 md:w-[50%]">
         <div className="flex items-center justify-end" onClick={closeModal}>
           닫기
         </div>
-        <div className="flex flex-col w-full gap-10">
+        <div className="flex w-full flex-col gap-10">
           <form
             encType="multipart/form-data"
             onSubmit={uploadSeries}
             id="addSeriesForm"
-            className="flex flex-col w-full gap-5"
+            className="flex w-full flex-col gap-5"
           >
             <h3>{router.query.sid} 시리즈에 추가</h3>
 
