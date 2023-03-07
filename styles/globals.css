@@ -38,7 +38,7 @@ span {
   }
 
   .bottomNav {
-    @apply fixed bottom-0 flex h-[7vh] w-full items-center justify-between border-t-[1px] bg-Secondary p-Nav md:px-PageLR md:py-3;
+    @apply fixed bottom-0 z-bottom-nav flex h-[7vh] w-full items-center justify-between border-t-[1px] bg-Secondary p-Nav md:px-PageLR md:py-3;
   }
 
   .textBase {

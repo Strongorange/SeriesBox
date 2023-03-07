@@ -7,6 +7,7 @@ import { storage } from "../firebase";
 import { db } from "../firebase";
 import TrashIcon from "./svgs/TrashIcon";
 import YesNoDialog from "./modals/YesNoDialog";
+import { useUserStore } from "../stores/userStore";
 
 interface SeriesItemProps {
   docId: string;
@@ -20,12 +21,15 @@ interface SeriesItemProps {
 const SeriesIem = (props: SeriesItemProps) => {
   const { docId, docPhotoUrl, onClick, isShow, isEditting } = props;
   const [showYesNoDialog, setShowYesNoDialog] = useState(false);
+  const { isGuest } = useUserStore();
 
   const deleteFromFB = async (willDeleteDocId: string) => {
     try {
       if (willDeleteDocId) {
         // Firestore 도큐먼트 삭제
-        await deleteDoc(doc(db, "series", willDeleteDocId));
+        await deleteDoc(
+          doc(db, !isGuest ? "series" : "seriesGuest", willDeleteDocId)
+        );
         // 스토리지에서 폴더 삭제
         const path = `${willDeleteDocId}/`;
 
@@ -62,13 +66,13 @@ const SeriesIem = (props: SeriesItemProps) => {
   return (
     <>
       <div
-        className={`flexCenter flex-col w-full relative gap-2  ${
+        className={`flexCenter relative w-full flex-col gap-2  ${
           isShow ? "animate-fade-in-photo" : "hidden"
         }`}
         onClick={onClick}
       >
         {docPhotoUrl && (
-          <div className="w-full aspect-square relative rounded-3xl overflow-auto">
+          <div className="relative aspect-square w-full overflow-auto rounded-3xl">
             <Image
               src={docPhotoUrl}
               alt="docPhotoUrl"
@@ -84,7 +88,7 @@ const SeriesIem = (props: SeriesItemProps) => {
         {docId && <p className="text-[1.4rem] font-medium">{docId}</p>}
         {isEditting && (
           <div
-            className="absolute top-0 right-1 bg-Accent p-2 rounded-2xl animate-pulse"
+            className="absolute top-0 right-1 animate-pulse rounded-2xl bg-Accent p-2"
             onClick={toggleIsShow}
           >
             <TrashIcon stroke="#ffffff" />

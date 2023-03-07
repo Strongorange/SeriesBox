@@ -15,12 +15,12 @@ const YesNoDialog = (props: YesNoDialogI) => {
   //TODO: 모달창 애니메이션
   return (
     <div
-      className={`fixed top-0 left-0 z-50 box-border flex h-screen w-full items-center justify-center overflow-auto ${
+      className={`fixed top-0 left-0 z-modal box-border flex h-screen w-full items-center justify-center overflow-auto ${
         !isEditting && "invisible"
       } ${isShow ? "animate-fade-in" : "animate-fade-out"}`}
     >
-      <div className="fixed h-full w-full bg-[rgba(0,0,0,0.5)]" />
-      <div className="absolute flex w-[90%] flex-col rounded-3xl bg-white">
+      <div className="-backdrop fixed h-full w-full bg-[rgba(0,0,0,0.5)]" />
+      <div className="absolute  flex w-[90%] flex-col rounded-3xl bg-white">
         <div className="flex w-full flex-col items-center justify-center gap-5 overflow-auto rounded-3xl pt-6 ">
           <div className="flex items-center justify-center rounded-full bg-[#F9E3E2] p-6">
             <DangerIcon stroke="#CA3A31" />

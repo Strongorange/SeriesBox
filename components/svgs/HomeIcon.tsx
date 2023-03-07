@@ -7,17 +7,19 @@ type SVGIconProps = {
   height?: string | number;
   fill?: string;
   filled?: boolean;
+  stroke?: string;
 };
 
 const HomeIcon = (props: SVGIconProps) => {
-  const { width, height, fill, filled } = props;
+  const { width, height, fill, filled, stroke } = props;
 
   if (filled) {
     return (
       <HomeFilledSVG
         width={width ? width : 24}
         height={height ? height : 24}
-        fill={fill ? fill : "none"}
+        fill="#ccaa4b"
+        stroke="none"
       />
     );
   }
@@ -27,6 +29,7 @@ const HomeIcon = (props: SVGIconProps) => {
       width={width ? width : 24}
       height={height ? height : 24}
       fill={fill ? fill : "none"}
+      stroke="#000000"
     />
   );
 };

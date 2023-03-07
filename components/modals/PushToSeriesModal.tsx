@@ -32,7 +32,7 @@ const PushToArrayModal = (props: AddSeriesModalProps) => {
   });
   const [processing, setProcessing] = useState(false);
   const [showComponent, setShowComponent] = useState(false);
-  const { user } = useUserStore();
+  const { user, isGuest } = useUserStore();
 
   const closeModal = () => {
     toggleShow();
@@ -74,7 +74,11 @@ const PushToArrayModal = (props: AddSeriesModalProps) => {
     if (user) {
       try {
         setProcessing(true);
-        const seriesDocRef = doc(db, "series", router.query.sid as string);
+        const seriesDocRef = doc(
+          db,
+          !isGuest ? "series" : "seriesGuest",
+          router.query.sid as string
+        );
         //from inputstate.uploadFileBlob FileList update each file to firebase seriesDocRef
 
         for (let i = 0; i < inputState.uploadFileBlob.length; i++) {
@@ -135,12 +139,12 @@ const PushToArrayModal = (props: AddSeriesModalProps) => {
 
   return (
     <div
-      className={`fixed top-0 z-50 box-border flex h-screen w-full animate-fade-in items-center justify-center overflow-auto ${
+      className={`fixed top-0 z-50 box-border  flex h-screen w-full animate-fade-in items-center justify-center overflow-auto ${
         !isShow && "animate-fade-out"
       }`}
     >
       <div className="fixed h-full w-full bg-[rgba(0,0,0,0.5)]" />
-      <div className="absolute flex w-[90%] flex-col rounded-3xl bg-white p-8 md:w-[50%]">
+      <div className="absolute flex w-[90%] flex-col rounded-3xl  bg-Secondary p-8 text-Primary md:w-[50%]">
         <div className="flex items-center justify-end" onClick={closeModal}>
           닫기
         </div>
@@ -178,8 +182,8 @@ const PushToArrayModal = (props: AddSeriesModalProps) => {
           </form>
           <button
             type="submit"
-            className={` box-border p-5 ${
-              processing ? "bg-gray-50 text-zinc-200" : "bg-amber-200"
+            className={` box-border rounded-3xl p-5 text-lg text-Secondary  ${
+              processing ? "bg-gray-50 text-zinc-200" : "bg-Accent"
             }`}
             form="addSeriesForm"
             disabled={processing}

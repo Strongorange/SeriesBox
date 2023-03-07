@@ -22,7 +22,7 @@ const Home = () => {
 
   const [isEditting, setIsEditting] = useState(false);
 
-  const { user } = useUserStore();
+  const { user, isGuest } = useUserStore();
   const { setSeries, series: storeSeries, clearSeries } = useSeriesStore();
   const { showAddPhoto, setState } = useStateStore();
 
@@ -40,30 +40,36 @@ const Home = () => {
   };
 
   useEffect(() => {
+    let unsubscribe: () => void;
     if (user) {
       clearSeries();
+      //TODO: isGuest 에 따라 컬렉션 변화
+      unsubscribe = onSnapshot(
+        collection(db, !isGuest ? "series" : "seriesGuest"),
+        (querySnapshot) => {
+          clearSeries();
+          querySnapshot.docs.forEach((queryDocumentSnapshot, index) => {
+            const tempData: SeriesDocument = {
+              docId: queryDocumentSnapshot.id,
+              data: queryDocumentSnapshot.data().data,
+              docPhotoUrl: queryDocumentSnapshot.data().docPhotoUrl,
+            };
+            setSeries(tempData);
+          });
 
-      onSnapshot(collection(db, "series"), (querySnapshot) => {
-        clearSeries();
-        console.log(`querysnapshot.docs 길이 = ${querySnapshot.docs.length}`);
-        querySnapshot.docs.forEach((queryDocumentSnapshot, index) => {
-          const tempData: SeriesDocument = {
-            docId: queryDocumentSnapshot.id,
-            data: queryDocumentSnapshot.data().data,
-            docPhotoUrl: queryDocumentSnapshot.data().docPhotoUrl,
-          };
-
-          setSeries(tempData);
-        });
-
-        if (storeSeries) {
-          setPageLoading(false);
+          if (storeSeries) {
+            setPageLoading(false);
+          }
         }
-      });
+      );
     } else {
       console.log("home 에서 유저 없음");
       router.push("/");
     }
+
+    return () => {
+      if (unsubscribe) unsubscribe();
+    };
   }, []);
 
   useEffect(() => {
