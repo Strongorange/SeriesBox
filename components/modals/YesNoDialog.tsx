@@ -26,9 +26,12 @@ const YesNoDialog = (props: YesNoDialogI) => {
             <DangerIcon stroke="#CA3A31" />
           </div>
           <div className="flex w-full flex-col items-center justify-center">
-            <h3 className="italic underline">
-              {documentId ? documentId : "알 수 없는 시리즈"}
-            </h3>
+            <h4 className="italic underline">
+              {documentId && documentId.length > 8
+                ? `${documentId.slice(0, 8)}...`
+                : documentId}
+              {!documentId && "알 수 없는 시리즈"}
+            </h4>
             <h4>정말 지우시겠습니까?</h4>
           </div>
           <div className="flex w-full justify-end gap-8 bg-[#f2f2f2]  p-4 py-6">

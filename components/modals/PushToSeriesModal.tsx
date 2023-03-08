@@ -6,6 +6,7 @@ import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { SeriesItem } from "../../stores/seriesStore";
 import { useUserStore } from "../../stores/userStore";
 import { useRouter } from "next/router";
+import ImageIcon from "../svgs/ImageIcon";
 
 interface AddSeriesModalProps {
   isShow: boolean;
@@ -155,19 +156,26 @@ const PushToArrayModal = (props: AddSeriesModalProps) => {
             id="addSeriesForm"
             className="flex w-full flex-col gap-5"
           >
-            <h3>{router.query.sid} 시리즈에 추가</h3>
-
-            <div className="flex flex-col gap-5">
-              <label htmlFor="seriesPhoto">
-                <h3>사진 선택 (선택)</h3>
+            <div className="flex flex-col items-center gap-5">
+              <label
+                htmlFor="seriesPhoto"
+                className="flex flex-col items-center"
+              >
+                <h4>사진 선택</h4>
+                {!inputState.localFilePath && (
+                  <div>
+                    <ImageIcon width={100} height={100} stroke="#ccaa4b" />
+                  </div>
+                )}
               </label>
+
               {inputState.localFilePath && (
                 <div>
                   <Image
                     alt="업로드할 사진"
                     src={inputState.localFilePath}
-                    width={200}
-                    height={200}
+                    width={100}
+                    height={100}
                   />
                 </div>
               )}
@@ -177,6 +185,7 @@ const PushToArrayModal = (props: AddSeriesModalProps) => {
                 accept="image/*, video/*"
                 multiple
                 onChange={(e) => loadLocalFile(e)}
+                className="hidden"
               />
             </div>
           </form>

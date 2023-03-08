@@ -10,7 +10,7 @@ import PlusIcon from "./svgs/PlustIcon";
 
 const BottomNav = () => {
   const router = useRouter();
-  const { setState } = useStateStore();
+  const { setState, showBottomNav } = useStateStore();
 
   const showAddSeries = () => {
     if (router.pathname === "/home") {
@@ -27,7 +27,13 @@ const BottomNav = () => {
   if (router.pathname.includes("/auth")) return null;
 
   return (
-    <div className="bottomNav">
+    <div
+      className={`bottomNav ${
+        showBottomNav
+          ? "animate-selecting-bottom-nav"
+          : "animate-selecting-bottom-nav-reverse"
+      }`}
+    >
       <div className="flexCenter ">
         <Link href="/home">
           <HomeIcon filled={router.pathname === "/home"} />
@@ -39,7 +45,7 @@ const BottomNav = () => {
         </Link>
       </div> */}
       <div className="flexCenter relative" onClick={showAddSeries}>
-        <div className="fixed  bottom-[3.5vh] flex aspect-square h-[7vh] items-center justify-center rounded-full bg-Primary">
+        <div className="fixed  bottom-[3.5vh] flex aspect-square h-[7vh] items-center justify-center rounded-full bg-Accent">
           <PlusIcon stroke="#ffffff" />
         </div>
       </div>
