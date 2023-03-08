@@ -31,7 +31,7 @@ module.exports = {
         Header: "5vw",
         HeaderPc: "2vh 5vw",
         Nav: "5vw",
-        BottomPadding: "9vh",
+        BottomPadding: "13vh",
         PageLR: "2vh 5vw",
       },
       keyframes: {

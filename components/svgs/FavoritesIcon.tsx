@@ -18,7 +18,7 @@ const FavoritesIcon = (props: SVGIconProps) => {
       <FavoritesFilled
         width={width ? width : 24}
         height={height ? height : 24}
-        fill="#ff5c00"
+        fill="#ccaa4b"
         stroke="none"
       />
     );

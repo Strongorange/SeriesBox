@@ -138,8 +138,8 @@ const SeriesDetail = () => {
 
   // SelectedItems 추적, 삭제기능
   useEffect(() => {
-    console.log("SelectedItems");
-    console.log(selectedItems);
+    // console.log("SelectedItems");
+    // console.log(selectedItems);
   }, [selectedItems]);
 
   if (!data) return <div>로딩중</div>;
@@ -195,11 +195,10 @@ const SeriesDetail = () => {
                     />
                   </div>
                 )}
-                {/**FIXME: 체크했을때 좀 이쁘게 */}
                 {isEditting && (
                   <div
-                    className={`absolute top-2 right-2 h-[15%] w-[15%] animate-pulse rounded-full border-2 border-white ${
-                      selectedItems.includes(index) ? "bg-red-600" : null
+                    className={`absolute top-2 right-2 h-[15%] w-[15%] animate-pulse rounded-full border-2 border-Accent ${
+                      selectedItems.includes(index) ? "bg-Accent" : null
                     }`}
                     onClick={(e) => toggleSelected(index, e)}
                   />

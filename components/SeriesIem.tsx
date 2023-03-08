@@ -66,7 +66,7 @@ const SeriesIem = (props: SeriesItemProps) => {
   return (
     <>
       <div
-        className={`flexCenter relative w-full flex-col gap-2  ${
+        className={`flexCenter relative w-full flex-col gap-2 ${
           isShow ? "animate-fade-in-photo" : "hidden"
         }`}
         onClick={onClick}
@@ -85,7 +85,11 @@ const SeriesIem = (props: SeriesItemProps) => {
             />
           </div>
         )}
-        {docId && <p className="text-[1.4rem] font-medium">{docId}</p>}
+        {docId && (
+          <p className="whitespace-nowrap text-lg font-medium">
+            {docId.length > 8 ? `${docId.slice(0, 8)}...` : docId}
+          </p>
+        )}
         {isEditting && (
           <div
             className="absolute top-0 right-1 animate-pulse rounded-2xl bg-Accent p-2"

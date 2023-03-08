@@ -13,6 +13,8 @@ const Header = () => {
   const { user } = useUserStore();
   const router = useRouter();
   const [isHome, setIsHome] = useState<boolean>(true);
+  const [isProfile, setIsProfile] = useState(false);
+  const [isFavorite, setIsFavorite] = useState(false);
   const [headerCenter, setHeaderCenter] = useState("");
 
   useEffect(() => {
@@ -21,6 +23,18 @@ const Header = () => {
         setIsHome(true);
       } else {
         setIsHome(false);
+      }
+
+      if (router.pathname.includes("/profile/")) {
+        setIsProfile(true);
+      } else {
+        setIsProfile(false);
+      }
+
+      if (router.pathname.includes("/photos/favorites")) {
+        setIsFavorite(true);
+      } else {
+        setIsFavorite(false);
       }
 
       if (router.query.sid) {
@@ -67,7 +81,19 @@ const Header = () => {
           <LeftIcon stroke="#ccaa4b" />
         )}
       </div>
-      <div>{!isHome && headerCenter ? <h4> {headerCenter} </h4> : ""}</div>
+      {/* <div>{!isHome && headerCenter ? <h4> {headerCenter} </h4> : ""}</div> */}
+      <div>
+        {isHome && ""}
+        {!isHome && isProfile && <h4>Profile</h4>}
+        {!isHome && isFavorite && <h4>즐겨찾기</h4>}
+        {!isHome && !isProfile && !isFavorite && headerCenter && (
+          <h4>
+            {headerCenter.length > 8
+              ? `${headerCenter.slice(0, 8)}...`
+              : headerCenter}
+          </h4>
+        )}
+      </div>
       <div>
         {isHome && user ? (
           <div onClick={handleSignInOut}>
