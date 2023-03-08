@@ -111,9 +111,9 @@ const Home = () => {
 
   return (
     <>
-      <div className="flex w-full animate-fade-in flex-col gap-10 bg-Secondary p-PageLR pb-BottomPadding pt-[7vh] text-Primary">
+      <div className="flex w-full animate-fade-in flex-col gap-10 bg-Secondary p-PageLR pb-BottomPadding pt-[10vh] text-Primary">
         <div className="flex w-full flex-col gap-5">
-          <h2>최근 사용한 시리즈</h2>
+          <h3>최근 사용한 시리즈</h3>
           {localStorage.getItem("recentSeries") && (
             <div className="flex w-full gap-[3vw] overflow-auto">
               {/** 최근 사용한 시리즈 */}
@@ -139,7 +139,11 @@ const Home = () => {
                   />
                 </div>
                 <div className="flex flex-col gap-3">
-                  <h3>{recentSeries?.docId}</h3>
+                  <h4>
+                    {recentSeries!.docId.length > 8
+                      ? `${recentSeries?.docId.slice(0, 8)}...`
+                      : recentSeries?.docId}
+                  </h4>
                   <div className="flex items-center gap-3">
                     <ImageIcon fill="#ffffff" />
                     <span className="text-xl">
@@ -155,7 +159,7 @@ const Home = () => {
         </div>
         <div className="flex w-full flex-col gap-5">
           <div className="flex w-full items-center justify-between">
-            <h2>시리즈 목록</h2>
+            <h3>시리즈 목록</h3>
             <div className="cursor-pointer" onClick={toggleIsEditting}>
               {isEditting ? (
                 <CheckIcon stroke="#ccaa4b" />

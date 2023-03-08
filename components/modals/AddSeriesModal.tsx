@@ -5,6 +5,7 @@ import { db, storage } from "../../firebase";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { SeriesItem } from "../../stores/seriesStore";
 import { useUserStore } from "../../stores/userStore";
+import ImageIcon from "../svgs/ImageIcon";
 
 interface TempObj extends SeriesItem {
   thumbUrl?: string;
@@ -193,6 +194,7 @@ const AddSeriesModal = (props: AddSeriesModalProps) => {
           setProcessing(false);
           resetInputState();
           alert("업로드 완료!");
+          toggleShow();
         }
       } catch (error) {
         alert("오류 발생");
@@ -247,7 +249,7 @@ const AddSeriesModal = (props: AddSeriesModalProps) => {
           >
             <div className="flex flex-col gap-5">
               <label htmlFor="seriesName">
-                <h3>시리즈 이름</h3>
+                <h4>시리즈 이름</h4>
               </label>
               <input
                 id="seriesName"
@@ -260,8 +262,13 @@ const AddSeriesModal = (props: AddSeriesModalProps) => {
             </div>
 
             <div className="flex flex-col gap-5">
-              <label htmlFor="seriesThumbPhoto">
-                <h3>시리즈 썸네일 선택 (선택)</h3>
+              <label htmlFor="seriesThumbPhoto" className="flex flex-col">
+                <h4>시리즈 썸네일 선택</h4>
+                {!inputState.thumbLocalFilePath && (
+                  <div>
+                    <ImageIcon width={70} height={70} stroke="#ccaa4b" />
+                  </div>
+                )}
               </label>
               {inputState.thumbLocalFilePath && (
                 <div>
@@ -278,11 +285,17 @@ const AddSeriesModal = (props: AddSeriesModalProps) => {
                 type="file"
                 accept="image/*"
                 onChange={(e) => loadLocalFile(e, "thumb")}
+                className="hidden"
               />
             </div>
             <div className="flex flex-col gap-5">
-              <label htmlFor="seriesPhoto">
-                <h3>사진 선택 (선택)</h3>
+              <label htmlFor="seriesPhoto" className="flex flex-col">
+                <h4>사진 선택</h4>
+                {!inputState.localFilePath && (
+                  <div className="opacity-50">
+                    <ImageIcon width={70} height={70} stroke="#ccaa4b" />
+                  </div>
+                )}
               </label>
               {inputState.localFilePath && (
                 <div>
@@ -305,7 +318,7 @@ const AddSeriesModal = (props: AddSeriesModalProps) => {
           <button
             type="submit"
             className={` box-border rounded-3xl p-5 text-lg text-Secondary ${
-              processing ? "bg-gray-50 text-zinc-200" : "bg-Primary"
+              processing ? "bg-gray-50 text-zinc-200" : "bg-Accent"
             }`}
             form="addSeriesForm"
             disabled={processing}

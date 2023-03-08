@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useEffect } from "react";
 import TrashIcon from "./svgs/TrashIcon";
+import { useStateStore } from "../stores/stateStore";
 
 interface SelectingBottomNavI {
   isShow: boolean;
@@ -9,19 +10,27 @@ interface SelectingBottomNavI {
 
 const SelectingBottomNav = (props: SelectingBottomNavI) => {
   const { isShow, toggleShowDialog, isEditting } = props;
+  const { showBottomNav, setShowBottomNav } = useStateStore();
+
+  useEffect(() => {
+    const flag = isEditting && isShow;
+    setShowBottomNav(!flag);
+  }, [isEditting, isShow]);
+
+  useEffect(() => {
+    console.log(showBottomNav);
+  }, [showBottomNav]);
 
   return (
     <div
-      className={`bottomNav z-selecting-bottom-nav ${
+      className={`bottomNav -bottom-[50vh] z-selecting-bottom-nav ${
         isEditting && isShow
-          ? "animate-selecting-bottom-nav"
-          : isEditting && !isShow
-          ? "animate-selecting-bottom-nav-reverse"
-          : "hidden"
+          ? "bottom-0 animate-selecting-bottom-nav"
+          : "animate-selecting-bottom-nav-reverse"
       } `}
     >
       <div
-        className="flex w-full flex-col justify-center items-center"
+        className="flex w-full flex-col items-center justify-center"
         onClick={toggleShowDialog}
       >
         <TrashIcon />
