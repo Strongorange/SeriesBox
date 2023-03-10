@@ -172,10 +172,10 @@ const PhotoDetail: NextPage<IServerSideProps> = ({ fileType }) => {
               isClicked ? "animate-fade-in" : "animate-fade-out"
             } `}
           >
-            <div className="box-border  flex items-center justify-end gap-6 rounded-3xl bg-black bg-opacity-50 p-5">
+            <div className="box-border flex animate-pulse items-center justify-end gap-6 rounded-3xl bg-black bg-opacity-50 p-5">
               <div
                 onClick={(e) => toggleIsFavorite(e)}
-                className="scaleUpOnHover-125"
+                className="scaleUpOnHover-125 cursor-pointer"
               >
                 <FavoritesIcon
                   width={30}
@@ -186,9 +186,14 @@ const PhotoDetail: NextPage<IServerSideProps> = ({ fileType }) => {
               </div>
               <div
                 onClick={(e) => handleShare(e)}
-                className="scaleUpOnHover-125"
+                className="scaleUpOnHover-125 cursor-pointer"
               >
-                <MessageIcon fill="#ffffff" width={30} height={30} />
+                <Image
+                  src="/icons/kakaotalk.png"
+                  alt=""
+                  width={24}
+                  height={24}
+                />
               </div>
             </div>
           </div>
