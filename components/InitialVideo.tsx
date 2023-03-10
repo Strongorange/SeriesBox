@@ -17,7 +17,7 @@ const InitialVideo = () => {
   }, []);
   return unmount ? null : (
     <div
-      className={`fixed w-screen h-screen z-initial-video top-0 ${
+      className={`fixed top-0 z-initial-video h-screen w-screen ${
         shouldUnmount ? "animate-fade-out" : "animate-fade-in"
       }`}
     >
@@ -26,7 +26,7 @@ const InitialVideo = () => {
         autoPlay
         muted
         loop
-        className="w-full h-full object-fill"
+        className="h-full w-full object-fill"
       />
     </div>
   );
