@@ -205,7 +205,7 @@ const AddSeriesModal = (props: AddSeriesModalProps) => {
   };
 
   useEffect(() => {
-    console.log(inputState);
+    // console.log(inputState);
   }, [inputState]);
 
   // 언마운트 애니메이션을 위해 애니메이션 길이만큼 showComponent 상태 딜레이

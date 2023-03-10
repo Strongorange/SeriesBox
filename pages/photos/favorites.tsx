@@ -17,7 +17,7 @@ const Favorites = () => {
 
   useEffect(() => {
     // 컴포넌트 로드시 localStorage 의  favorites 에서 데이터를 가져옴
-    const favorite = localStorage.getItem("favorite");
+    const favorite = localStorage.getItem("favoriteItems");
     if (favorite) {
       setLocalFavorites(JSON.parse(favorite));
     }
@@ -26,16 +26,16 @@ const Favorites = () => {
   return (
     <div className="flex w-full flex-col gap-8 bg-Secondary p-PageLR pt-[10vh] text-Primary">
       <h4>즐겨찾는 사진들</h4>
-      <div className="grid w-full grid-cols-3 gap-1">
+      <div className="grid w-full grid-cols-3 gap-1 md:grid-cols-5 lg:grid-cols-7">
         {localFavorites ? (
           localFavorites.map(
             (item: LocalStorageFavoriteItem, index: number) => (
               <div
                 key={index}
-                className="relative aspect-square w-full overflow-auto rounded-3xl"
+                className="scaleUpOnHover-125 relative aspect-square w-full cursor-pointer overflow-auto rounded-3xl"
                 onClick={() => gotoDetail(item)}
               >
-                <Image src={item.fileUrl} alt="" fill />{" "}
+                <Image src={item.fileUrl} alt="" fill />
               </div>
             )
           )

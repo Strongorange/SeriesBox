@@ -58,9 +58,9 @@ export default function App({ Component, pageProps }: AppProps) {
 
   //게스트 상태 추적
   useEffect(() => {
-    if (loggedInUser) console.log(loggedInUser);
-    console.log("게스트 상태");
-    console.log(isGuest);
+    // if (loggedInUser) console.log(loggedInUser);
+    // console.log("게스트 상태");
+    // console.log(isGuest);
   }, [loggedInUser, isGuest]);
 
   // 모든 페이지에서 유저 존재 검증 후 페이지 이동
@@ -79,6 +79,14 @@ export default function App({ Component, pageProps }: AppProps) {
       } else {
         router.push("/");
       }
+    }
+
+    // favoritesItems 초기화
+    // 1. localStorage 에 favoritesItems 배열이 있는지 확인
+    const localStorageFavoriteItems = localStorage.getItem("favoritesItems");
+    // 1-1 없다면 favoriteItems 라는 빈 배열을 localstorage 에 저장
+    if (!localStorageFavoriteItems === null) {
+      localStorage.setItem("favoriteItems", JSON.stringify([]));
     }
   }, []);
 

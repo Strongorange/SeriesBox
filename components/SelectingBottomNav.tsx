@@ -18,7 +18,7 @@ const SelectingBottomNav = (props: SelectingBottomNavI) => {
   }, [isEditting, isShow]);
 
   useEffect(() => {
-    console.log(showBottomNav);
+    // console.log(showBottomNav);
   }, [showBottomNav]);
 
   return (

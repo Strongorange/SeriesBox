@@ -63,7 +63,7 @@ const Home = () => {
         }
       );
     } else {
-      console.log("home 에서 유저 없음");
+      // console.log("home 에서 유저 없음");
       router.push("/");
     }
 
@@ -104,7 +104,7 @@ const Home = () => {
   }, []);
 
   useEffect(() => {
-    console.log(storeSeries);
+    // console.log(storeSeries);
   }, [storeSeries]);
 
   if (pageLoading) return <div></div>;
