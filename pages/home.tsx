@@ -118,7 +118,7 @@ const Home = () => {
             <div className="flex w-full gap-[3vw] overflow-auto">
               {/** 최근 사용한 시리즈 */}
               <div
-                className="bg-green box-border flex w-full gap-10 rounded-3xl bg-Primary p-5 text-white md:p-4"
+                className="box-border flex w-full gap-10 rounded-3xl bg-Primary p-5 text-white md:p-4"
                 onClick={() =>
                   recentSeries &&
                   moveAndSetSeries(String(recentSeries?.docId), recentSeries)

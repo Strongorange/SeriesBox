@@ -72,7 +72,7 @@ const Header = () => {
 
   return (
     <div className="topHeader text-Primary">
-      <div onClick={goBack}>
+      <div onClick={goBack} className="scaleUpOnHover-125 cursor-pointer">
         {isHome ? (
           <Link href={`/profile/321`}>
             <ProfileIcon stroke="#ccaa4b" fill="none" />
@@ -94,7 +94,7 @@ const Header = () => {
           </h4>
         )}
       </div>
-      <div>
+      <div className="scaleUpOnHover-125 cursor-pointer">
         {isHome && user ? (
           <div onClick={handleSignInOut}>
             <LogoutIcon fill="none" stroke="#ccaa4b" />

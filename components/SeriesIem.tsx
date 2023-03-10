@@ -66,13 +66,13 @@ const SeriesIem = (props: SeriesItemProps) => {
   return (
     <>
       <div
-        className={`flexCenter relative w-full flex-col gap-2 ${
+        className={`flexCenter relative w-full cursor-pointer flex-col gap-2 ${
           isShow ? "animate-fade-in-photo" : "hidden"
         }`}
         onClick={onClick}
       >
         {docPhotoUrl && (
-          <div className="relative aspect-square w-full overflow-auto rounded-3xl">
+          <div className="scaleUpOnHover-125 relative aspect-square w-full overflow-auto rounded-3xl">
             <Image
               src={docPhotoUrl}
               alt="docPhotoUrl"

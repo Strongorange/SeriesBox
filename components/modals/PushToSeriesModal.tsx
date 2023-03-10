@@ -7,6 +7,7 @@ import { SeriesItem } from "../../stores/seriesStore";
 import { useUserStore } from "../../stores/userStore";
 import { useRouter } from "next/router";
 import ImageIcon from "../svgs/ImageIcon";
+import CancelIcon from "../svgs/CancelIcon";
 
 interface AddSeriesModalProps {
   isShow: boolean;
@@ -146,8 +147,10 @@ const PushToArrayModal = (props: AddSeriesModalProps) => {
     >
       <div className="fixed h-full w-full bg-[rgba(0,0,0,0.5)]" />
       <div className="absolute flex w-[90%] flex-col rounded-3xl  bg-Secondary p-8 text-Primary md:w-[50%]">
-        <div className="flex items-center justify-end" onClick={closeModal}>
-          닫기
+        <div className="flex items-center justify-end " onClick={closeModal}>
+          <div className="scaleUpOnHover-125 cursor-pointer">
+            <CancelIcon width={18} height={18} stroke="#ccaa4b" />
+          </div>
         </div>
         <div className="flex w-full flex-col gap-10">
           <form
@@ -163,7 +166,7 @@ const PushToArrayModal = (props: AddSeriesModalProps) => {
               >
                 <h4>사진 선택</h4>
                 {!inputState.localFilePath && (
-                  <div>
+                  <div className="scaleUpOnHover-125 animate-pulse">
                     <ImageIcon width={100} height={100} stroke="#ccaa4b" />
                   </div>
                 )}
@@ -197,7 +200,7 @@ const PushToArrayModal = (props: AddSeriesModalProps) => {
             form="addSeriesForm"
             disabled={processing}
           >
-            사진 추가
+            <p className="scaleUpOnHover-125">사진 추가</p>
           </button>
         </div>
       </div>

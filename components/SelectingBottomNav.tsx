@@ -30,7 +30,7 @@ const SelectingBottomNav = (props: SelectingBottomNavI) => {
       } `}
     >
       <div
-        className="flex w-full flex-col items-center justify-center"
+        className="scaleUpOnHover-125 flex w-full cursor-pointer flex-col items-center justify-center"
         onClick={toggleShowDialog}
       >
         <TrashIcon />
