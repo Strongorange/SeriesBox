@@ -6,6 +6,7 @@ import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { SeriesItem } from "../../stores/seriesStore";
 import { useUserStore } from "../../stores/userStore";
 import ImageIcon from "../svgs/ImageIcon";
+import CancelIcon from "../svgs/CancelIcon";
 
 interface TempObj extends SeriesItem {
   thumbUrl?: string;
@@ -238,7 +239,9 @@ const AddSeriesModal = (props: AddSeriesModalProps) => {
             setProcessing(false);
           }}
         >
-          닫기
+          <div className="scaleUpOnHover-125 cursor-pointer ">
+            <CancelIcon width={18} height={18} stroke="#ccaa4b" />
+          </div>
         </div>
         <div className="flex w-full flex-col gap-10">
           <form
@@ -254,7 +257,7 @@ const AddSeriesModal = (props: AddSeriesModalProps) => {
               <input
                 id="seriesName"
                 type="text"
-                className="h-[4vh] w-full rounded-3xl border-2 p-2"
+                className="h-10 w-full rounded-3xl px-4 transition-all duration-500 focus:h-16 focus:border-2 focus:border-solid focus:border-Primary focus:outline-none md:h-16 md:focus:h-24"
                 placeholder="시리즈 이름"
                 name="seriesName"
                 onChange={onChangeInput}
@@ -265,13 +268,13 @@ const AddSeriesModal = (props: AddSeriesModalProps) => {
               <label htmlFor="seriesThumbPhoto" className="flex flex-col">
                 <h4>시리즈 썸네일 선택</h4>
                 {!inputState.thumbLocalFilePath && (
-                  <div>
+                  <div className="scaleUpOnHover-125 w-fit animate-pulse cursor-pointer">
                     <ImageIcon width={70} height={70} stroke="#ccaa4b" />
                   </div>
                 )}
               </label>
               {inputState.thumbLocalFilePath && (
-                <div>
+                <div className="scaleUpOnHover-125 w-fit animate-pulse overflow-auto rounded-3xl">
                   <Image
                     alt="업로드할 사진"
                     src={inputState.thumbLocalFilePath}
@@ -292,13 +295,13 @@ const AddSeriesModal = (props: AddSeriesModalProps) => {
               <label htmlFor="seriesPhoto" className="flex flex-col">
                 <h4>사진 선택</h4>
                 {!inputState.localFilePath && (
-                  <div className="opacity-50">
+                  <div className="scaleUpOnHover-125 w-fit animate-pulse cursor-pointer opacity-80">
                     <ImageIcon width={70} height={70} stroke="#ccaa4b" />
                   </div>
                 )}
               </label>
               {inputState.localFilePath && (
-                <div>
+                <div className="scaleUpOnHover-125 w-fit animate-pulse overflow-auto rounded-3xl">
                   <Image
                     alt="업로드할 사진"
                     src={inputState.localFilePath}
@@ -312,18 +315,19 @@ const AddSeriesModal = (props: AddSeriesModalProps) => {
                 type="file"
                 accept="image/*"
                 onChange={(e) => loadLocalFile(e, "upload")}
+                className="hidden"
               />
             </div>
           </form>
           <button
             type="submit"
-            className={` box-border rounded-3xl p-5 text-lg text-Secondary ${
+            className={`box-border rounded-3xl p-5 text-lg text-Secondary ${
               processing ? "bg-gray-50 text-zinc-200" : "bg-Accent"
             }`}
             form="addSeriesForm"
             disabled={processing}
           >
-            시리즈 만들기
+            <p className="scaleUpOnHover-125">시리즈 만들기</p>
           </button>
         </div>
       </div>

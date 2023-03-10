@@ -101,14 +101,14 @@ export default function Home() {
           </div>
           <button
             type="submit"
-            className="mt-10 h-10 w-[50%] rounded-3xl bg-Primary text-Secondary md:h-14 md:text-xl"
+            className="scaleUpOnHover-125 mt-10 h-10 w-[50%] rounded-3xl bg-Primary  text-Secondary md:h-14 md:text-xl"
           >
             로그인
           </button>
 
           <button
             type="submit"
-            className="h-10 w-[50%] animate-pulse rounded-3xl bg-Accent text-Secondary md:h-14 md:text-xl"
+            className="md:text-x scaleUpOnHover-125 h-10 w-[50%] animate-pulse rounded-3xl bg-Accent  text-Secondary md:h-14"
             onClick={(e) => handleLogin(e, true)}
           >
             <p>게스트</p>

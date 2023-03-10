@@ -11,6 +11,12 @@ import Header from "../components/Header";
 import BottomNav from "../components/BottomNav";
 import PushToArrayModal from "../components/modals/PushToSeriesModal";
 
+declare global {
+  interface Window {
+    Kakao: any;
+  }
+}
+
 export default function App({ Component, pageProps }: AppProps) {
   const [appLoading, setAppLoading] = useState<boolean>(true);
   const router = useRouter();

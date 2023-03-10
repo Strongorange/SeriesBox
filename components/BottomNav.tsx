@@ -28,13 +28,13 @@ const BottomNav = () => {
 
   return (
     <div
-      className={`bottomNav ${
+      className={`bottomNav  ${
         showBottomNav
           ? "animate-selecting-bottom-nav"
           : "animate-selecting-bottom-nav-reverse"
       }`}
     >
-      <div className="flexCenter ">
+      <div className="flexCenter scaleUpOnHover-125">
         <Link href="/home">
           <HomeIcon filled={router.pathname === "/home"} />
         </Link>
@@ -45,12 +45,12 @@ const BottomNav = () => {
         </Link>
       </div> */}
       <div className="flexCenter relative" onClick={showAddSeries}>
-        <div className="fixed  bottom-[3.5vh] flex aspect-square h-[7vh] items-center justify-center rounded-full bg-Accent">
+        <div className="scaleUpOnHover-125 fixed bottom-[3.5vh] flex aspect-square h-[7vh] items-center justify-center rounded-full bg-Accent">
           <PlusIcon stroke="#ffffff" />
         </div>
       </div>
 
-      <div className="flexCenter">
+      <div className="flexCenter scaleUpOnHover-125">
         <Link href="/photos/favorites">
           <FavoritesIcon filled={router.pathname.includes("/favorites")} />
         </Link>
