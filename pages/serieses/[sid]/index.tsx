@@ -153,10 +153,13 @@ const SeriesDetail = () => {
           </div>
         </div>
       )}
-      <div className="flex w-full flex-col bg-Secondary pt-[7vh] text-Primary ">
+      <div className="flex w-full flex-col bg-Secondary pt-[7vh] text-Primary">
         <div className="flex w-full items-center justify-between p-PageLR ">
           <h4>{data.length} 개의 미디어</h4>
-          <div onClick={toggleIsEditting}>
+          <div
+            onClick={toggleIsEditting}
+            className="scaleUpOnHover-125 cursor-pointer"
+          >
             {isEditting ? (
               <CheckIcon stroke="#ccaa4b" />
             ) : (
@@ -169,7 +172,7 @@ const SeriesDetail = () => {
             data.map((item: SeriesItem, index: number) => (
               <div
                 key={index}
-                className={`flexCenter relative aspect-square w-full flex-col overflow-auto rounded-3xl ${
+                className={`flexCenter scaleUpOnHover-105 relative aspect-square w-full cursor-pointer flex-col overflow-auto rounded-3xl ${
                   index <= animationIndex ? "animate-fade-in" : "hidden"
                 }`}
                 onClick={() => moveToDetailOrSelect(item, index)}

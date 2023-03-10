@@ -11,12 +11,18 @@ import Header from "../components/Header";
 import BottomNav from "../components/BottomNav";
 import PushToArrayModal from "../components/modals/PushToSeriesModal";
 
+declare global {
+  interface Window {
+    Kakao: any;
+  }
+}
+
 export default function App({ Component, pageProps }: AppProps) {
   const [appLoading, setAppLoading] = useState<boolean>(true);
   const router = useRouter();
   const { showPushPhotoToSeries, setState } = useStateStore();
   const { user: loggedInUser, setUser, isGuest, setIsGuest } = useUserStore();
-  const { setSeries, series: storeSeries } = useSeriesStore();
+  const { series: storeSeries } = useSeriesStore();
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
       if (user) {
@@ -27,7 +33,9 @@ export default function App({ Component, pageProps }: AppProps) {
           } else {
             setIsGuest(false);
           }
+          // 유저 상태와 로컬스토리지에 저장
           setUser(user);
+          localStorage.setItem("loggedInUser", JSON.stringify(user));
           setAppLoading(false);
         } catch (e) {
           alert(e);
@@ -36,6 +44,7 @@ export default function App({ Component, pageProps }: AppProps) {
       } else {
         //TODO: zustand 에서 유저 삭제
         setUser(null);
+        localStorage.setItem("loggedInUser", "");
         // console.log("로그아웃 됨");
         router.push("/");
       }
@@ -47,11 +56,31 @@ export default function App({ Component, pageProps }: AppProps) {
     }
   }, [loggedInUser, setUser, appLoading, storeSeries]);
 
+  //게스트 상태 추적
   useEffect(() => {
     if (loggedInUser) console.log(loggedInUser);
     console.log("게스트 상태");
     console.log(isGuest);
   }, [loggedInUser, isGuest]);
+
+  // 모든 페이지에서 유저 존재 검증 후 페이지 이동
+  useEffect(() => {
+    // 1. 처음에 로컬스토리지를 참조해 저장된 유저가 있는지 판단
+    const localStorageUser = localStorage.getItem("loggedInUser");
+    // 1-1. 로컬스토리지에 유저가 있다면 loggedInUser 상태를 로컬스토리지 값으로 업데이트
+    if (localStorageUser) {
+      setUser(JSON.parse(localStorageUser));
+      // 2. 로컬 스토리지에 유저가 없다면 loggedInUser 상태에 유저가 존재하는지 판단
+    } else {
+      // 2-1 loggedInUser 상태에 유저가 존재한다면 로컬스토리지에 loggedInUser 상태로 없데이트
+      if (loggedInUser) {
+        localStorage.setItem("loggedInUser", JSON.stringify(loggedInUser));
+        // 2-2 유저가 없다면 로그인 안된 것으로 판단해 홈으로 보냄
+      } else {
+        router.push("/");
+      }
+    }
+  }, []);
 
   return (
     <>

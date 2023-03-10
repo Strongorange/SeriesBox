@@ -17,9 +17,12 @@ export default function Home() {
   });
   const router = useRouter();
   const { user } = useUserStore();
+  //개인용, 공개용 캐릭터 영상 여부
+  const [showMuza, setShowMuza] = useState(true);
 
   useEffect(() => {
-    if (user) {
+    const localStorageUser = localStorage.getItem("loggedInUser");
+    if (user || localStorageUser) {
       router.push("/home");
     }
   }, [user]);
@@ -62,7 +65,7 @@ export default function Home() {
 
   return (
     <>
-      <InitialVideo />
+      {showMuza && <InitialVideo />}
       <div className="flex h-screen  w-full flex-col items-center justify-center gap-3 bg-Secondary">
         <form
           className="box-border flex w-3/4 flex-col items-center gap-3 rounded-3xl border-2 p-10 md:w-1/2"
@@ -101,14 +104,14 @@ export default function Home() {
           </div>
           <button
             type="submit"
-            className="mt-10 h-10 w-[50%] rounded-3xl bg-Primary text-Secondary md:h-14 md:text-xl"
+            className="scaleUpOnHover-125 mt-10 h-10 w-[50%] rounded-3xl bg-Primary  text-Secondary md:h-14 md:text-xl"
           >
             로그인
           </button>
 
           <button
             type="submit"
-            className="h-10 w-[50%] animate-pulse rounded-3xl bg-Accent text-Secondary md:h-14 md:text-xl"
+            className="md:text-x scaleUpOnHover-125 h-10 w-[50%] animate-pulse rounded-3xl bg-Accent  text-Secondary md:h-14"
             onClick={(e) => handleLogin(e, true)}
           >
             <p>게스트</p>

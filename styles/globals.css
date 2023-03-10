@@ -62,4 +62,16 @@ span {
   .flexCenter {
     @apply flex items-center justify-center;
   }
+
+  .scaleUpOnHover-105 {
+    @apply transition-all hover:scale-105;
+  }
+
+  .scaleUpOnHover-110 {
+    @apply transition-all hover:scale-110;
+  }
+
+  .scaleUpOnHover-125 {
+    @apply transition-all hover:z-[300] hover:scale-125;
+  }
 }
