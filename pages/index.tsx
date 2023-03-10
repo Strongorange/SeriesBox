@@ -18,7 +18,9 @@ export default function Home() {
   const router = useRouter();
   const { user } = useUserStore();
   //개인용, 공개용 캐릭터 영상 여부
-  const [showMuza, setShowMuza] = useState(true);
+  const [showMuza, setShowMuza] = useState(
+    process.env.NEXT_PUBLIC_INITIAL_VIDEO === "true" ? true : false
+  );
 
   useEffect(() => {
     const localStorageUser = localStorage.getItem("loggedInUser");
