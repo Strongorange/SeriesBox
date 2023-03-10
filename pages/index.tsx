@@ -85,7 +85,7 @@ export default function Home() {
               id="email"
               onChange={handleInput}
               placeholder="example@gmail.com"
-              className="h-10 w-full rounded-3xl px-4 transition-all duration-500 focus:h-16 focus:border-2 focus:border-solid focus:border-Primary focus:outline-none md:h-16 md:focus:h-24"
+              className="h-10 w-full rounded-3xl px-4 text-lg transition-all duration-500 focus:h-16 focus:border-2 focus:border-solid focus:border-Primary focus:outline-none md:h-16 md:text-xl md:focus:h-24"
             />
             <label
               htmlFor="password"
@@ -99,7 +99,7 @@ export default function Home() {
               id="password"
               onChange={handleInput}
               placeholder="******"
-              className="h-10 w-full rounded-3xl px-4 transition-all duration-500 focus:h-16 focus:border-2 focus:border-solid focus:border-Primary focus:outline-none md:h-16 md:focus:h-24"
+              className="h-10 w-full rounded-3xl px-4 text-lg transition-all duration-500 focus:h-16 focus:border-2 focus:border-solid focus:border-Primary focus:outline-none md:h-16 md:text-xl md:focus:h-24"
             />
           </div>
           <button

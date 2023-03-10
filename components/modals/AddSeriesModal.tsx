@@ -257,7 +257,7 @@ const AddSeriesModal = (props: AddSeriesModalProps) => {
               <input
                 id="seriesName"
                 type="text"
-                className="h-10 w-full rounded-3xl px-4 transition-all duration-500 focus:h-16 focus:border-2 focus:border-solid focus:border-Primary focus:outline-none md:h-16 md:focus:h-24"
+                className="h-10 w-full rounded-3xl px-4 text-lg text-black transition-all duration-500 focus:h-16 focus:border-2 focus:border-solid focus:border-Primary focus:outline-none md:h-16 md:text-xl md:focus:h-24"
                 placeholder="시리즈 이름"
                 name="seriesName"
                 onChange={onChangeInput}
