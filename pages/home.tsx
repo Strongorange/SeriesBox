@@ -43,7 +43,7 @@ const Home = () => {
     let unsubscribe: () => void;
     if (user) {
       clearSeries();
-      //TODO: isGuest 에 따라 컬렉션 변화
+      // isGuest 에 따라 컬렉션 변화
       unsubscribe = onSnapshot(
         collection(db, !isGuest ? "series" : "seriesGuest"),
         (querySnapshot) => {
@@ -114,6 +114,7 @@ const Home = () => {
       <div className="flex w-full animate-fade-in flex-col gap-10 bg-Secondary p-PageLR pb-BottomPadding pt-[10vh] text-Primary">
         <div className="flex w-full flex-col gap-5">
           <h3>최근 사용한 시리즈</h3>
+          {/**TODO: PC 에서는 List 로 3개 보여주기 */}
           {localStorage.getItem("recentSeries") && (
             <div className="flex w-full gap-[3vw] overflow-auto">
               {/** 최근 사용한 시리즈 */}
@@ -160,7 +161,10 @@ const Home = () => {
         <div className="flex w-full flex-col gap-5">
           <div className="flex w-full items-center justify-between">
             <h3>시리즈 목록</h3>
-            <div className="cursor-pointer" onClick={toggleIsEditting}>
+            <div
+              className="scaleUpOnHover-125 cursor-pointer"
+              onClick={toggleIsEditting}
+            >
               {isEditting ? (
                 <CheckIcon stroke="#ccaa4b" />
               ) : (
