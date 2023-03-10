@@ -34,7 +34,7 @@ span {
 
 @layer components {
   .topHeader {
-    @apply fixed z-header box-border flex h-[7vh] w-full items-center justify-between border-b-[1px] bg-Secondary p-Header md:h-[5vh]  md:p-HeaderPc;
+    @apply fixed z-header box-border flex h-[7vh] w-full items-center justify-between border-b-[1px] bg-Secondary p-Header md:h-[5vh] md:p-HeaderPc;
   }
 
   .bottomNav {

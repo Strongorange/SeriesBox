@@ -28,7 +28,7 @@ const BottomNav = () => {
 
   return (
     <div
-      className={`bottomNav  ${
+      className={`fixed bottom-0 z-bottom-nav flex h-[7vh] w-full items-center justify-between border-t-[1px] bg-Secondary p-Nav md:px-PageLR md:py-3  ${
         showBottomNav
           ? "animate-selecting-bottom-nav"
           : "animate-selecting-bottom-nav-reverse"
