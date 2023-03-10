@@ -40,6 +40,11 @@ const PhotoDetail: NextPage<IServerSideProps> = ({ fileType }) => {
   const { setShowBottomNav } = useStateStore();
   const [isClicked, setIsClicked] = useState(true);
   const [isFavorite, setIsFavorite] = useState(false);
+  const [favoriteItems, setFavoriteItems] = useState<
+    LocalStorageFavoriteItem[] | []
+  >([]);
+  const [currentData, setCurrentData] =
+    useState<LocalStorageFavoriteItem | null>(null);
   const [fileUrl, setFileUrl] = useState(String(url));
   const [loading, setLoading] = useState(true);
 
@@ -74,7 +79,7 @@ const PhotoDetail: NextPage<IServerSideProps> = ({ fileType }) => {
     e: React.MouseEvent<HTMLDivElement, MouseEvent>
   ) => {
     e.stopPropagation();
-    setIsFavorite(!isFavorite);
+    setIsFavorite((prev) => !prev);
   };
 
   useEffect(() => {
@@ -91,31 +96,56 @@ const PhotoDetail: NextPage<IServerSideProps> = ({ fileType }) => {
   }, [router.isReady]);
 
   useEffect(() => {
-    if (isFavorite) {
-      const favorite = localStorage.getItem("favorite");
-      if (!favorite) {
-        localStorage.setItem(
-          "favorite",
-          JSON.stringify([{ fileName: name, fileUrl: url, series: sid }])
+    try {
+      // 1. isFavorite 가 true 이면 아래 useEffect 에서 저장된 favoriteItems 상태에 현재 데이터를 추가
+      if (isFavorite) {
+        const isDataExist = favoriteItems.some(
+          (item: LocalStorageFavoriteItem) =>
+            item.fileUrl === currentData!.fileUrl
         );
+        // 1-1 동일한 데이터가 있다면 아무것도 하지 않음
+        if (isDataExist) {
+          //
+        } else {
+          // 1-2 동일한 데이터가 없다면 데이터 추가
+          setFavoriteItems((prev: LocalStorageFavoriteItem[]) => [
+            ...prev,
+            {
+              fileName: String(name),
+              fileUrl: String(url),
+              series: String(sid),
+            },
+          ]);
+        }
       } else {
-        const localStorageFavorite = localStorage.getItem("favorite");
-        const data = JSON.parse(localStorageFavorite!);
-        const newData = [
-          ...data,
-          { fileName: name, fileUrl: url, series: sid },
-        ];
-        localStorage.setItem("favorite", JSON.stringify(newData));
+        // 2. isFavorite 가 false 라면 아래 useEffect 에서 저장된 favoriteItems 상태에서 현재 데이터를 제거
+        const isDataExist = favoriteItems.some(
+          (item: LocalStorageFavoriteItem) =>
+            item.fileUrl === currentData!.fileUrl
+        );
+        if (isDataExist) {
+          // 2-1 데이터 제거
+          setFavoriteItems(
+            favoriteItems.filter(
+              (item: LocalStorageFavoriteItem) =>
+                item.fileUrl !== currentData?.fileUrl
+            )
+          );
+        } else {
+          // 2-2 패스
+        }
       }
-    } else {
-      const localStorageFavorite = localStorage.getItem("favorite");
-      const data = JSON.parse(localStorageFavorite!);
-      const newData = data.filter(
-        (item: LocalStorageFavoriteItem) => item.fileName !== name
-      );
-      localStorage.setItem("favorite", JSON.stringify(newData));
+    } catch (error) {
+      console.log(error);
     }
   }, [isFavorite]);
+
+  useEffect(() => {
+    //  3. 현재 favoriteItems 상태를 localStorage 에 업데이트
+    if (!loading) {
+      localStorage.setItem("favoriteItems", JSON.stringify(favoriteItems));
+    }
+  }, [favoriteItems]);
 
   useEffect(() => {
     // 카카오 공유기능 초기화
@@ -124,23 +154,37 @@ const PhotoDetail: NextPage<IServerSideProps> = ({ fileType }) => {
     } catch (e) {
       //
     } finally {
-      console.log("카카오 상태");
-      console.log(window.Kakao.isInitialized());
+      // console.log("카카오 상태");
+      // console.log(window.Kakao.isInitialized());
     }
 
-    // Favorite 기능 위해 로컬 스토리지 사용
-    const favorite = localStorage.getItem("favorite");
-    if (favorite) {
-      const data = JSON.parse(favorite);
-      const isFavorite = data.find(
-        (item: LocalStorageFavoriteItem) => item.fileName === name
+    const currentItem: LocalStorageFavoriteItem = {
+      fileName: String(name),
+      fileUrl: String(url),
+      series: String(sid),
+    };
+    // 위의 useEffect 에서 사용할 currentData
+    setCurrentData(currentItem);
+
+    // 페이지에 처음 들어올때 LocalStorage 에 해당 아이템이 있나 검증
+    const localStorageFavoriteItems: LocalStorageFavoriteItem[] | [] =
+      JSON.parse(
+        //_apo.tsx 에서 favoriteItems 를 초기화해주고 있어 항상 존재
+        localStorage.getItem("favoriteItems")!
       );
-      if (isFavorite) {
+    // 들어올때 localStorage 의 favoriteItems favoriteItems 상태에 저장
+    setFavoriteItems(localStorageFavoriteItems);
+    //1. 배열에 현재 아이템이 들어있는지 확인
+    if (localStorageFavoriteItems.length > 0) {
+      const itemExistsOnFavoriteItems = localStorageFavoriteItems.some(
+        (item: LocalStorageFavoriteItem) => item.fileUrl === currentItem.fileUrl
+      );
+      // 1-1 아이템이 있다면
+      if (itemExistsOnFavoriteItems) {
         setIsFavorite(true);
+      } else {
+        setIsFavorite(false);
       }
-    } else {
-      localStorage.setItem("favorite", "[]");
-      setIsFavorite(false);
     }
   }, []);
 
