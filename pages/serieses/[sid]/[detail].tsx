@@ -50,19 +50,24 @@ const PhotoDetail: NextPage<IServerSideProps> = ({ fileType }) => {
   const handleShare = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     e.stopPropagation();
     e.preventDefault();
-    //FIXME: 공유기능 구현하기, 웹 에서는 https 에서만 동작하고 웹뷰에서는 동작하지 않는다 함
-    window.Kakao.Share.sendDefault({
-      objectType: "feed",
-      content: {
-        title: sid,
-        description: `${sid} 시리즈`,
-        imageUrl: url,
-        link: {
-          mobileWebUrl: url,
-          webUrl: url,
+    // 카카오 공유 기능
+    try {
+      window.Kakao.Share.sendDefault({
+        objectType: "feed",
+        content: {
+          title: sid,
+          description: `${sid} 시리즈`,
+          imageUrl: url,
+          link: {
+            mobileWebUrl: url,
+            webUrl: url,
+          },
         },
-      },
-    });
+      });
+    } catch (e) {
+      console.log(e);
+      alert("카카오 공유 오류가 발생했습니다");
+    }
   };
 
   const toggleIsFavorite = (
