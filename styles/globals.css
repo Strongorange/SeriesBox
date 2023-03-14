@@ -11,6 +11,10 @@ html {
     "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
 
   background-color: #fbf9f4;
+
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
 
 h1 {
