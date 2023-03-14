@@ -21,7 +21,6 @@ const Home = () => {
   );
 
   const [isEditting, setIsEditting] = useState(false);
-
   const { user, isGuest } = useUserStore();
   const { setSeries, series: storeSeries, clearSeries } = useSeriesStore();
   const { showAddPhoto, setState } = useStateStore();
@@ -29,6 +28,7 @@ const Home = () => {
   const moveAndSetSeries = (docId: string, item?: SeriesDocument) => {
     if (!isEditting) {
       router.push(`/serieses/${docId}`);
+      //TODO: 현재 1개의 객체만 들어있는 recentSeries Localstorage 를 배열로 변환
       localStorage.setItem("recentSeries", JSON.stringify(item));
     } else {
       return;
@@ -116,43 +116,129 @@ const Home = () => {
           <h3>최근 사용한 시리즈</h3>
           {/**TODO: PC 에서는 List 로 3개 보여주기 */}
           {localStorage.getItem("recentSeries") && (
-            <div className="flex w-full gap-[3vw] overflow-auto">
+            <div className=" flex w-full gap-[3vw] overflow-visible">
               {/** 최근 사용한 시리즈 */}
               <div
-                className="box-border flex w-full gap-10 rounded-3xl bg-Primary p-5 text-white md:p-4"
+                className="md:hover:scaleUpOnHover-110 box-border flex w-full gap-10 rounded-3xl bg-Primary p-5 text-white md:w-1/5 md:gap-0 md:bg-transparent md:p-0"
                 onClick={() =>
                   recentSeries &&
                   moveAndSetSeries(String(recentSeries?.docId), recentSeries)
                 }
               >
-                <div className="w-[30%] md:w-[15%]">
-                  <SeriesIem
-                    isShow={true}
-                    docId=""
-                    docPhotoUrl={recentSeries?.docPhotoUrl}
-                    onClick={() =>
-                      moveAndSetSeries(
-                        String(recentSeries?.docId),
-                        recentSeries
-                      )
-                    }
-                    isEditting={false}
-                  />
-                </div>
-                <div className="flex flex-col gap-3">
-                  <h4>
-                    {recentSeries!.docId.length > 8
-                      ? `${recentSeries?.docId.slice(0, 8)}...`
-                      : recentSeries?.docId}
-                  </h4>
-                  <div className="flex items-center gap-3">
-                    <ImageIcon fill="#ffffff" />
-                    <span className="text-xl">
-                      {recentSeries?.data.length} 개의 미디어
-                    </span>
+                <div className="flex w-full gap-5 md:relative md:gap-0">
+                  <div className="aspect-square w-1/2  md:w-full ">
+                    <SeriesIem
+                      isShow={true}
+                      docId=""
+                      docPhotoUrl={recentSeries?.docPhotoUrl}
+                      onClick={() =>
+                        moveAndSetSeries(
+                          String(recentSeries?.docId),
+                          recentSeries
+                        )
+                      }
+                      isEditting={false}
+                      blockTransformOnHOver={true}
+                    />
                   </div>
+                  <div className="md flex flex-col gap-3 md:absolute md:bottom-0 md:left-1/2 md:w-full md:-translate-x-1/2 md:items-center md:justify-center md:gap-1 md:rounded-3xl md:bg-black md:bg-opacity-30 md:p-3">
+                    <h4>
+                      {recentSeries!.docId.length > 8
+                        ? `${recentSeries?.docId.slice(0, 8)}...`
+                        : recentSeries?.docId}
+                    </h4>
+                    <div className="flex items-center gap-3">
+                      <ImageIcon fill="#ffffff" />
+                      <span className="text-xl">
+                        {recentSeries?.data.length} 개의 미디어
+                      </span>
+                    </div>
 
-                  <span className="text-lg">시리즈 보러가기 {`>>`}</span>
+                    <span className="text-lg">시리즈 보러가기 {`>>`}</span>
+                  </div>
+                </div>
+              </div>
+
+              {/** 임시 */}
+              <div
+                className="md:hover:scaleUpOnHover-110 box-border hidden w-full gap-10 rounded-3xl bg-Primary p-5 text-white md:flex md:w-1/5 md:gap-0 md:bg-transparent md:p-0"
+                onClick={() =>
+                  recentSeries &&
+                  moveAndSetSeries(String(recentSeries?.docId), recentSeries)
+                }
+              >
+                <div className="flex w-full gap-5 md:relative md:gap-0">
+                  <div className="aspect-square w-1/2  md:w-full ">
+                    <SeriesIem
+                      isShow={true}
+                      docId=""
+                      docPhotoUrl={recentSeries?.docPhotoUrl}
+                      onClick={() =>
+                        moveAndSetSeries(
+                          String(recentSeries?.docId),
+                          recentSeries
+                        )
+                      }
+                      isEditting={false}
+                      blockTransformOnHOver={true}
+                    />
+                  </div>
+                  <div className="md flex flex-col gap-3 md:absolute md:bottom-0 md:left-1/2 md:w-full md:-translate-x-1/2 md:items-center md:justify-center md:gap-1 md:rounded-3xl md:bg-black md:bg-opacity-30 md:p-3">
+                    <h4>
+                      {recentSeries!.docId.length > 8
+                        ? `${recentSeries?.docId.slice(0, 8)}...`
+                        : recentSeries?.docId}
+                    </h4>
+                    <div className="flex items-center gap-3">
+                      <ImageIcon fill="#ffffff" />
+                      <span className="text-xl">
+                        {recentSeries?.data.length} 개의 미디어
+                      </span>
+                    </div>
+
+                    <span className="text-lg">시리즈 보러가기 {`>>`}</span>
+                  </div>
+                </div>
+              </div>
+              {/** 임시 */}
+              <div
+                className="md:hover:scaleUpOnHover-110 box-border hidden w-full gap-10 rounded-3xl bg-Primary p-5 text-white md:flex md:w-1/5 md:gap-0 md:bg-transparent md:p-0"
+                onClick={() =>
+                  recentSeries &&
+                  moveAndSetSeries(String(recentSeries?.docId), recentSeries)
+                }
+              >
+                <div className="flex w-full gap-5 md:relative md:gap-0">
+                  <div className="aspect-square w-1/2  md:w-full ">
+                    <SeriesIem
+                      isShow={true}
+                      docId=""
+                      docPhotoUrl={recentSeries?.docPhotoUrl}
+                      onClick={() =>
+                        moveAndSetSeries(
+                          String(recentSeries?.docId),
+                          recentSeries
+                        )
+                      }
+                      isEditting={false}
+                      blockTransformOnHOver={true}
+                    />
+                  </div>
+                  <div className="md flex flex-col gap-3 md:absolute md:bottom-0 md:left-1/2 md:w-full md:-translate-x-1/2 md:items-center md:justify-center md:gap-1 md:rounded-3xl md:bg-black md:bg-opacity-30 md:p-3">
+                    <h4>
+                      {recentSeries!.docId.length > 8
+                        ? `${recentSeries?.docId.slice(0, 8)}...`
+                        : recentSeries?.docId}
+                    </h4>
+                    <div className="flex items-center gap-3">
+                      <ImageIcon fill="#ffffff" />
+                      <span className="text-xl">
+                        {recentSeries?.data.length} 개의 미디어
+                      </span>
+                    </div>
+
+                    <span className="text-lg">시리즈 보러가기 {`>>`}</span>
+                  </div>
                 </div>
               </div>
             </div>
