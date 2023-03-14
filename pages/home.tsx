@@ -134,27 +134,33 @@ const Home = () => {
   return (
     <>
       <div className="flex w-full animate-fade-in flex-col gap-10 bg-Secondary p-PageLR pb-BottomPadding pt-[10vh] text-Primary">
-        <div className="flex w-full flex-col gap-5">
-          <h3>최근 사용한 시리즈</h3>
-          {/**TODO: PC 에서는 List 로 8개 보여주기 */}
-          <div className="flex w-full overflow-visible ">
-            <div className="flex w-full gap-5 overflow-scroll p-7 pl-0">
-              {recentSeries &&
-                recentSeries.map((item: SeriesDocument, index: number) => (
-                  <RecentseriesItem
-                    seriesItem={item}
-                    moveAndSetSeries={moveAndSetSeries}
-                    key={index}
-                    index={index}
-                    setIndex={setRecentSeriesIndex}
-                  />
-                ))}
+        {recentSeries && recentSeries.length > 0 && (
+          <div className="flex w-full flex-col gap-5">
+            <h3>최근 사용한 시리즈</h3>
+
+            {/**TODO: PC 에서는 List 로 8개 보여주기 */}
+            <div className="flex w-full overflow-visible ">
+              <div className="flex w-full gap-5 overflow-scroll p-7 pl-0">
+                {recentSeries &&
+                  recentSeries.map((item: SeriesDocument, index: number) => (
+                    <RecentseriesItem
+                      seriesItem={item}
+                      moveAndSetSeries={moveAndSetSeries}
+                      key={index}
+                      index={index}
+                      setIndex={setRecentSeriesIndex}
+                    />
+                  ))}
+              </div>
             </div>
+            <h4 className="-mt-10 self-center md:hidden">
+              {recentSeries &&
+                recentSeries.length > 1 &&
+                `${recentSeriesIndex}/${recentSeries.length}`}
+            </h4>
           </div>
-          <h4 className="-mt-10 self-center md:hidden">
-            {recentSeries && `${recentSeriesIndex}/${recentSeries.length}`}
-          </h4>
-        </div>
+        )}
+
         <div className="flex w-full flex-col gap-5">
           <div className="flex w-full items-center justify-between">
             <h3>시리즈 목록</h3>
