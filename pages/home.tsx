@@ -10,18 +10,19 @@ import AddSeriesModal from "../components/modals/AddSeriesModal";
 import { useStateStore } from "../stores/stateStore";
 import PenIcon from "../components/svgs/Pen";
 import CheckIcon from "../components/svgs/CheckIcon";
-import ImageIcon from "../components/svgs/ImageIcon";
+import RecentseriesItem from "../components/RecentSeriesItem";
+import { InView } from "react-intersection-observer";
 
 const Home = () => {
   const router = useRouter();
   const [pageLoading, setPageLoading] = useState(true);
   const [animationIndex, setAnimationIndex] = useState(0);
-  const [recentSeries, setRecentSeries] = useState<SeriesDocument | undefined>(
-    undefined
-  );
+  const [recentSeries, setRecentSeries] = useState<
+    SeriesDocument[] | undefined
+  >(undefined);
 
   const [isEditting, setIsEditting] = useState(false);
-
+  const [recentSeriesIndex, setRecentSeriesIndex] = useState(0);
   const { user, isGuest } = useUserStore();
   const { setSeries, series: storeSeries, clearSeries } = useSeriesStore();
   const { showAddPhoto, setState } = useStateStore();
@@ -29,7 +30,25 @@ const Home = () => {
   const moveAndSetSeries = (docId: string, item?: SeriesDocument) => {
     if (!isEditting) {
       router.push(`/serieses/${docId}`);
-      localStorage.setItem("recentSeries", JSON.stringify(item));
+      // 현재 1개의 객체만 들어있는 recentSeries Localstorage 를 배열로 변환
+      const recentSeriesLocal: SeriesDocument[] = JSON.parse(
+        String(localStorage.getItem("recentSeries"))
+      );
+      if (recentSeriesLocal.length > 8) {
+        recentSeriesLocal.splice(4, 20);
+      }
+
+      const isItemExist = recentSeriesLocal.some(
+        (ele: SeriesDocument) => ele.docId === item?.docId
+      );
+      if (isItemExist) {
+        const existItemIndex = recentSeriesLocal.findIndex(
+          (ele: SeriesDocument) => ele.docId === item?.docId
+        );
+        recentSeriesLocal.splice(existItemIndex, 1);
+      }
+      recentSeriesLocal.unshift(item!);
+      localStorage.setItem("recentSeries", JSON.stringify(recentSeriesLocal));
     } else {
       return;
     }
@@ -98,14 +117,17 @@ const Home = () => {
 
   // 최근 시리즈 추적
   useEffect(() => {
-    if (localStorage.getItem("recentSeries")) {
-      setRecentSeries(JSON.parse(String(localStorage.getItem("recentSeries"))));
+    // recentSeries Localstorage 에서 state 로 데이터 이동
+    const isExist = localStorage.getItem("recentSeries");
+    if (isExist !== null) {
+      const data = JSON.parse(String(localStorage.getItem("recentSeries")));
+      setRecentSeries(data);
     }
   }, []);
 
   useEffect(() => {
-    // console.log(storeSeries);
-  }, [storeSeries]);
+    // console.log(recentSeries);
+  }, [recentSeries]);
 
   if (pageLoading) return <div></div>;
 
@@ -114,49 +136,24 @@ const Home = () => {
       <div className="flex w-full animate-fade-in flex-col gap-10 bg-Secondary p-PageLR pb-BottomPadding pt-[10vh] text-Primary">
         <div className="flex w-full flex-col gap-5">
           <h3>최근 사용한 시리즈</h3>
-          {/**TODO: PC 에서는 List 로 3개 보여주기 */}
-          {localStorage.getItem("recentSeries") && (
-            <div className="flex w-full gap-[3vw] overflow-auto">
-              {/** 최근 사용한 시리즈 */}
-              <div
-                className="box-border flex w-full gap-10 rounded-3xl bg-Primary p-5 text-white md:p-4"
-                onClick={() =>
-                  recentSeries &&
-                  moveAndSetSeries(String(recentSeries?.docId), recentSeries)
-                }
-              >
-                <div className="w-[30%] md:w-[15%]">
-                  <SeriesIem
-                    isShow={true}
-                    docId=""
-                    docPhotoUrl={recentSeries?.docPhotoUrl}
-                    onClick={() =>
-                      moveAndSetSeries(
-                        String(recentSeries?.docId),
-                        recentSeries
-                      )
-                    }
-                    isEditting={false}
+          {/**TODO: PC 에서는 List 로 8개 보여주기 */}
+          <div className="flex w-full overflow-visible ">
+            <div className="flex w-full gap-5 overflow-scroll p-7 pl-0">
+              {recentSeries &&
+                recentSeries.map((item: SeriesDocument, index: number) => (
+                  <RecentseriesItem
+                    seriesItem={item}
+                    moveAndSetSeries={moveAndSetSeries}
+                    key={index}
+                    index={index}
+                    setIndex={setRecentSeriesIndex}
                   />
-                </div>
-                <div className="flex flex-col gap-3">
-                  <h4>
-                    {recentSeries!.docId.length > 8
-                      ? `${recentSeries?.docId.slice(0, 8)}...`
-                      : recentSeries?.docId}
-                  </h4>
-                  <div className="flex items-center gap-3">
-                    <ImageIcon fill="#ffffff" />
-                    <span className="text-xl">
-                      {recentSeries?.data.length} 개의 미디어
-                    </span>
-                  </div>
-
-                  <span className="text-lg">시리즈 보러가기 {`>>`}</span>
-                </div>
-              </div>
+                ))}
             </div>
-          )}
+          </div>
+          <h4 className="-mt-10 self-center md:hidden">
+            {recentSeries && `${recentSeriesIndex}/${recentSeries.length}`}
+          </h4>
         </div>
         <div className="flex w-full flex-col gap-5">
           <div className="flex w-full items-center justify-between">
