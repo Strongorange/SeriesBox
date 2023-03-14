@@ -23,7 +23,7 @@ const SelectingBottomNav = (props: SelectingBottomNavI) => {
 
   return (
     <div
-      className={`bottomNav -bottom-[50vh] z-selecting-bottom-nav ${
+      className={`bottomNav  ${
         isEditting && isShow
           ? "bottom-0 animate-selecting-bottom-nav"
           : "animate-selecting-bottom-nav-reverse"
