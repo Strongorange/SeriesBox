@@ -11,15 +11,23 @@ import { useUserStore } from "../stores/userStore";
 
 interface SeriesItemProps {
   docId: string;
+  isEditting: boolean;
+  onClick: () => void;
   data?: SeriesDocument[];
   docPhotoUrl?: string;
-  onClick: () => void;
   isShow?: boolean;
-  isEditting: boolean;
+  blockTransformOnHOver?: boolean;
 }
 
 const SeriesIem = (props: SeriesItemProps) => {
-  const { docId, docPhotoUrl, onClick, isShow, isEditting } = props;
+  const {
+    docId,
+    docPhotoUrl,
+    onClick,
+    isShow,
+    isEditting,
+    blockTransformOnHOver,
+  } = props;
   const [showYesNoDialog, setShowYesNoDialog] = useState(false);
   const { isGuest } = useUserStore();
 
@@ -72,7 +80,11 @@ const SeriesIem = (props: SeriesItemProps) => {
         onClick={onClick}
       >
         {docPhotoUrl && (
-          <div className="scaleUpOnHover-125 relative aspect-square w-full overflow-auto rounded-3xl">
+          <div
+            className={`${
+              blockTransformOnHOver ? "" : "scaleUpOnHover-110"
+            }  relative aspect-square w-full overflow-auto rounded-3xl`}
+          >
             <Image
               src={docPhotoUrl}
               alt="docPhotoUrl"

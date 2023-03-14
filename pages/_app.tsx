@@ -88,6 +88,12 @@ export default function App({ Component, pageProps }: AppProps) {
     if (localStorageFavoriteItems === null) {
       localStorage.setItem("favoriteItems", JSON.stringify([]));
     }
+
+    //recentSeries 초기화
+    const localStorageRecentSeries = localStorage.getItem("recentSeries");
+    if (localStorageRecentSeries === null) {
+      localStorage.setItem("recentSeries", JSON.stringify([]));
+    }
   }, []);
 
   return (
