@@ -98,15 +98,70 @@ SeriesBox 의 핵심 기능은 컨텐츠 시리즈(=앨범)와 아이템(=사진
   
   </br>
   
-# 5. 그외 트러블 슈팅 </br>
+# 5. 그외 트러블 슈팅 
   
 <details>
   <summary>새로고침시 데이터 유지</summary>
-  - 새로고침시 
-  - This is the second item in the list
+  <div>
+    <ul>
+      <li>화면을 렌더링하는데 필요한 state 가 새로고침시에 초기화되어 오류가나는 문제를 해결하기 위해 localstorage 에 필요한 데이터를 담음</li>
+      <ul>
+        <li>useEffect를 사용하여 localstorage 에 저장된 데이터를 state 로 옮긴 후 loading state 를 바꿔줌으로 해결 <a href="https://github.com/Strongorange/SeriesBox/blob/afc1137c194360188c19c85b6b129a964f0a86fa/pages/serieses/%5Bsid%5D/index.tsx#L96-L120">📌 코드</a>
+        </li>
+      </ul>
+        <li>
+      detail 페이지는 표시되는 사진이 매번 달라 서버 사이드 함수를 사용하여 미디어 표시를 위한 데이터를 받는 형식으로 해결
+        </li>
+        <ul>
+      <li>
+        페이지 렌더링 전 서버측에서 미디어의 url, fileType 등의 정보를 전달 <a href="https://github.com/Strongorange/SeriesBox/blob/afc1137c194360188c19c85b6b129a964f0a86fa/pages/serieses/%5Bsid%5D/%5Bdetail%5D.tsx#L21-L35">📌 코드          </a>
+      </li>
+    </ul>
+    </ul>
   
+    
+  </div>
 </details>
 
+
+
+<details>
+  <summary>업로드시 Storage 에 업로드 확인후 DB 에 저장</summary>
+   <div>
+    <ul>
+      <li>Storage 에 미디어가 올라간 후 DB 업데이트가 아닌 Storage 에 올라갈 것이라고 생각되는 4초뒤에 DB 업데이트 프로세스를 실행시킴</li>
+      <li>정상적으로 Storage 에 미디어가 올라간 것을 확인 후 DB 업데이트 프로세스를 진행
+        <a href="https://github.com/Strongorange/SeriesBox/commit/41dc8d5f62f0437384607a00950f79e5f0988d81">📌 코드</a>
+      </li>
+    </ul>
+  </div>
+</details>
+
+<details>
+  <summary>애니메이션 적용시 컴포넌트 종료 애니메이션이 적용 안되던 문제</summary>
+   <div>
+    <ul>
+      <li>컴포넌트가 unMount 될때 의도한 애니메이션이 실행되는 것이 아닌 애니메이션 없이 즉시 사라지는 문제 발견</li>
+      <li>컴포넌트 unMount 발생시 delay 이후에 unMount 되게 수정
+        <a href="https://github.com/Strongorange/SeriesBox/blob/afc1137c194360188c19c85b6b129a964f0a86fa/components/modals/AddSeriesModal.tsx#L211-L224">📌 코드</a>
+      </li>
+    </ul>
+  </div>
+</details>
+    
+<details>
+  <summary>배포시 Guest 모드로 배포</summary>
+   <div>
+    <ul>
+      <li>본 프로젝트는 본인이 사용할 프로젝트와 공개용 프로젝트로 나뉨</li>
+      <li>처음에는 branch 를 나누어 branch 마다 state 를 다르게하여 배포할 생각이었지만 기능상 다름이 없는 불필요한 branch 가 나뉘는 것이 싫었음</li>
+      <li>ENV 에 개인, 배포 boolean 나누어 배포환경의 환경변수를 다르게하여 다른 버전으로 동작하게 함</li>
+    </ul>
+  </div>
+</details>
+
+
+# 6.회고/느낀점
 
 
 
