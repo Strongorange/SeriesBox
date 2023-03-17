@@ -98,13 +98,16 @@ SeriesBox 의 핵심 기능은 컨텐츠 시리즈(=앨범)와 아이템(=사진
   
   </br>
   
-  # 5. 그외 트러블 슈팅 
+# 5. 그외 트러블 슈팅 </br>
   
+<details>
+  <summary>새로고침시 데이터 유지</summary>
+  - 새로고침시 
+  - This is the second item in the list
   
-  
+</details>
 
 
 
- 
 
 
