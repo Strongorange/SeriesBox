@@ -74,8 +74,37 @@ SeriesBox 의 핵심 기능은 컨텐츠 시리즈(=앨범)와 아이템(=사진
 
 
 # 4. 핵심 트러블 슈팅 </br>
-**4.1 업로드된 사진, 영상의 Storage 주소를 DB에 저장하는 문제**</br>
-- 사진, 영상은 Firebase Storage 에 업로드 된 후 해당 Storage 의 주소를 Firestore DB 에 저장하는 식으로 프로세스가 진행됩니다. </br>
-  처음 작업을
+**4.1 Firebase 의 기본적인 CRUD 기능 처리**</br>
+- 혼자 프로젝트의 모든 기능을 제작해야했기에 별도의 백엔드 서버를 추가로 개발하는 것은 기능에 비해 시간이 너무 많이 소요된다고 생각해 사용 경험이있는 Firebase를 사용했습니다.</br>
+  하지만 Firestore DB 의 기본이 잡힌 상태가아닌 과거의 경험과 프로젝트, 공식문서를 봐도 쉽게 이해가 가지 않아 생각보다 기능을 습득하는데 시간을 많이 소요했습니다.</br>
+- 학습중 [Firestore 구조 알아보기 Part1](https://www.youtube.com/watch?v=dYzbnge59TM) [Firestore 구조 알아보기 Part2](https://www.youtube.com/watch?v=xFi43Ushq9I&t=686s) 유튜브 영상을 보고 기본적인 구조를 익히는 것으로 더 빠르게 학습할 수 있었습니다. </br>
+
+**4.2 Next.JS Image 사용시 이미지 로딩이 너무 늦게 되는 현상** </br>
+- 본 프로젝트에서 모든 이미지는 Next/Image 를 사용하여 표시되었습니다.</br>
+  - 하지만 이미지를 불러올때까지 PC 환경에서는 평균 3초대 모바일 환경에서는 6초대라는 너무 많은 시간이 걸렸습니다.</br>
+  - 또한 이미지가 표시될때까지 해당 영역에는 아무것도 표시되지 않아 사용자는 이미지가 표시될 것을 기대할 수 없었습니다.
+  
+- 이를 해결하기 위해 다음의 방법을 시도해보았습니다
+  - [방법1](https://techblog.wclub.co.kr/posts/0002.nextjs-fast-image/Next.js%20%EC%9D%B4%EB%AF%B8%EC%A7%80%20%EB%8A%A6%EA%B2%8C%20%EB%9C%A8%EB%8A%94%20%EC%9D%B4%EC%8A%88%20%EA%B0%9C%EC%84%A0) priority prop 을 true 로 [📌 코드](https://github.com/Strongorange/SeriesBox/blob/94e1bc97f2e46931b683ede53010978edecb69c1/components/SeriesIem.tsx#L88-L96) 
+  - [방법2](https://stackoverflow.com/questions/66637391/next-images-components-are-too-slow-to-appear)  sharp 패키지를 사용하여 이미지 처리속도 향상
+  - [방법3] (https://nextjs.org/docs/api-reference/next/image) 이미 로딩된 이미지를 31536000s 동안 캐시하여 추후 로딩시간 제거
+  - [방법4](https://nextjs.org/docs/api-reference/next/image) blurDataUrl prop 을 사용해 이미지 로딩 중 회색 영역을 띄워 이미지가 로딩중임을 나타냄 [📌 코드](https://github.com/Strongorange/SeriesBox/blob/94e1bc97f2e46931b683ede53010978edecb69c1/components/SeriesIem.tsx#L88-L96)
+  
+- 해결된 문제
+  - 방법1을 사용하여 이미지 로딩 시간의 개선이 존재했습니다.
+  - 방법2를 시도했지만 local 상황에서는 적용되지 않아 해당 방법은 포기하였습니다.
+  - 방법3으로 한번 로딩한 이미지는 다음 로딩시 거의 즉시 표시되는 것을 확인했습니다.
+  - 방법4로 유저는 이미지가 로딩중임을 알 수 있었습니다.
+  
+  </br>
+  
+  # 5. 그외 트러블 슈팅 
+  
+  
+  
+
+
+
+ 
 
 
